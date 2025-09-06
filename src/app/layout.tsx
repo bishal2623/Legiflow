@@ -6,7 +6,7 @@ import { AppHeader } from '@/components/legiflow/header';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { Home, HelpCircle, FileText, Settings, Upload, FileWarning } from 'lucide-react';
+import { Home, HelpCircle, FileText, Settings, Upload, FileWarning, BarChart2, Search, Copy, Bell } from 'lucide-react';
 import { ThemeToggle } from '@/components/legiflow/theme-toggle';
 
 
@@ -36,19 +36,43 @@ export default function RootLayout({
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/">
-                          <Home size={18} />
-                          Home
+                        <Link href="/dashboard">
+                          <BarChart2 size={18} />
+                          Dashboard
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/agreements">
-                          <Upload size={18}/>
-                          Agreements Section
+                        <Link href="/">
+                          <Home size={18} />
+                          Upload Docs
                         </Link>
                       </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/search">
+                          <Search size={18}/>
+                          Clause Search
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/compare">
+                          <Copy size={18}/>
+                          Compare Agreements
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Link href="/notifications">
+                                <Bell size={18}/>
+                                Notifications
+                            </Link>
+                        </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
@@ -65,14 +89,6 @@ export default function RootLayout({
                            High-Risk Agreements
                         </Link>
                       </SidebarMenuButton>
-                    </SidebarMenuItem>
-                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href="/help">
-                                <HelpCircle size={18}/>
-                                Help Section
-                            </Link>
-                        </SidebarMenuButton>
                     </SidebarMenuItem>
                      <SidebarMenuItem>
                       <SidebarMenuButton asChild>

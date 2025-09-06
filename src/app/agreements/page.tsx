@@ -94,7 +94,7 @@ export default function AgreementsPage() {
                             </li>
                             <li className="flex justify-between items-center p-3 bg-muted rounded-md">
                                 <span>NDA - Project Phoenix</span>
-                                <span className="text-sm font-semibold text-accent">Medium Risk</span>
+                                <span className="text-sm font-semibold text-accent-foreground">Medium Risk</span>
                             </li>
                         </ul>
                     </CardContent>
