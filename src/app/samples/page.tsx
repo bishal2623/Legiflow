@@ -5,34 +5,42 @@ import { FileText } from "lucide-react";
 
 export default function SamplesPage() {
   const samples = [
-    {
-      title: "Non-Disclosure Agreement (NDA)",
-      description: "A standard mutual non-disclosure agreement."
-    },
-    {
-      title: "Independent Contractor Agreement",
-      description: "A contract for hiring an independent contractor for a project."
-    },
-    {
-      title: "Residential Lease Agreement",
-      description: "A typical lease agreement for a residential property."
-    },
-    {
-      title: "Website Terms of Service",
-      description: "Standard terms and conditions for a website or web application."
-    }
+    { title: "Rental Agreement" },
+    { title: "Employment Agreement" },
+    { title: "Internship Agreement" },
+    { title: "Non-Disclosure Agreement (NDA)" },
+    { title: "Partnership Deed" },
+    { title: "Business Contract" },
+    { title: "Loan Agreement" },
+    { title: "Franchise Agreement" },
+    { title: "Consultancy Agreement" },
+    { title: "Service Level Agreement (SLA)" },
+    { title: "Freelancer/Contractor Agreement" },
+    { title: "Shareholders Agreement" },
+    { title: "Joint Venture Agreement" },
+    { title: "Memorandum of Understanding (MoU)" },
+    { title: "Power of Attorney" },
+    { title: "Will & Testament" },
+    { title: "Sale Deed" },
+    { title: "Gift Deed" },
+    { title: "Leave and License Agreement" },
+    { title: "Vendor Agreement" },
+    { title: "Distributor Agreement" },
+    { title: "Software/IT Services Agreement" },
+    { title: "Privacy Policy (Website/App)" },
+    { title: "Terms & Conditions (Website/App)" },
   ];
 
   return (
     <main className="container mx-auto px-4 py-8">
       <Card>
         <CardHeader>
-          <CardTitle>Sample Agreements</CardTitle>
+          <CardTitle>Sample Agreements (India)</CardTitle>
           <CardDescription>
             Use these sample agreements to test LegiFlow's analysis capabilities.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
+        <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {samples.map((sample, index) => (
             <Card key={index} className="flex flex-col">
               <CardHeader>
@@ -40,7 +48,6 @@ export default function SamplesPage() {
                     <FileText className="w-5 h-5 text-primary" />
                     {sample.title}
                 </CardTitle>
-                <CardDescription>{sample.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow flex items-end">
                 <Button variant="outline" className="w-full">
