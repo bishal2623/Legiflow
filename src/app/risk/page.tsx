@@ -13,7 +13,7 @@ export default function RiskPage() {
     const [data, setData] = useState([
         { name: "High Risk", value: 0 },
         { name: "Medium Risk", value: 0 },
-        { name: "Low Risk", value: 0 },
+        { name: "Safe", value: 0 },
     ]);
 
     // Simulate Analysis with a fallback
@@ -24,9 +24,9 @@ export default function RiskPage() {
             if (loading) { // Check if still loading
                 console.log("Backend is slow, using fallback data.");
                 setData([
-                    { name: "High Risk", value: 2 },
-                    { name: "Medium Risk", value: 3 },
-                    { name: "Safe", value: 5 },
+                    { name: "High Risk", value: 1 },
+                    { name: "Medium Risk", value: 2 },
+                    { name: "Safe", value: 7 },
                 ]);
                 setLoading(false);
             }
@@ -47,7 +47,7 @@ export default function RiskPage() {
                 setData([
                     { name: "High Risk", value: 2 },
                     { name: "Medium Risk", value: 5 },
-                    { name: "Low Risk", value: 7 },
+                    { name: "Safe", value: 7 },
                 ]);
                 setLoading(false);
                 clearTimeout(timeout);
@@ -60,6 +60,10 @@ export default function RiskPage() {
     }, [loading]);
 
     const totalClauses = data.reduce((sum, item) => sum + item.value, 0);
+    const safeClauses = data.find(d => d.name === "Safe")?.value || 0;
+    const mediumRiskClauses = data.find(d => d.name === "Medium Risk")?.value || 0;
+    const highRiskClauses = data.find(d => d.name === "High Risk")?.value || 0;
+
 
     return (
         <main className="container mx-auto px-4 py-8">
@@ -106,9 +110,9 @@ export default function RiskPage() {
                                     </ResponsiveContainer>
                                 </div>
                                 <p className="mt-4 text-muted-foreground text-center">
-                                    ✅ {data.find(d => d.name === "Low Risk" || d.name === "Safe")?.value || 0} clauses are safe, 
-                                    ⚠️ {data.find(d => d.name === "Medium Risk")?.value || 0} need review, 
-                                    ❌ {data.find(d => d.name === "High Risk")?.value || 0} are risky.
+                                    ✅ {safeClauses} clauses are safe, 
+                                    ⚠️ {mediumRiskClauses} need review, 
+                                    ❌ {highRiskClauses} are risky.
                                 </p>
                             </>
                         )}
