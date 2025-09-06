@@ -26,9 +26,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-code antialiased">
+      <body className="font-body antialiased">
         <ThemeProvider>
           <SidebarProvider>
             <Sidebar useGlassmorphism={true} collapsible='icon' variant='floating'>
@@ -95,10 +95,7 @@ export default function RootLayout({
                      <div className="fixed bottom-5 right-5 z-50">
                         <Button
                             isIconOnly
-                            className="rounded-full h-16 w-16 shadow-lg"
-                            style={{
-                                boxShadow: '0 0 20px hsl(var(--primary))'
-                            }}
+                            className="rounded-full h-16 w-16 shadow-lg bg-primary hover:bg-primary/90"
                         >
                             <MessageSquare className="h-8 w-8" />
                             <span className="sr-only">Ask AI</span>

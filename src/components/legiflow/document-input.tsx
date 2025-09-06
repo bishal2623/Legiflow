@@ -38,27 +38,21 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
   return (
     <div className="flex flex-col items-center justify-center py-12">
       <Card 
-        className="w-full max-w-3xl"
-        style={{
-            boxShadow: '0 0 20px hsl(var(--primary))',
-            transition: 'transform 0.3s'
-        }}
-        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        className="w-full max-w-3xl shadow-lg transition-transform hover:translate-y-[-3px] hover:shadow-xl"
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-4xl font-bold">📜 Generative AI LegalDoc Demystifier</CardTitle>
-          <CardDescription className="text-lg text-foreground/80">
+          <CardTitle className="text-4xl font-bold">📜 LegalDoc Demystifier</CardTitle>
+          <CardDescription className="text-lg text-muted-foreground">
             Simplifying complex legal documents into clear, actionable guidance
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full gap-4">
             <Textarea
-              placeholder="Upload your legal document (PDF/TXT) or paste it here..."
+              placeholder="Paste the text of your legal document here..."
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="min-h-64 text-base bg-card focus:border-primary font-code"
+              className="min-h-64 text-base bg-background focus:border-primary font-code"
               disabled={isLoading}
             />
             <div className="flex flex-col sm:flex-row gap-2">
