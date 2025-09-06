@@ -32,9 +32,12 @@ const prompt = ai.definePrompt({
   prompt: `You are a legal expert skilled at parsing legal documents into individual clauses.
 
   Please parse the following legal document into individual clauses. Each clause should be a separate string in the array.
+  A clause is a distinct section, paragraph, or provision within a legal document. Clauses are typically numbered or lettered, but they can also be unnumbered paragraphs that deal with a specific topic.
+
+  Analyze the structure of the document and split it into a list of strings, where each string is a complete clause.
 
   Document:
-  {{documentText}}
+  {{{documentText}}}
 
   Return the clauses as a JSON array of strings.
   `,
