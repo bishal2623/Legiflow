@@ -37,6 +37,8 @@
     --sidebar-accent-foreground: 30 10% 20%;
     --sidebar-border: 205 15% 85%;
     --sidebar-ring: 30 45% 64%;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.2);
   }
  
   .dark {
@@ -72,6 +74,8 @@
     --sidebar-accent-foreground: 30 10% 10%;
     --sidebar-border: 217 33% 17%;
     --sidebar-ring: 30 45% 64%;
+    --glass-bg: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
 }
 
@@ -81,5 +85,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .glass-sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    @apply rounded-xl shadow-lg transition-transform duration-300 ease-in-out;
+  }
+  .glass-sidebar:hover {
+    transform: scale(1.02);
   }
 }

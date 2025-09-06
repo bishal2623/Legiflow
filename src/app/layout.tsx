@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <ThemeProvider>
           <SidebarProvider>
-            <Sidebar>
+            <Sidebar useGlassmorphism={true} collapsible='icon' variant='floating'>
                 <AppHeader />
                 <SidebarContent>
                   <SidebarMenu>
