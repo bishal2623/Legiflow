@@ -8,6 +8,7 @@ import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarMenu, Si
 import Link from 'next/link';
 import { Home, HelpCircle, FileText, Settings, Upload, FileWarning, BarChart2, Search, Copy, Bell } from 'lucide-react';
 import { ThemeToggle } from '@/components/legiflow/theme-toggle';
+import { Button } from '@/components/ui/button';
 
 
 export const metadata: Metadata = {
@@ -25,92 +26,33 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
         <ThemeProvider defaultTheme='dark'>
-          <SidebarProvider>
-            <Sidebar>
-                <AppHeader />
-                <SidebarContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/dashboard">
-                          <BarChart2 size={18} />
-                          Dashboard
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/">
-                          <Home size={18} />
-                          Upload Docs
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/search">
-                          <Search size={18}/>
-                          Clause Search
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/compare">
-                          <Copy size={18}/>
-                          Compare Agreements
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href="/notifications">
-                                <Bell size={18}/>
-                                Notifications
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/samples">
-                          <FileText size={18} />
-                          Sample Agreements
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/risk">
-                           <FileWarning size={18}/>
-                           High-Risk Agreements
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/settings">
-                          <Settings size={18} />
-                          Settings
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarContent>
-                <div className="p-2 mt-auto">
-                    <ThemeToggle />
-                </div>
-            </Sidebar>
-            <SidebarInset>
-                <div className="relative flex flex-col min-h-screen bg-background text-foreground">
-                    {children}
-                </div>
-            </SidebarInset>
-            <Toaster />
-          </SidebarProvider>
+           <div className="min-h-screen flex font-poppins bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+            <aside className="w-64 p-6 bg-black/30 backdrop-blur-lg border-r border-gray-700">
+                <h1 className="text-2xl font-bold mb-6 tracking-wide">⚖️ LegiFlow</h1>
+                <nav className="space-y-4">
+                  <Link href="/dashboard">
+                    <Button variant="ghost" className="w-full justify-start">🏠 Home</Button>
+                  </Link>
+                  <Link href="/agreements">
+                    <Button variant="ghost" className="w-full justify-start">📂 Agreements</Button>
+                  </Link>
+                  <Link href="/samples">
+                    <Button variant="ghost" className="w-full justify-start">📑 Samples</Button>
+                  </Link>
+                  <Link href="/help">
+                    <Button variant="ghost" className="w-full justify-start">❓ Help</Button>
+                  </Link>
+                </nav>
+            </aside>
+            <main className="flex-1">
+              {children}
+            </main>
+          </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
