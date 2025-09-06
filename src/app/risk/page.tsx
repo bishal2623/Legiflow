@@ -11,22 +11,24 @@ const COLORS = ["#FF4C4C", "#FFB347", "#4CAF50"]; // High / Medium / Low
 
 export default function RiskPage() {
     const [loading, setLoading] = useState(true);
-    const [showResults, setShowResults] = useState(false);
     const [botAnswer, setBotAnswer] = useState("");
     const [typingAnswer, setTypingAnswer] = useState("");
     const [userQuestion, setUserQuestion] = useState("");
-
-    const data = [
-        { name: "High Risk", value: 2 },
-        { name: "Medium Risk", value: 5 },
-        { name: "Low Risk", value: 7 },
-    ];
+    const [data, setData] = useState([
+        { name: "High Risk", value: 0 },
+        { name: "Medium Risk", value: 0 },
+        { name: "Low Risk", value: 0 },
+    ]);
 
     // Simulate Analysis
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-            setShowResults(true);
+            setData([
+                { name: "High Risk", value: 2 },
+                { name: "Medium Risk", value: 5 },
+                { name: "Low Risk", value: 7 },
+            ]);
         }, 3000); 
 
         return () => clearTimeout(timer);
@@ -41,7 +43,7 @@ export default function RiskPage() {
                 setTypingAnswer((prev) => prev + botAnswer.charAt(i));
                 i++;
                 if (i >= botAnswer.length) clearInterval(typing);
-            }, 30);
+            }, 20);
              return () => clearInterval(typing);
         }
     }, [botAnswer]);
@@ -72,7 +74,7 @@ export default function RiskPage() {
                 )}
 
                 {/* Results Section */}
-                {showResults && (
+                {!loading && (
                    <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
                         <Card className="p-6 bg-card/80 rounded-2xl shadow-xl">
                             <h2 className="text-2xl font-bold mb-4 text-center">📊 Risk Analysis Report</h2>
@@ -103,14 +105,14 @@ export default function RiskPage() {
                                 </ResponsiveContainer>
                             </div>
                             <p className="mt-4 text-muted-foreground text-center">
-                                ✅ 7 clauses are safe, ⚠️ 5 need review, ❌ 2 are risky.
+                                ✅ {data[2].value} clauses are safe, ⚠️ {data[1].value} need review, ❌ {data[0].value} are risky.
                             </p>
                         </Card>
                     </motion.div>
                 )}
 
                 {/* Q&A Bot */}
-                 <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: showResults ? 0.2 : 0 }}>
+                 <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: !loading ? 0.2 : 0 }}>
                     <Card className="p-6 bg-card/80 rounded-xl space-y-4">
                         <h2 className="text-xl font-bold">💬 Ask Your Questions</h2>
                         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
