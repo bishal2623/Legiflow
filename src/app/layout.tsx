@@ -1,9 +1,13 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { AppHeader } from '@/components/legiflow/header';
 import { Toaster } from '@/components/ui/toaster';
-import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
+import Link from 'next/link';
+import { Home, HelpCircle, FileText, FileCheck, Settings } from 'lucide-react';
+
 
 export const metadata: Metadata = {
   title: 'Firebase Studio App',
@@ -27,6 +31,50 @@ export default function RootLayout({
           <SidebarProvider>
             <Sidebar>
                 <AppHeader />
+                <SidebarContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/">
+                          <Home />
+                          Home (Upload Documents)
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/help">
+                          <HelpCircle />
+                          Help Section
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/samples">
+                          <FileText />
+                          Sample Agreements
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/agreements">
+                          <FileCheck />
+                          Agreements Section
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                     <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link href="/settings">
+                          <Settings />
+                          Settings
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarContent>
             </Sidebar>
             <SidebarInset>
                 <div className="flex flex-col min-h-screen bg-background text-foreground">

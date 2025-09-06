@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Scale, Settings, Sun, Moon } from 'lucide-react';
@@ -31,12 +32,6 @@ export function AppHeader() {
           )}
           <span className="sr-only">Toggle theme</span>
         </Button>
-        <Link href="/settings">
-          <Button variant="ghost" size="icon">
-            <Settings className="w-5 h-5" />
-            <span className="sr-only">Settings</span>
-          </Button>
-        </Link>
       </div>
        <div className="md:hidden">
           <SidebarTrigger />
