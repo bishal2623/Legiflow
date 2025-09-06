@@ -6,8 +6,9 @@ import { AppHeader } from '@/components/legiflow/header';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { Home, HelpCircle, FileText, FileCheck, Settings, MessageSquare, AlertTriangle } from 'lucide-react';
+import { Home, HelpCircle, FileText, FileCheck, Settings, MessageSquare, AlertTriangle, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/legiflow/theme-toggle';
 
 
 export const metadata: Metadata = {
@@ -25,9 +26,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-code antialiased">
         <ThemeProvider>
           <SidebarProvider>
             <Sidebar useGlassmorphism={true} collapsible='icon' variant='floating'>
@@ -84,6 +85,9 @@ export default function RootLayout({
                     </SidebarMenuItem>
                   </SidebarMenu>
                 </SidebarContent>
+                <div className="p-2 mt-auto">
+                    <ThemeToggle />
+                </div>
             </Sidebar>
             <SidebarInset>
                 <div className="relative flex flex-col min-h-screen bg-background text-foreground">
@@ -92,6 +96,9 @@ export default function RootLayout({
                         <Button
                             isIconOnly
                             className="rounded-full h-16 w-16 shadow-lg"
+                            style={{
+                                boxShadow: '0 0 20px hsl(var(--primary))'
+                            }}
                         >
                             <MessageSquare className="h-8 w-8" />
                             <span className="sr-only">Ask AI</span>

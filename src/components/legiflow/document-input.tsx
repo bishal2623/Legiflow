@@ -37,31 +37,36 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
 
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <Card className="w-full max-w-3xl shadow-lg">
+      <Card 
+        className="w-full max-w-3xl"
+        style={{
+            boxShadow: '0 0 20px hsl(var(--primary))',
+            transition: 'transform 0.3s'
+        }}
+        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+      >
         <CardHeader className="text-center">
-          <div className="mx-auto bg-primary/10 p-3 rounded-full mb-4 w-fit">
-            <FileText className="w-8 h-8 text-primary" />
-          </div>
-          <CardTitle className="text-3xl font-bold">Legal Document Analyzer</CardTitle>
-          <CardDescription className="text-lg">
-            Paste your legal document below to get started.
+          <CardTitle className="text-4xl font-bold">📜 Generative AI LegalDoc Demystifier</CardTitle>
+          <CardDescription className="text-lg text-foreground/80">
+            Simplifying complex legal documents into clear, actionable guidance
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full gap-4">
             <Textarea
-              placeholder="Paste your contract, agreement, or policy here..."
+              placeholder="Upload your legal document (PDF/TXT) or paste it here..."
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="min-h-64 text-base bg-white focus:border-primary"
+              className="min-h-64 text-base bg-card focus:border-primary font-code"
               disabled={isLoading}
             />
             <div className="flex flex-col sm:flex-row gap-2">
                 <Button onClick={handleSubmit} className="w-full" disabled={isLoading || !text.trim()}>
                   {isLoading ? <LoaderCircle className="animate-spin mr-2" /> : null}
-                  Analyze Document
+                  Demystify Document
                 </Button>
-                <Button onClick={handleUseSample} variant="outline" className="w-full sm:w-auto" disabled={isLoading}>
+                <Button onClick={handleUseSample} variant="secondary" className="w-full sm:w-auto" disabled={isLoading}>
                   Use Sample Contract
                 </Button>
             </div>
