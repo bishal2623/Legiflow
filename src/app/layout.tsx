@@ -6,8 +6,7 @@ import { AppHeader } from '@/components/legiflow/header';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, Sidebar, SidebarInset, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { Home, HelpCircle, FileText, FileCheck, Settings, MessageSquare, AlertTriangle, Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Home, HelpCircle, FileText, Settings, Upload, FileWarning } from 'lucide-react';
 import { ThemeToggle } from '@/components/legiflow/theme-toggle';
 
 
@@ -29,24 +28,24 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider>
+        <ThemeProvider defaultTheme='dark'>
           <SidebarProvider>
-            <Sidebar useGlassmorphism={true} collapsible='icon' variant='floating'>
+            <Sidebar>
                 <AppHeader />
                 <SidebarContent>
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
                         <Link href="/">
-                          <Home />
-                          Home (Upload Docs)
+                          <Home size={18} />
+                          Home
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                     <SidebarMenuItem>
+                    <SidebarMenuItem>
                       <SidebarMenuButton asChild>
                         <Link href="/agreements">
-                          <FileCheck />
+                          <Upload size={18}/>
                           Agreements Section
                         </Link>
                       </SidebarMenuButton>
@@ -54,7 +53,7 @@ export default function RootLayout({
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
                         <Link href="/samples">
-                          <FileText />
+                          <FileText size={18} />
                           Sample Agreements
                         </Link>
                       </SidebarMenuButton>
@@ -62,24 +61,24 @@ export default function RootLayout({
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
                         <Link href="/risk">
-                           <AlertTriangle />
+                           <FileWarning size={18}/>
                            High-Risk Agreements
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                      <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <Link href="/settings">
-                          <Settings />
-                          Settings
-                        </Link>
-                      </SidebarMenuButton>
+                        <SidebarMenuButton asChild>
+                            <Link href="/help">
+                                <HelpCircle size={18}/>
+                                Help Section
+                            </Link>
+                        </SidebarMenuButton>
                     </SidebarMenuItem>
                      <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <Link href="/help">
-                          <HelpCircle />
-                          Help Section
+                        <Link href="/settings">
+                          <Settings size={18} />
+                          Settings
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -92,18 +91,6 @@ export default function RootLayout({
             <SidebarInset>
                 <div className="relative flex flex-col min-h-screen bg-background text-foreground">
                     {children}
-                     <div className="fixed bottom-5 right-5 z-50">
-                        <Button
-                            isIconOnly
-                            className="rounded-full h-16 w-16 shadow-lg bg-primary hover:bg-primary/90"
-                        >
-                            <MessageSquare className="h-8 w-8" />
-                            <span className="sr-only">Ask AI</span>
-                        </Button>
-                    </div>
-                    <footer className="py-4 text-center text-sm text-muted-foreground">
-                        <p>Powered by LegiFlow AI. For informational purposes only.</p>
-                    </footer>
                 </div>
             </SidebarInset>
             <Toaster />

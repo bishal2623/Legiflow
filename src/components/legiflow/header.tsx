@@ -17,9 +17,6 @@ export function AppHeader() {
             <h1 className="text-2xl font-bold text-primary font-headline">
               LegiFlow
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Demystify Legal Docs
-            </p>
           </div>
         </Link>
        <div className="md:hidden">

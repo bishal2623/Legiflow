@@ -8,6 +8,7 @@ import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { LoaderCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   const [documentText, setDocumentText] = useState('');
@@ -53,22 +54,22 @@ export default function Home() {
   }
 
   return (
-    
       <main className="flex-grow container mx-auto px-4 py-8">
-        {!documentText ? (
-          <DocumentInput onParse={handleParse} isLoading={isParsing} />
-        ) : isParsing ? (
-            <div className="flex flex-col items-center justify-center text-center h-96">
-              <LoaderCircle className="w-12 h-12 animate-spin text-primary mb-4" />
-              <h2 className="text-2xl font-semibold">Analyzing your document...</h2>
-              <p className="text-muted-foreground">The AI is parsing everything, please wait a moment.</p>
-            </div>
-        ) : (
-          clauses.length > 0 && (
-            <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
-          )
-        )}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            {!documentText ? (
+              <DocumentInput onParse={handleParse} isLoading={isParsing} />
+            ) : isParsing ? (
+                <div className="flex flex-col items-center justify-center text-center h-96">
+                  <LoaderCircle className="w-12 h-12 animate-spin text-primary mb-4" />
+                  <h2 className="text-2xl font-semibold">Analyzing your document...</h2>
+                  <p className="text-muted-foreground">The AI is parsing everything, please wait a moment.</p>
+                </div>
+            ) : (
+              clauses.length > 0 && (
+                <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
+              )
+            )}
+        </motion.div>
       </main>
-      
   );
 }
