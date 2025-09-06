@@ -82,4 +82,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  .skeleton {
+    @apply animate-shimmer rounded-md;
+    background: linear-gradient(90deg, hsl(var(--muted)), hsl(var(--secondary)), hsl(var(--muted)));
+    background-size: 200% 100%;
+  }
 }
