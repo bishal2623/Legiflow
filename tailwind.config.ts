@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['"Courier New"', 'monospace'],
+        headline: ['"Courier New"', 'monospace'],
         code: ['monospace'],
       },
       colors: {
