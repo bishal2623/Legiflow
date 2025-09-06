@@ -1,30 +1,27 @@
+
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area';
 import { FileText, LoaderCircle } from "lucide-react";
 import { generateSampleAgreement } from '@/ai/flows/generate-sample-agreement';
 import { useToast } from '@/hooks/use-toast';
 
 export default function SamplesPage() {
-  const router = useRouter();
   const { toast } = useToast();
-  const [loadingSample, setLoadingSample] = useState<string | null>(null);
+  const [generatedText, setGeneratedText] = useState('');
   const [isGenerating, startGenerating] = useTransition();
 
-  const handleUseSample = (title: string) => {
-    setLoadingSample(title);
+  const handleGenerateSample = async (title: string) => {
+    setGeneratedText('');
     startGenerating(async () => {
       try {
         const result = await generateSampleAgreement({ title });
         if (result.agreementText) {
-          // Pass the generated text to the home page for analysis.
-          // Using query params for simplicity, but for longer texts, state management (e.g., Zustand, Redux) would be better.
-          const params = new URLSearchParams();
-          params.set('sampleText', result.agreementText);
-          router.push(`/?${params.toString()}`);
+          setGeneratedText(result.agreementText);
         } else {
           throw new Error('Failed to generate sample agreement.');
         }
@@ -35,8 +32,6 @@ export default function SamplesPage() {
           title: 'Generation Failed',
           description: 'Could not generate the sample agreement. Please try again.',
         });
-      } finally {
-        setLoadingSample(null);
       }
     });
   };
@@ -74,7 +69,7 @@ export default function SamplesPage() {
         <CardHeader>
           <CardTitle>Sample Agreements (India)</CardTitle>
           <CardDescription>
-            Use these sample agreements to test LegiFlow's analysis capabilities.
+            Use these sample agreements to test LegiFlow's analysis capabilities. Click to generate and view.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -87,18 +82,34 @@ export default function SamplesPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow flex items-end">
-                <Button 
-                  variant="outline" 
-                  className="w-full" 
-                  onClick={() => handleUseSample(sample.title)}
-                  disabled={isGenerating}
-                >
-                  {isGenerating && loadingSample === sample.title ? (
-                    <LoaderCircle className="animate-spin" />
-                  ) : (
-                    'Use this Sample'
-                  )}
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      onClick={() => handleGenerateSample(sample.title)}
+                    >
+                      Use this Sample
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl h-[90vh]">
+                    <DialogHeader>
+                      <DialogTitle>{sample.title}</DialogTitle>
+                      <DialogDescription>
+                        This is an AI-generated sample document. It is not legal advice.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <ScrollArea className="h-full w-full rounded-md border p-4">
+                      {isGenerating ? (
+                        <div className="flex items-center justify-center h-full">
+                          <LoaderCircle className="w-10 h-10 animate-spin text-primary" />
+                        </div>
+                      ) : (
+                        <pre className="text-sm whitespace-pre-wrap font-sans">{generatedText}</pre>
+                      )}
+                    </ScrollArea>
+                  </DialogContent>
+                </Dialog>
               </CardContent>
             </Card>
           ))}
