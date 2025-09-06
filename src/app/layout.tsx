@@ -3,6 +3,7 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { AppHeader } from '@/components/legiflow/header';
 import { Toaster } from '@/components/ui/toaster';
+import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
   title: 'Firebase Studio App',
@@ -23,14 +24,20 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ThemeProvider>
-          <div className="flex flex-col min-h-screen bg-background text-foreground">
-            <AppHeader />
-            {children}
-            <footer className="py-4 text-center text-sm text-muted-foreground">
-              <p>Powered by LegiFlow AI. For informational purposes only.</p>
-            </footer>
-          </div>
-          <Toaster />
+          <SidebarProvider>
+            <Sidebar>
+                <AppHeader />
+            </Sidebar>
+            <SidebarInset>
+                <div className="flex flex-col min-h-screen bg-background text-foreground">
+                    {children}
+                    <footer className="py-4 text-center text-sm text-muted-foreground">
+                        <p>Powered by LegiFlow AI. For informational purposes only.</p>
+                    </footer>
+                </div>
+            </SidebarInset>
+            <Toaster />
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
