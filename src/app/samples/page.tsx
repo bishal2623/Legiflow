@@ -5,7 +5,7 @@ import { useState, useTransition } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area';
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileText, LoaderCircle } from "lucide-react";
 import { generateSampleAgreement } from '@/ai/flows/generate-sample-agreement';
 import { useToast } from '@/hooks/use-toast';
