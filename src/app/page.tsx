@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { AppHeader } from '@/components/legiflow/header';
 import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
@@ -45,29 +44,22 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
-        <AppHeader />
-        <main className="flex-grow container mx-auto px-4 py-8">
-          {!documentText ? (
-            <DocumentInput onParse={handleParse} isLoading={isParsing} />
-          ) : isParsing ? (
-             <div className="flex flex-col items-center justify-center text-center h-96">
-                <LoaderCircle className="w-12 h-12 animate-spin text-primary mb-4" />
-                <h2 className="text-2xl font-semibold">Analyzing your document...</h2>
-                <p className="text-muted-foreground">The AI is parsing everything, please wait a moment.</p>
-              </div>
-          ) : (
-            clauses.length > 0 && (
-              <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
-            )
-          )}
-        </main>
-        <footer className="py-4 text-center text-sm text-muted-foreground">
-          <p>Powered by LegiFlow AI. For informational purposes only.</p>
-        </footer>
-      </div>
-      <Toaster />
-    </>
+    
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {!documentText ? (
+          <DocumentInput onParse={handleParse} isLoading={isParsing} />
+        ) : isParsing ? (
+            <div className="flex flex-col items-center justify-center text-center h-96">
+              <LoaderCircle className="w-12 h-12 animate-spin text-primary mb-4" />
+              <h2 className="text-2xl font-semibold">Analyzing your document...</h2>
+              <p className="text-muted-foreground">The AI is parsing everything, please wait a moment.</p>
+            </div>
+        ) : (
+          clauses.length > 0 && (
+            <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
+          )
+        )}
+      </main>
+      
   );
 }
