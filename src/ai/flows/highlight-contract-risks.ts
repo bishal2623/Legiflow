@@ -23,7 +23,7 @@ const HighlightContractRisksOutputSchema = z.object({
       clause: z.string().describe('The specific clause being assessed.'),
       riskLevel: z.enum(['High', 'Medium', 'Safe']).describe('The risk level of the clause.'),
       obligation: z.string().optional().describe('Description of the obligation, if any.'),
-      explanation: z.string().describe('Explanation of the risk level and obligation.'),
+      explanation: z.string().describe('Explanation of the risk level and obligation, referencing relevant laws or regulations where applicable.'),
     })
   ).describe('An array of risk assessments for each clause in the document.'),
 });
@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
   name: 'highlightContractRisksPrompt',
   input: {schema: HighlightContractRisksInputSchema},
   output: {schema: HighlightContractRisksOutputSchema},
-  prompt: `You are an expert legal analyst. Analyze the following legal document and identify potential risks and obligations. Provide a risk assessment for each clause, including the risk level (High, Medium, Safe), a description of any obligations, and an explanation.
+  prompt: `You are an expert legal analyst with deep knowledge of contract law and government regulations. Analyze the following legal document and identify potential risks and obligations. For each clause, assess its compliance with relevant laws and identify any potential legal issues. Provide a risk assessment for each clause, including the risk level (High, Medium, Safe), a description of any obligations, and a detailed explanation that references applicable laws or legal principles.
 
 Legal Document:
 {{{legalDocument}}}

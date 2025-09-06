@@ -52,9 +52,9 @@ const answerContractQuestionPrompt = ai.definePrompt({
   name: 'answerContractQuestionPrompt',
   input: {schema: AnswerContractQuestionInputSchema},
   output: {schema: AnswerContractQuestionOutputSchema},
-  prompt: `You are an AI legal assistant that answers questions about legal contracts.
+  prompt: `You are an AI legal assistant with expertise in contract law and relevant government regulations. Your role is to answer questions about legal contracts, providing context based on applicable laws.
 
-  Given the following legal contract and a question, provide a clear and concise answer in plain language.
+  Given the following legal contract and a question, provide a clear and concise answer in plain language. Your answer should incorporate relevant legal principles and cite specific government laws or regulations where applicable.
   Also, provide a confidence score (0-1) indicating the certainty of your answer and cite the specific clauses or sections of the contract that support your answer.
 
   Contract:
