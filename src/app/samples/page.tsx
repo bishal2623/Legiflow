@@ -1,9 +1,46 @@
+'use client';
 
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { FileText } from "lucide-react";
+import { FileText, LoaderCircle } from "lucide-react";
+import { generateSampleAgreement } from '@/ai/flows/generate-sample-agreement';
+import { useToast } from '@/hooks/use-toast';
 
 export default function SamplesPage() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [loadingSample, setLoadingSample] = useState<string | null>(null);
+  const [isGenerating, startGenerating] = useTransition();
+
+  const handleUseSample = (title: string) => {
+    setLoadingSample(title);
+    startGenerating(async () => {
+      try {
+        const result = await generateSampleAgreement({ title });
+        if (result.agreementText) {
+          // Pass the generated text to the home page for analysis.
+          // Using query params for simplicity, but for longer texts, state management (e.g., Zustand, Redux) would be better.
+          const params = new URLSearchParams();
+          params.set('sampleText', result.agreementText);
+          router.push(`/?${params.toString()}`);
+        } else {
+          throw new Error('Failed to generate sample agreement.');
+        }
+      } catch (error) {
+        console.error(error);
+        toast({
+          variant: 'destructive',
+          title: 'Generation Failed',
+          description: 'Could not generate the sample agreement. Please try again.',
+        });
+      } finally {
+        setLoadingSample(null);
+      }
+    });
+  };
+
   const samples = [
     { title: "Rental Agreement" },
     { title: "Employment Agreement" },
@@ -50,8 +87,17 @@ export default function SamplesPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow flex items-end">
-                <Button variant="outline" className="w-full">
-                  Use this Sample
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={() => handleUseSample(sample.title)}
+                  disabled={isGenerating}
+                >
+                  {isGenerating && loadingSample === sample.title ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    'Use this Sample'
+                  )}
                 </Button>
               </CardContent>
             </Card>

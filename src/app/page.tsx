@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
@@ -13,6 +14,14 @@ export default function Home() {
   const [clauses, setClauses] = useState<string[]>([]);
   const [isParsing, startParsing] = useTransition();
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const sampleText = searchParams.get('sampleText');
+    if (sampleText) {
+      handleParse(sampleText);
+    }
+  }, [searchParams]);
 
   const handleParse = (text: string) => {
     setClauses([]);

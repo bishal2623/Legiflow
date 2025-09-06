@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, LoaderCircle } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 interface DocumentInputProps {
   onParse: (text: string) => void;
@@ -13,6 +14,14 @@ interface DocumentInputProps {
 
 export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
   const [text, setText] = useState('');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const sampleText = searchParams.get('sampleText');
+    if (sampleText) {
+      setText(sampleText);
+    }
+  }, [searchParams]);
 
   const handleSubmit = () => {
     if (text.trim()) {
