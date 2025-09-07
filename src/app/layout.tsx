@@ -26,74 +26,61 @@ function AppLayout({
     return <div className="flex h-screen w-full items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">Loading...</div>;
   }
   
-  if (!user && pathname !== '/login') {
-    // router.push('/login') would be better here, but for simplicity, we show nothing.
-    // In a real app, a redirect is handled by the AuthProvider or a dedicated HOC.
-    return null;
-  }
-
-  if (pathname === '/login') {
-      return <>{children}</>
+  if (!user) {
+     // The AuthProvider will redirect to /login, so we can return null or a loading state here.
+     // For this case, login page is rendered directly by the RootLayout logic below.
+     if (pathname === '/login') {
+       return <>{children}</>;
+     }
+     return null;
   }
   
   return (
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-        </head>
-        <body className="font-body antialiased">
-          <ThemeProvider defaultTheme='dark'>
-             <div className="min-h-screen flex font-poppins bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
-              <aside className="w-64 p-6 bg-black/30 backdrop-blur-lg border-r border-gray-700 flex flex-col shadow-lg">
-                  <div className="p-6 text-2xl font-bold border-b border-gray-700 -mx-6 -mt-6 mb-6">
-                      ⚖️ LegiFlow
-                  </div>
-                  <nav className="flex-1 space-y-3">
-                    <Link href="/dashboard" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <BarChart2 className="w-5 h-5" /> Dashboard
-                    </Link>
-                    <Link href="/" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <Home className="w-5 h-5" /> Upload Docs
-                    </Link>
-                    <Link href="/search" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <Search className="w-5 h-5" /> Clause Search
-                    </Link>
-                     <Link href="/reference" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <BookOpen className="w-5 h-5" /> Legal Reference
-                    </Link>
-                    <Link href="/compare" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <Copy className="w-5 h-5" /> Compare Agreements
-                    </Link>
-                    <Link href="/notifications" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <Bell className="w-5 h-5" /> Notifications
-                    </Link>
-                    <Link href="/samples" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <FileText className="w-5 h-5" /> Sample Agreements
-                    </Link>
-                    <Link href="/risk" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <AlertTriangle className="w-5 h-5 text-red-400" /> High-Risk Agreements
-                    </Link>
-                    <Link href="/settings" className="flex items-center gap-3 hover:text-blue-400 transition">
-                      <Settings className="w-5 h-5" /> Settings
-                    </Link>
-                  </nav>
-                  <div className="mt-6">
-                      <Button onClick={logout} variant="ghost" className="w-full justify-start text-red-400 hover:text-red-500 hover:bg-red-900/50">
-                        <LogOut className="w-5 h-5" />
-                        <span className="ml-2">Logout</span>
-                      </Button>
-                  </div>
-              </aside>
-              <main className="flex-1 overflow-y-auto">
-                {children}
-              </main>
+      <div className="min-h-screen flex font-poppins bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+        <aside className="w-64 p-6 bg-black/30 backdrop-blur-lg border-r border-gray-700 flex flex-col shadow-lg">
+            <div className="p-6 text-2xl font-bold border-b border-gray-700 -mx-6 -mt-6 mb-6">
+                ⚖️ LegiFlow
             </div>
-            <Toaster />
-          </ThemeProvider>
-        </body>
-      </html>
+            <nav className="flex-1 space-y-3">
+              <Link href="/dashboard" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <BarChart2 className="w-5 h-5" /> Dashboard
+              </Link>
+              <Link href="/" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <Home className="w-5 h-5" /> Upload Docs
+              </Link>
+              <Link href="/search" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <Search className="w-5 h-5" /> Clause Search
+              </Link>
+               <Link href="/reference" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <BookOpen className="w-5 h-5" /> Legal Reference
+              </Link>
+              <Link href="/compare" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <Copy className="w-5 h-5" /> Compare Agreements
+              </Link>
+              <Link href="/notifications" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <Bell className="w-5 h-5" /> Notifications
+              </Link>
+              <Link href="/samples" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <FileText className="w-5 h-5" /> Sample Agreements
+              </Link>
+              <Link href="/risk" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <AlertTriangle className="w-5 h-5 text-red-400" /> High-Risk Agreements
+              </Link>
+              <Link href="/settings" className="flex items-center gap-3 hover:text-blue-400 transition">
+                <Settings className="w-5 h-5" /> Settings
+              </Link>
+            </nav>
+            <div className="mt-6">
+                <Button onClick={logout} variant="ghost" className="w-full justify-start text-red-400 hover:text-red-500 hover:bg-red-900/50">
+                  <LogOut className="w-5 h-5" />
+                  <span className="ml-2">Logout</span>
+                </Button>
+            </div>
+        </aside>
+        <main className="flex-1 overflow-y-auto">
+          {children}
+        </main>
+      </div>
   );
 }
 
@@ -103,8 +90,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <AppLayout>{children}</AppLayout>
-    </AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+      </head>
+      <body className="font-body antialiased">
+        <AuthProvider>
+          <ThemeProvider defaultTheme='dark'>
+            <AppLayout>{children}</AppLayout>
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
+      </body>
+    </html>
   )
 }
