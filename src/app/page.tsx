@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useTransition, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
@@ -12,6 +12,7 @@ import { LoaderCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function Home() {
   const [documentText, setDocumentText] = useState('');
@@ -19,6 +20,15 @@ export default function Home() {
   const [isParsing, startParsing] = useTransition();
   const { toast } = useToast();
   const searchParams = useSearchParams();
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
 
   useEffect(() => {
     const sampleText = searchParams.get('sampleText');
@@ -55,6 +65,15 @@ export default function Home() {
     setDocumentText('');
     setClauses([]);
   }
+  
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center"><LoaderCircle className="h-10 w-10 animate-spin" /></div>;
+  }
+
+  if (!user) {
+    return null;
+  }
+
 
   if (clauses.length > 0 && documentText) {
      return (
