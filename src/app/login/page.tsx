@@ -18,6 +18,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LoaderCircle, LogIn } from 'lucide-react';
 
+declare global {
+    interface Window {
+        recaptchaVerifier: RecaptchaVerifier;
+    }
+}
+
 export default function LoginPage() {
   const auth = getAuth(app);
   const router = useRouter();
@@ -33,9 +39,9 @@ export default function LoginPage() {
       router.push('/');
     }
   }, [user, loading, router]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
+  
+  const setupRecaptcha = () => {
+    if (typeof window !== 'undefined' && !window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         size: 'invisible',
         callback: (response: any) => {
@@ -43,7 +49,7 @@ export default function LoginPage() {
         },
       });
     }
-  }, [auth]);
+  };
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
@@ -56,8 +62,9 @@ export default function LoginPage() {
   };
 
   const handlePhoneSignIn = async () => {
-    if (!phoneNumber.trim()) return;
+    if (!phoneNumber.trim() || phoneNumber.length !== 10) return;
     setIsVerifying(true);
+    setupRecaptcha(); // Ensure reCAPTCHA is set up
     try {
       const formattedPhoneNumber = `+91${phoneNumber}`;
       const confirmation = await signInWithPhoneNumber(auth, formattedPhoneNumber, window.recaptchaVerifier);
