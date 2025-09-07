@@ -51,6 +51,10 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    setupRecaptcha();
+  }, []);
+
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
@@ -64,7 +68,7 @@ export default function LoginPage() {
   const handlePhoneSignIn = async () => {
     if (!phoneNumber.trim() || phoneNumber.length !== 10) return;
     setIsVerifying(true);
-    setupRecaptcha(); // Ensure reCAPTCHA is set up
+    
     try {
       const formattedPhoneNumber = `+91${phoneNumber}`;
       const confirmation = await signInWithPhoneNumber(auth, formattedPhoneNumber, window.recaptchaVerifier);
