@@ -4,7 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { Home, HelpCircle, FileText, Settings, Upload, FileWarning, BarChart2, Search, Copy, Bell, AlertTriangle } from 'lucide-react';
+import { Home, HelpCircle, FileText, Settings, Upload, FileWarning, BarChart2, Search, Copy, Bell, AlertTriangle, BookOpen } from 'lucide-react';
 
 
 export const metadata: Metadata = {
@@ -40,6 +40,9 @@ export default function RootLayout({
                   </Link>
                   <Link href="/search" className="flex items-center gap-3 hover:text-blue-400 transition">
                     <Search className="w-5 h-5" /> Clause Search
+                  </Link>
+                   <Link href="/reference" className="flex items-center gap-3 hover:text-blue-400 transition">
+                    <BookOpen className="w-5 h-5" /> Legal Reference
                   </Link>
                   <Link href="/compare" className="flex items-center gap-3 hover:text-blue-400 transition">
                     <Copy className="w-5 h-5" /> Compare Agreements
