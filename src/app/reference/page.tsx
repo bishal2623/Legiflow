@@ -8,12 +8,33 @@ import { Button } from "@/components/ui/button";
 // Dummy Data
 const legalData = {
   constitution: {
-    "Article 14": "Equality before law. The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
-    "Article 15": "Prohibition of discrimination on grounds of religion, race, caste, sex or place of birth.",
-    "Article 19": "Protection of certain rights regarding freedom of speech, etc.",
-    "Article 21": "Protection of life and personal liberty. No person shall be deprived of his life or personal liberty except according to procedure established by law.",
-    "Article 32": "Right to Constitutional Remedies. The right to move the Supreme Court for the enforcement of the rights conferred by this Part is guaranteed.",
-    "Article 51A": "Fundamental Duties. It shall be the duty of every citizen of India...",
+    articles: {
+      "Article 14": "Equality before law. The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
+      "Article 15": "Prohibition of discrimination on grounds of religion, race, caste, sex or place of birth.",
+      "Article 19": "Protection of certain rights regarding freedom of speech, etc.",
+      "Article 21": "Protection of life and personal liberty. No person shall be deprived of his life or personal liberty except according to procedure established by law.",
+      "Article 32": "Right to Constitutional Remedies. The right to move the Supreme Court for the enforcement of the rights conferred by this Part is guaranteed.",
+      "Article 51A": "Fundamental Duties. It shall be the duty of every citizen of India...",
+    },
+     parts: {
+      "Part I": "The Union and its Territory (Articles 1-4)",
+      "Part II": "Citizenship (Articles 5-11)",
+      "Part III": "Fundamental Rights (Articles 12-35)",
+      "Part IV": "Directive Principles of State Policy (Articles 36-51)",
+      "Part IVA": "Fundamental Duties (Article 51A)",
+    },
+    schedules: {
+      "First Schedule": "Lists the states and territories of India.",
+      "Second Schedule": "Lists the salaries of public officials, judges, and the President.",
+      "Third Schedule": "Forms of Oaths and Affirmations.",
+      "Seventh Schedule": "Union List, State List, and Concurrent List.",
+    },
+    amendments: {
+      "1st Amendment (1951)": "Added Ninth Schedule to protect land reform laws.",
+      "42nd Amendment (1976)": "The 'Mini-Constitution', added 'socialist' and 'secular' to the preamble, and laid down Fundamental Duties.",
+      "44th Amendment (1978)": "Removed the Right to Property from the list of Fundamental Rights.",
+      "73rd Amendment (1992)": "Granted constitutional status to Panchayati Raj institutions.",
+    },
   },
   ipc: {
     "Section 300": "Murder. Culpable homicide is murder, if the act by which the death is caused is done with the intention of causing death...",
@@ -39,41 +60,57 @@ export default function LegalReferencePage() {
     }
     let found = null;
 
-    // Search Constitution
-    for (const [key, value] of Object.entries(legalData.constitution)) {
-      if (key.toLowerCase().includes(term) || value.toLowerCase().includes(term)) {
-        found = `${key}: ${value}`;
-        break;
-      }
-    }
-
-    // Search IPC if no constitution match
-    if (!found) {
-        for (const [key, value] of Object.entries(legalData.ipc)) {
-            const fullKey = `IPC ${key}`;
+    const searchCategory = (category: Record<string, string>, prefix = '') => {
+        for (const [key, value] of Object.entries(category)) {
+            const fullKey = `${prefix}${key}`;
             if (fullKey.toLowerCase().includes(term) || value.toLowerCase().includes(term)) {
                 found = `${fullKey}: ${value}`;
-                break;
+                return;
             }
         }
-    }
+    };
+    
+    searchCategory(legalData.constitution.articles);
+    if (found) { setResult(found); return; }
 
-    setResult(found || "❌ No match found!");
+    searchCategory(legalData.constitution.parts);
+    if (found) { setResult(found); return; }
+
+    searchCategory(legalData.constitution.schedules);
+    if (found) { setResult(found); return; }
+
+    searchCategory(legalData.constitution.amendments);
+    if (found) { setResult(found); return; }
+
+    searchCategory(legalData.ipc, 'IPC ');
+    if (found) { setResult(found); return; }
+    
+    setResult("❌ No match found!");
   };
+
+  const renderList = (data: Record<string, string>, prefix = '') => (
+    <ul className="list-disc ml-5 space-y-2">
+        {Object.entries(data).map(([key, value]) => (
+            <li key={key}>
+            <strong>{prefix}{key}</strong>: {value}
+            </li>
+        ))}
+    </ul>
+  );
 
   return (
     <main className="container mx-auto px-4 py-8">
       <Card>
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-3">
-            📖 Indian Constitution & ⚖ IPC Reference
+            📖 Indian Constitution & ⚖ IPC Portal
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-2 mb-4">
             <Input
               type="text"
-              placeholder="🔍 Search Article or IPC (e.g. Article 21, IPC 302)"
+              placeholder="🔍 Search (e.g. Article 21, Part III, IPC 302)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -86,30 +123,29 @@ export default function LegalReferencePage() {
               <p>{result}</p>
             </Card>
           )}
-
-          <div className="grid md:grid-cols-2 gap-8 mt-6">
-            <div>
-              <h3 className="text-xl font-semibold mt-6 mb-3 text-primary/90">📜 Constitution Articles</h3>
-              <ul className="list-disc ml-5 space-y-2">
-                {Object.entries(legalData.constitution).map(([key, value]) => (
-                  <li key={key}>
-                    <strong>{key}</strong>: {value.substring(0, 80)}...
-                  </li>
-                ))}
-              </ul>
+          
+           <div className="space-y-8 mt-6">
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📜 Constitution Articles</h3>
+                  {renderList(legalData.constitution.articles)}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📚 Constitution Parts</h3>
+                  {renderList(legalData.constitution.parts)}
+                </div>
+                 <div>
+                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📖 Constitution Schedules</h3>
+                  {renderList(legalData.constitution.schedules)}
+                </div>
+                 <div>
+                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📅 Constitution Amendments</h3>
+                  {renderList(legalData.constitution.amendments)}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-destructive/90">⚖ IPC Sections</h3>
+                  {renderList(legalData.ipc, 'IPC ')}
+                </div>
             </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold mt-6 mb-3 text-destructive/90">⚖ IPC Sections</h3>
-              <ul className="list-disc ml-5 space-y-2">
-                {Object.entries(legalData.ipc).map(([key, value]) => (
-                  <li key={key}>
-                    <strong>{key}</strong>: {value.substring(0,80)}...
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </main>
