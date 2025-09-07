@@ -1,19 +1,105 @@
 
 'use client';
-import { Card } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { useState, useTransition } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { LoaderCircle, Search } from 'lucide-react';
+import { motion } from "framer-motion";
+import { searchClauses } from '@/ai/flows/search-clauses';
+import { useToast } from '@/hooks/use-toast';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function SearchPage() {
+    const [query, setQuery] = useState('');
+    const [documentText, setDocumentText] = useState('');
+    const [results, setResults] = useState<string[]>([]);
+    const [isSearching, startSearching] = useTransition();
+    const { toast } = useToast();
+
+    const handleSearch = () => {
+        if (!query.trim() || !documentText.trim()) {
+            toast({
+                variant: 'destructive',
+                title: 'Missing Information',
+                description: 'Please provide both a document and a search query.',
+            });
+            return;
+        }
+
+        startSearching(async () => {
+            try {
+                const response = await searchClauses({ documentText, query });
+                setResults(response.clauses);
+            } catch (error) {
+                console.error('Search error:', error);
+                toast({
+                    variant: 'destructive',
+                    title: 'Search Failed',
+                    description: 'Could not perform the search. Please try again.',
+                });
+            }
+        });
+    };
+
     return (
         <main className="container mx-auto px-4 py-8">
-            <motion.div initial={{ x: 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <h2 className="text-3xl font-bold mb-4">🔍 Clause Search</h2>
-                <Input type="text" placeholder="Type clause e.g. Termination" className="max-w-md mb-4"/>
-                <Card className="p-4 mt-4 bg-card/80">
-                    <p className="font-bold">Result</p>
-                    <p>Termination clause simplified: "Either party may end this contract with 30 days' notice."</p>
-                </Card>
+                <div className="grid md:grid-cols-2 gap-6">
+                    <Card className="bg-card/50">
+                        <CardHeader>
+                            <CardTitle>Document</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                             <Textarea
+                                placeholder="Paste the full text of the legal document here..."
+                                value={documentText}
+                                onChange={(e) => setDocumentText(e.target.value)}
+                                className="min-h-80 text-sm bg-background/80"
+                                disabled={isSearching}
+                             />
+                        </CardContent>
+                    </Card>
+                     <Card className="bg-card/50">
+                        <CardHeader>
+                            <CardTitle>Search</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                           <div className="flex items-center gap-2 mb-4">
+                                <Input 
+                                    type="text" 
+                                    placeholder="e.g. 'Termination for cause'" 
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                    disabled={isSearching}
+                                />
+                                <Button onClick={handleSearch} disabled={isSearching}>
+                                    {isSearching ? <LoaderCircle className="animate-spin" /> : <Search />}
+                                    <span className="ml-2 hidden sm:inline">Search</span>
+                                </Button>
+                            </div>
+                            <div className="space-y-4 h-80 overflow-y-auto pr-2">
+                                {isSearching ? (
+                                    <div className="flex items-center justify-center h-full">
+                                        <LoaderCircle className="w-8 h-8 animate-spin text-primary" />
+                                    </div>
+                                ) : results.length > 0 ? (
+                                    results.map((clause, index) => (
+                                        <Card key={index} className="p-4 bg-muted/50">
+                                            <p className="text-sm">{clause}</p>
+                                        </Card>
+                                    ))
+                                ) : (
+                                    <div className="text-center text-muted-foreground pt-10">
+                                        <p>Results will be displayed here.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
             </motion.div>
         </main>
     )
