@@ -2,7 +2,7 @@
 'use client';
 
 import './globals.css';
-import { ThemeProvider } from '@/hooks/use-theme';
+import { ThemeProvider, useTheme } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
 import { 
