@@ -1,167 +1,94 @@
 
 'use client';
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ShieldAlert } from "lucide-react";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ShieldAlert, AlertTriangle } from "lucide-react";
 
-// Chart Data
-const timelineData = [
-  { name: 'Doc1', risks: 3 },
-  { name: 'Doc2', risks: 5 },
-  { name: 'Doc3', risks: 2 },
+const highRiskAgreements = [
+    { title: "Employment Contract", description: "Non-compete clause, unfair termination / heavy bond", level: "High" },
+    { title: "Rental / Lease Agreement", description: "Heavy penalty for late rent or unfair rent hike", level: "Medium" },
+    { title: "Loan Agreement", description: "Hidden high interest disguised as service fees", level: "High" },
+    { title: "Partnership Deed", description: "Ownership imbalance, unfair control clauses", level: "High" },
 ];
 
-const riskData = [
-  { name: "Safe", value: 50 },
-  { name: "Medium", value: 30 },
-  { name: "High", value: 20 },
-];
-const RISK_COLORS = ["#22c55e", "#f59e0b", "#ef4444"]; // green, amber, red
+const riskStyles = {
+    High: {
+        variant: 'destructive' as const,
+        icon: <ShieldAlert className="h-4 w-4 mr-2" />,
+    },
+    Medium: {
+        variant: 'default' as const,
+        icon: <AlertTriangle className="h-4 w-4 mr-2" />,
+    }
+}
+
+const RiskCard = ({ title, description, level }: { title: string, description: string, level: 'High' | 'Medium' | 'Safe' }) => {
+    const style = riskStyles[level as 'High' | 'Medium'] || { variant: 'secondary', icon: null };
+    
+    return (
+        <Card>
+            <CardHeader>
+                <div className="flex justify-between items-start">
+                    <CardTitle className="text-lg">{title}</CardTitle>
+                    <Badge variant={style.variant} className={level === 'Medium' ? 'bg-accent text-accent-foreground' : ''}>
+                        {style.icon}
+                        {level} Risk
+                    </Badge>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p className="text-muted-foreground">{description}</p>
+            </CardContent>
+        </Card>
+    )
+}
 
 export default function DashboardPage() {
-    const [chatResponse, setChatResponse] = useState('');
-    const [chatInput, setChatInput] = useState('');
-
-    const handleChatSubmit = () => {
-        let ans = "Sorry, I don’t know this yet.";
-        const q = chatInput.toLowerCase();
-        if(q.includes("ipc 307")) ans = "IPC 307: Attempt to murder, punishable with imprisonment up to 10 years or life.";
-        if(q.includes("article 21")) ans = "Article 21: Right to Life and Personal Liberty.";
-        setChatResponse(ans);
-    }
 
     return (
         <div className="p-6 space-y-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>Welcome to LegiFlow</CardTitle>
-                    <CardDescription>Upload and simplify legal documents into plain language. Empowering citizens with clarity.</CardDescription>
+                    <CardTitle className="text-3xl font-bold">🏠 Welcome Home</CardTitle>
+                    <CardDescription>This is your dashboard. Navigate from the sidebar.</CardDescription>
+                </CardHeader>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-3xl font-bold">📂 Upload Documents</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Link href="/agreements">
-                        <Button>Upload Document</Button>
-                    </Link>
+                    <Input
+                        type="file"
+                        className="block w-full text-sm
+                       file:mr-4 file:py-2 file:px-4
+                       file:rounded-lg file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-primary file:text-primary-foreground
+                       hover:file:bg-primary/90"
+                    />
                 </CardContent>
             </Card>
 
-            <div className="grid md:grid-cols-2 gap-6">
-                 {/* AGREEMENTS */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>📂 Agreements</CardTitle>
-                        <CardDescription>All uploaded and analyzed agreements appear here.</CardDescription>
-                    </CardHeader>
-                     <CardContent>
-                        <Link href="/agreements">
-                            <Button variant="secondary">Manage Agreements</Button>
-                        </Link>
-                    </CardContent>
-                </Card>
-
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>📂 Sample Agreements</CardTitle>
-                        <CardDescription>Explore ready-to-view legal documents like rental, lease, NDA, partnership etc.</CardDescription>
-                    </CardHeader>
-                     <CardContent>
-                        <Link href="/samples">
-                            <Button variant="secondary">View Samples</Button>
-                        </Link>
-                    </CardContent>
-                </Card>
-
-                {/* RISK ANALYSIS */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>🚨 Risk Analysis</CardTitle>
-                        <CardDescription>Highlighted risky agreements with critical clauses.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <Alert variant="destructive" className="mb-4">
-                            <ShieldAlert className="h-4 w-4" />
-                            <AlertTitle>High Risk Clause detected!</AlertTitle>
-                            <AlertDescription>"Non-compete for 5 years"</AlertDescription>
-                        </Alert>
-                         <Link href="/risk">
-                            <Button variant="secondary">View Full Analysis</Button>
-                        </Link>
-                    </CardContent>
-                </Card>
-
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>📊 Analysis Results</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="h-60">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={riskData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-                                        {riskData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={RISK_COLORS[index % RISK_COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip contentStyle={{
-                                        background: "hsl(var(--background))",
-                                        border: "1px solid hsl(var(--border))"
-                                    }}/>
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-
-
-            <div className="grid md:grid-cols-2 gap-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>📜 Constitution & ⚔️ IPC</CardTitle>
-                        <CardDescription>Access Articles, Parts, Schedules, Amendments and search IPC sections.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <Link href="/reference">
-                            <Button variant="secondary">Open Legal Reference</Button>
-                        </Link>
-                    </CardContent>
-                </Card>
-
-                {/* CHATBOT */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>🤖 Legal Assistant Chatbot</CardTitle>
-                        <CardDescription>Ask about IPC or Constitution...</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex gap-2">
-                            <Input 
-                                placeholder="e.g. Article 21"
-                                value={chatInput}
-                                onChange={(e) => setChatInput(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
-                            />
-                            <Button onClick={handleChatSubmit}>Ask</Button>
-                        </div>
-                        {chatResponse && <p className="mt-4 text-sm text-muted-foreground">{chatResponse}</p>}
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* FEEDBACK */}
             <Card>
-                 <CardHeader>
-                    <CardTitle>💬 Feedback</CardTitle>
+                <CardHeader>
+                  <CardTitle className="text-3xl font-bold">🚨 High-Risk Agreements</CardTitle>
+                  <CardDescription>These agreements contain clauses that may expose you to financial or legal risks.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <Textarea placeholder="Your feedback..." rows={4}/>
-                    <Button className="mt-4">Submit</Button>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {highRiskAgreements.map((item, index) => (
+                        <RiskCard key={index} title={item.title} description={item.description} level={item.level as 'High' | 'Medium'} />
+                    ))}
+                </CardContent>
+                 <CardContent>
+                    <Link href="/risk">
+                        <Button variant="secondary">View All High Risk Agreements</Button>
+                    </Link>
                 </CardContent>
             </Card>
         </div>

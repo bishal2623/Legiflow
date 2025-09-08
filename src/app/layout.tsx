@@ -5,18 +5,19 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { LayoutDashboard, FileText, ShieldAlert, BookOpen, Search, Settings, LogOut, Home, FileQuestion, MessageSquare, Shield } from 'lucide-react';
+import { LayoutDashboard, FileText, ShieldAlert, BookOpen, Search, Settings, LogOut, Home, FileQuestion, Upload, Book } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
-    { href: '/samples', icon: FileQuestion, label: 'Sample Agreements' },
-    { href: '/agreements', icon: FileText, label: 'Agreements' },
+    { href: '/agreements', icon: Upload, label: 'Upload Documents' },
     { href: '/risk', icon: ShieldAlert, label: 'High Risk Agreements' },
-    { href: '/reference', icon: BookOpen, label: 'Constitution & IPC' },
-    { href: '/search', icon: Search, label: 'Clause Search' },
+    { href: '/reference', icon: Book, label: 'IPC Sections' },
+    { href: '/reference', icon: BookOpen, label: 'Constitution' },
+    { href: '/reference', icon: FileText, label: 'Schedules' },
+    { href: '/reference', icon: FileQuestion, label: 'Amendments' },
 ];
 
 
@@ -50,12 +51,12 @@ function AppLayout({
                 </Link>
             </div>
             <nav className="flex-grow p-4 space-y-2">
-                {navItems.map((item) => (
+                {navItems.map((item, index) => (
                     <Link
-                        key={item.href}
+                        key={index}
                         href={item.href}
                         className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                            pathname === item.href
+                            pathname === item.href && item.href !== '/reference' // handle multiple links to same page
                                 ? 'bg-primary-foreground/10 text-white'
                                 : 'text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-white'
                         }`}
