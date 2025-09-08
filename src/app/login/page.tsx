@@ -7,32 +7,26 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-  ConfirmationResult,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from 'firebase/auth';
 import { app } from '@/lib/firebase';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LoaderCircle, LogIn } from 'lucide-react';
+import { LoaderCircle, LogIn, Mail, KeyRound } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
-declare global {
-    interface Window {
-        recaptchaVerifier: RecaptchaVerifier;
-    }
-}
 
 export default function LoginPage() {
   const auth = getAuth(app);
   const router = useRouter();
+  const { toast } = useToast();
   const { user, loading } = useAuth();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState('');
-  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
-  const [otpSent, setOtpSent] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (!loading && user) {
@@ -40,20 +34,6 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
   
-  const setupRecaptcha = () => {
-    if (typeof window !== 'undefined' && !window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'invisible',
-        callback: (response: any) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-        },
-      });
-    }
-  };
-
-  useEffect(() => {
-    setupRecaptcha();
-  }, []);
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
@@ -62,38 +42,50 @@ export default function LoginPage() {
       router.push('/');
     } catch (error) {
       console.error('Google Sign-In Error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Google Sign-In Failed',
+        description: 'Could not sign in with Google. Please try again.',
+      });
     }
   };
 
-  const handlePhoneSignIn = async () => {
-    if (!phoneNumber.trim() || phoneNumber.length !== 10) return;
-    setIsVerifying(true);
-    
+  const handleEmailSignIn = async () => {
+    if (!email.trim() || !password.trim()) return;
+    setIsProcessing(true);
     try {
-      const formattedPhoneNumber = `+91${phoneNumber}`;
-      const confirmation = await signInWithPhoneNumber(auth, formattedPhoneNumber, window.recaptchaVerifier);
-      setConfirmationResult(confirmation);
-      setOtpSent(true);
-    } catch (error) {
-      console.error('Phone Sign-In Error:', error);
-    } finally {
-        setIsVerifying(false);
-    }
-  };
-
-  const handleOtpSubmit = async () => {
-    if (!otp.trim() || !confirmationResult) return;
-    setIsVerifying(true);
-    try {
-      await confirmationResult.confirm(otp);
+      await signInWithEmailAndPassword(auth, email, password);
       router.push('/');
-    } catch (error) {
-      console.error('OTP Verification Error:', error);
+    } catch (error: any) {
+      console.error('Email Sign-In Error:', error);
+       toast({
+        variant: 'destructive',
+        title: 'Sign-In Failed',
+        description: error.message || 'Invalid email or password.',
+      });
     } finally {
-        setIsVerifying(false);
+      setIsProcessing(false);
     }
   };
   
+    const handleEmailSignUp = async () => {
+    if (!email.trim() || !password.trim()) return;
+    setIsProcessing(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push('/');
+    } catch (error: any) {
+      console.error('Email Sign-Up Error:', error);
+       toast({
+        variant: 'destructive',
+        title: 'Sign-Up Failed',
+        description: error.message || 'Could not create an account. Please try again.',
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   if (loading || user) {
     return <div className="flex h-screen items-center justify-center"><LoaderCircle className="h-10 w-10 animate-spin" /></div>;
   }
@@ -119,36 +111,40 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {!otpSent ? (
-            <div className="space-y-4">
-                 <Input
-                    type="tel"
-                    placeholder="Enter 10-digit mobile number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="bg-background/80"
+          <div className="space-y-4">
+            <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10 bg-background/80"
+                    disabled={isProcessing}
                 />
-                <Button onClick={handlePhoneSignIn} disabled={isVerifying || phoneNumber.length !== 10} className="w-full">
-                    {isVerifying ? <LoaderCircle className="animate-spin" /> : 'Send OTP'}
+            </div>
+             <div className="relative">
+                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10 bg-background/80"
+                    disabled={isProcessing}
+                />
+            </div>
+             <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={handleEmailSignIn} disabled={isProcessing} className="w-full">
+                    {isProcessing ? <LoaderCircle className="animate-spin" /> : 'Sign In'}
+                </Button>
+                 <Button onClick={handleEmailSignUp} disabled={isProcessing} variant="secondary" className="w-full">
+                    {isProcessing ? <LoaderCircle className="animate-spin" /> : 'Sign Up'}
                 </Button>
             </div>
-          ) : (
-             <div className="space-y-4">
-                 <Input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                     className="bg-background/80"
-                />
-                <Button onClick={handleOtpSubmit} disabled={isVerifying || otp.length !== 6} className="w-full">
-                    {isVerifying ? <LoaderCircle className="animate-spin" /> : 'Verify OTP'}
-                </Button>
-            </div>
-          )}
+          </div>
         </CardContent>
       </Card>
-      <div id="recaptcha-container"></div>
     </div>
   );
 }
