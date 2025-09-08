@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ShieldAlert } from "lucide-react";
+import Link from "next/link";
 
 // Chart Data
 const timelineData = [
@@ -37,90 +38,121 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="container mx-auto p-6 space-y-6">
-            {/* DASHBOARD */}
+        <div className="p-6 space-y-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>📊 Dashboard</CardTitle>
+                    <CardTitle>Welcome to LegiFlow</CardTitle>
+                    <CardDescription>Upload and simplify legal documents into plain language. Empowering citizens with clarity.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="h-72">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={timelineData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip contentStyle={{
-                                    background: "hsl(var(--background))",
-                                    border: "1px solid hsl(var(--border))"
-                                }}/>
-                                <Legend />
-                                <Bar dataKey="risks" fill="hsl(var(--primary))" name="Risks Found" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <Link href="/agreements">
+                        <Button>Upload Document</Button>
+                    </Link>
                 </CardContent>
             </Card>
 
-            {/* AGREEMENTS */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>📂 Agreements</CardTitle>
-                    <CardDescription>Upload and view all your contracts, NDAs, leases, etc.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Button>Upload Document</Button>
-                </CardContent>
-            </Card>
+            <div className="grid md:grid-cols-2 gap-6">
+                 {/* AGREEMENTS */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>📂 Agreements</CardTitle>
+                        <CardDescription>All uploaded and analyzed agreements appear here.</CardDescription>
+                    </CardHeader>
+                     <CardContent>
+                        <Link href="/agreements">
+                            <Button variant="secondary">Manage Agreements</Button>
+                        </Link>
+                    </CardContent>
+                </Card>
 
-            {/* RISK ANALYSIS */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>🚨 Risk Analysis</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Alert variant="destructive" className="mb-6">
-                        <ShieldAlert className="h-4 w-4" />
-                        <AlertTitle>High Risk Clause detected!</AlertTitle>
-                        <AlertDescription>"Non-compete for 5 years"</AlertDescription>
-                    </Alert>
-                    <div className="h-72">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie data={riskData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-                                    {riskData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={RISK_COLORS[index % RISK_COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip contentStyle={{
-                                    background: "hsl(var(--background))",
-                                    border: "1px solid hsl(var(--border))"
-                                }}/>
-                                <Legend />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-                </CardContent>
-            </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>📂 Sample Agreements</CardTitle>
+                        <CardDescription>Explore ready-to-view legal documents like rental, lease, NDA, partnership etc.</CardDescription>
+                    </CardHeader>
+                     <CardContent>
+                        <Link href="/samples">
+                            <Button variant="secondary">View Samples</Button>
+                        </Link>
+                    </CardContent>
+                </Card>
 
-            {/* CHATBOT */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>🤖 Legal Assistant Chatbot</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex gap-2">
-                        <Input 
-                            placeholder="Ask about IPC or Constitution..."
-                            value={chatInput}
-                            onChange={(e) => setChatInput(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
-                        />
-                        <Button onClick={handleChatSubmit}>Ask</Button>
-                    </div>
-                    {chatResponse && <p className="mt-4 text-muted-foreground">{chatResponse}</p>}
-                </CardContent>
-            </Card>
+                {/* RISK ANALYSIS */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>🚨 Risk Analysis</CardTitle>
+                        <CardDescription>Highlighted risky agreements with critical clauses.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Alert variant="destructive" className="mb-4">
+                            <ShieldAlert className="h-4 w-4" />
+                            <AlertTitle>High Risk Clause detected!</AlertTitle>
+                            <AlertDescription>"Non-compete for 5 years"</AlertDescription>
+                        </Alert>
+                         <Link href="/risk">
+                            <Button variant="secondary">View Full Analysis</Button>
+                        </Link>
+                    </CardContent>
+                </Card>
+
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>📊 Analysis Results</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-60">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={riskData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
+                                        {riskData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={RISK_COLORS[index % RISK_COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip contentStyle={{
+                                        background: "hsl(var(--background))",
+                                        border: "1px solid hsl(var(--border))"
+                                    }}/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>📜 Constitution & ⚔️ IPC</CardTitle>
+                        <CardDescription>Access Articles, Parts, Schedules, Amendments and search IPC sections.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Link href="/reference">
+                            <Button variant="secondary">Open Legal Reference</Button>
+                        </Link>
+                    </CardContent>
+                </Card>
+
+                {/* CHATBOT */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>🤖 Legal Assistant Chatbot</CardTitle>
+                        <CardDescription>Ask about IPC or Constitution...</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex gap-2">
+                            <Input 
+                                placeholder="e.g. Article 21"
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                            />
+                            <Button onClick={handleChatSubmit}>Ask</Button>
+                        </div>
+                        {chatResponse && <p className="mt-4 text-sm text-muted-foreground">{chatResponse}</p>}
+                    </CardContent>
+                </Card>
+            </div>
 
             {/* FEEDBACK */}
             <Card>

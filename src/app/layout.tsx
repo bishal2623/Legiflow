@@ -5,10 +5,20 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { LayoutDashboard, FileText, AlertTriangle, MessageSquare, Settings, LogOut, BookOpen, Search, Copy, Bell } from 'lucide-react';
+import { LayoutDashboard, FileText, ShieldAlert, BookOpen, Search, Settings, LogOut, Home, FileQuestion, MessageSquare, Shield } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
+
+const navItems = [
+    { href: '/dashboard', icon: Home, label: 'Home' },
+    { href: '/samples', icon: FileQuestion, label: 'Sample Agreements' },
+    { href: '/agreements', icon: FileText, label: 'Agreements' },
+    { href: '/risk', icon: ShieldAlert, label: 'High Risk Agreements' },
+    { href: '/reference', icon: BookOpen, label: 'Constitution & IPC' },
+    { href: '/search', icon: Search, label: 'Clause Search' },
+];
+
 
 function AppLayout({
   children,
@@ -26,30 +36,54 @@ function AppLayout({
      if (pathname === '/login') {
        return <>{children}</>;
      }
-     return null;
+     // Don't render anything if not logged in and not on login page
+     // The AuthProvider will handle the redirect
+     return null; 
   }
   
   return (
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
-        <header className="flex justify-between items-center bg-primary text-primary-foreground px-6 py-3 shadow-md">
-            <Link href="/dashboard" className="text-xl font-bold">
-                ⚖️ LegiFlow
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-                <Link href="/dashboard" className="hover:underline">Dashboard</Link>
-                <Link href="/agreements" className="hover:underline">Agreements</Link>
-                <Link href="/risk" className="hover:underline">Risk Analysis</Link>
-                <Link href="/reference" className="hover:underline">Legal Reference</Link>
-                <Link href="/settings" className="hover:underline">Settings</Link>
+      <div className="min-h-screen flex bg-background text-foreground">
+        <aside className="w-64 bg-primary text-primary-foreground flex flex-col fixed h-full">
+            <div className="p-4 border-b border-primary-foreground/20">
+                <Link href="/dashboard" className="text-2xl font-bold">
+                    ⚖️ LegiFlow
+                </Link>
+            </div>
+            <nav className="flex-grow p-4 space-y-2">
+                {navItems.map((item) => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                            pathname === item.href
+                                ? 'bg-primary-foreground/10 text-white'
+                                : 'text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-white'
+                        }`}
+                    >
+                        <item.icon className="w-5 h-5" />
+                        <span>{item.label}</span>
+                    </Link>
+                ))}
             </nav>
-            <div>
-                <Button onClick={logout} variant="ghost" size="sm" className="hover:bg-primary/80">
-                  <LogOut className="w-4 h-4 mr-2" />
+            <div className="p-4 border-t border-primary-foreground/20 space-y-2">
+                 <Link
+                    href="/settings"
+                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        pathname === '/settings'
+                            ? 'bg-primary-foreground/10 text-white'
+                            : 'text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-white'
+                    }`}
+                >
+                    <Settings className="w-5 h-5" />
+                    <span>Settings</span>
+                </Link>
+                <Button onClick={logout} variant="ghost" size="sm" className="w-full justify-start text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-white">
+                  <LogOut className="w-5 h-5 mr-3" />
                   Logout
                 </Button>
             </div>
-        </header>
-        <main className="flex-1">
+        </aside>
+        <main className="flex-1 ml-64">
           {children}
         </main>
       </div>

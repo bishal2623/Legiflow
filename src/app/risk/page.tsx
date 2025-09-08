@@ -21,11 +21,11 @@ export default function RiskPage() {
     const [loading, setLoading] = useState(false); // No need for complex loading simulation now
 
     return (
-        <main className="container mx-auto px-4 py-8">
+        <main className="p-6">
              <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
                 <Card>
                     <CardHeader>
-                      <CardTitle className="text-2xl font-bold">🚨 Risk Analysis</CardTitle>
+                      <CardTitle className="text-2xl font-bold">🚨 High Risk Agreements</CardTitle>
                       <CardDescription>A breakdown of potential risks in your documents.</CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -50,11 +50,6 @@ export default function RiskPage() {
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                        <Link href="/dashboard" className="w-full mt-6 flex justify-center">
-                            <Button variant="secondary">
-                                Back to Dashboard
-                            </Button>
-                        </Link>
                     </CardContent>
                 </Card>
             </motion.div>

@@ -19,7 +19,7 @@ function ThemeSwitcher() {
                 checked={theme === 'dark'}
                 onCheckedChange={toggleTheme}
             />
-            <Label htmlFor="theme-mode">Dark Mode</Label>
+            <Label htmlFor="theme-mode">{theme === 'dark' ? 'Dark' : 'Light'} Mode</Label>
         </div>
     )
 }
@@ -29,7 +29,7 @@ export default function SettingsPage() {
   const { user } = useAuth();
   
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="p-6">
             <Card className="max-w-2xl mx-auto">
                 <CardHeader>
                 <CardTitle className="text-3xl font-bold">Settings</CardTitle>
@@ -51,11 +51,6 @@ export default function SettingsPage() {
                         </div>
                     </div>
                 </CardContent>
-                <CardFooter>
-                    <Link href="/dashboard">
-                        <Button variant="outline">Back to Dashboard</Button>
-                    </Link>
-                </CardFooter>
             </Card>
     </main>
   );

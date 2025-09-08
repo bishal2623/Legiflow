@@ -1,7 +1,7 @@
 
 'use client';
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -189,15 +189,16 @@ export default function LegalReferencePage() {
   );
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="p-6">
       <Card>
         <CardHeader>
-          <CardTitle className="text-primary flex items-center gap-3">
-            📖 Indian Constitution & ⚖ IPC Portal
+          <CardTitle className="text-primary flex items-center gap-3 text-2xl">
+            📜 Constitution of India & ⚔️ Indian Penal Code (IPC)
           </CardTitle>
+           <CardDescription>Access Articles, Parts, Schedules, Amendments and search IPC sections.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-6">
             <Input
               type="text"
               placeholder="🔍 Search (e.g. Article 21, Part III, IPC 302)"
@@ -209,12 +210,12 @@ export default function LegalReferencePage() {
           </div>
 
           {result && (
-            <Card className="mt-4 p-4 bg-muted/50">
+            <Card className="mb-6 p-4 bg-muted/50">
               <p>{result}</p>
             </Card>
           )}
           
-           <div className="space-y-8 mt-6">
+           <div className="space-y-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-3 text-primary/90">📜 Constitution Articles</h3>
                   {renderList(legalData.constitution.articles)}
@@ -232,7 +233,7 @@ export default function LegalReferencePage() {
                   {renderList(legalData.constitution.amendments)}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-3 text-destructive/90">⚖ IPC Sections</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-destructive/90">⚖️ IPC Sections</h3>
                   {renderList(legalData.ipc, 'IPC ')}
                 </div>
             </div>
@@ -241,4 +242,3 @@ export default function LegalReferencePage() {
     </main>
   );
 }
-

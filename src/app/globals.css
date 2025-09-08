@@ -23,7 +23,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 212 92% 51%;
-    --radius: 0.5rem;
+    --radius: 0.8rem; /* increased from 0.5rem */
     --chart-1: 212 92% 51%;
     --chart-2: 43 96% 56%;
     --chart-3: 0 84% 60%;
@@ -38,7 +38,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
-    --primary: 204 75% 55%; /* Brighter Blue for dark mode */
+    --primary: 212 92% 51%; /* #1a73e8 */
     --primary-foreground: 210 40% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;

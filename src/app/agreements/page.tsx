@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function AgreementsPage() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="p-6">
       <Card>
         <CardHeader>
             <CardTitle>Agreements Management</CardTitle>
@@ -18,11 +18,11 @@ export default function AgreementsPage() {
             </CardDescription>
         </CardHeader>
         <CardContent>
-             <div className="flex flex-col sm:flex-row gap-2 mb-6">
-              <Button className="w-full">
+             <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <Button>
                 <Upload className="mr-2 h-4 w-4" /> Upload New Agreement
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline">
                 <Download className="mr-2 h-4 w-4" /> Download Reports
               </Button>
             </div>
@@ -56,13 +56,6 @@ export default function AgreementsPage() {
               </TabsContent>
             </Tabs>
         </CardContent>
-         <CardFooter>
-            <Link href="/dashboard" className="w-full">
-                <Button variant="secondary" className="w-full">
-                    Back to Dashboard
-                </Button>
-            </Link>
-         </CardFooter>
       </Card>
     </main>
   );

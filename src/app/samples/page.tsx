@@ -64,7 +64,7 @@ export default function SamplesPage() {
   ];
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="p-6">
       <Card>
         <CardHeader>
           <CardTitle>Sample Agreements (India)</CardTitle>
