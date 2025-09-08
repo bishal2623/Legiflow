@@ -2,114 +2,136 @@
 'use client';
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
-import { LoaderCircle } from "lucide-react";
-import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ShieldAlert } from "lucide-react";
 
-// Risk Chart Data
-const riskData = [
-  { name: "Low Risk", value: 60 },
-  { name: "Medium Risk", value: 25 },
-  { name: "High Risk", value: 15 },
+// Chart Data
+const timelineData = [
+  { name: 'Doc1', risks: 3 },
+  { name: 'Doc2', risks: 5 },
+  { name: 'Doc3', risks: 2 },
 ];
 
-const COLORS = ["#4ADE80", "#FACC15", "#F87171"]; // Green, Yellow, Red
-
+const riskData = [
+  { name: "Safe", value: 50 },
+  { name: "Medium", value: 30 },
+  { name: "High", value: 20 },
+];
+const RISK_COLORS = ["#22c55e", "#f59e0b", "#ef4444"]; // green, amber, red
 
 export default function DashboardPage() {
-    const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState<{summary: string; details: string} | null>(null);
+    const [chatResponse, setChatResponse] = useState('');
+    const [chatInput, setChatInput] = useState('');
 
-    // Fake analysis with max 10s delay
-    const handleAnalyze = () => {
-        setLoading(true);
-        setResults(null);
+    const handleChatSubmit = () => {
+        let ans = "Sorry, I don’t know this yet.";
+        const q = chatInput.toLowerCase();
+        if(q.includes("ipc 307")) ans = "IPC 307: Attempt to murder, punishable with imprisonment up to 10 years or life.";
+        if(q.includes("article 21")) ans = "Article 21: Right to Life and Personal Liberty.";
+        setChatResponse(ans);
+    }
 
-        setTimeout(() => {
-        setLoading(false);
-        setResults({
-            summary: "Analysis Completed ✅",
-            details: "This agreement looks legally safe with minor risks.",
-        });
-        }, 3000); 
-    };
+    return (
+        <div className="container mx-auto p-6 space-y-6">
+            {/* DASHBOARD */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>📊 Dashboard</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={timelineData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip contentStyle={{
+                                    background: "hsl(var(--background))",
+                                    border: "1px solid hsl(var(--border))"
+                                }}/>
+                                <Legend />
+                                <Bar dataKey="risks" fill="hsl(var(--primary))" name="Risks Found" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </CardContent>
+            </Card>
 
-  return (
-    <main className="p-8 grid gap-8">
-        {/* Upload / Analyze Section */}
-        <Card className="shadow-xl bg-white/10 backdrop-blur-md border border-gray-600 rounded-2xl hover:scale-[1.01] transition-transform duration-300">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold mb-3">📤 Upload & Analyze Document</h2>
-            <Button 
-              onClick={handleAnalyze} 
-              disabled={loading}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
-            >
-              {loading ? "Analyzing..." : "Start Analysis"}
-            </Button>
+            {/* AGREEMENTS */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>📂 Agreements</CardTitle>
+                    <CardDescription>Upload and view all your contracts, NDAs, leases, etc.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button>Upload Document</Button>
+                </CardContent>
+            </Card>
 
-            {/* Show Results */}
-            {results && (
-              <div className="mt-6">
-                <h3 className="text-xl font-semibold">{results.summary}</h3>
-                <p className="text-gray-300">{results.details}</p>
+            {/* RISK ANALYSIS */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>🚨 Risk Analysis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Alert variant="destructive" className="mb-6">
+                        <ShieldAlert className="h-4 w-4" />
+                        <AlertTitle>High Risk Clause detected!</AlertTitle>
+                        <AlertDescription>"Non-compete for 5 years"</AlertDescription>
+                    </Alert>
+                    <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie data={riskData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+                                    {riskData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={RISK_COLORS[index % RISK_COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip contentStyle={{
+                                    background: "hsl(var(--background))",
+                                    border: "1px solid hsl(var(--border))"
+                                }}/>
+                                <Legend />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </CardContent>
+            </Card>
 
-                {/* Risk Analysis Chart */}
-                <div className="mt-6 flex justify-center">
-                  <PieChart width={350} height={300}>
-                    <Pie
-                      data={riskData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={110}
-                      dataKey="value"
-                      nameKey="name"
-                      label
-                    >
-                      {riskData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                        contentStyle={{
-                            background: "hsl(var(--background))",
-                            border: "1px solid hsl(var(--border))",
-                            borderRadius: "var(--radius)"
-                        }}
-                    />
-                    <Legend />
-                  </PieChart>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+            {/* CHATBOT */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>🤖 Legal Assistant Chatbot</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex gap-2">
+                        <Input 
+                            placeholder="Ask about IPC or Constitution..."
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                        />
+                        <Button onClick={handleChatSubmit}>Ask</Button>
+                    </div>
+                    {chatResponse && <p className="mt-4 text-muted-foreground">{chatResponse}</p>}
+                </CardContent>
+            </Card>
 
-        {/* Sample Agreements */}
-        <Card className="shadow-xl bg-white/10 backdrop-blur-md border border-gray-600 rounded-2xl hover:scale-[1.01] transition-transform duration-300">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold mb-3">📑 Sample Agreements</h2>
-            <Link href="/samples">
-                <Button className="bg-green-500 hover:bg-green-600 text-white rounded-xl">
-                View Samples
-                </Button>
-            </Link>
-          </CardContent>
-        </Card>
-
-        {/* Q&A Bot */}
-        <Card className="shadow-xl bg-white/10 backdrop-blur-md border border-gray-600 rounded-2xl hover:scale-[1.01] transition-transform duration-300">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold mb-3">🤖 Q&A Bot</h2>
-            <p className="text-gray-300">Ask your legal queries and get instant AI-powered answers.</p>
-             <Link href="/">
-                <Button variant="secondary" className="mt-4 rounded-xl">Ask Q&A Bot</Button>
-            </Link>
-          </CardContent>
-        </Card>
-    </main>
-  );
+            {/* FEEDBACK */}
+            <Card>
+                 <CardHeader>
+                    <CardTitle>💬 Feedback</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Textarea placeholder="Your feedback..." rows={4}/>
+                    <Button className="mt-4">Submit</Button>
+                </CardContent>
+            </Card>
+        </div>
+    );
 }

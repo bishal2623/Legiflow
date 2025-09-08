@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [user, loading, router]);
   
@@ -43,7 +43,7 @@ export default function LoginPage() {
     setIsProcessing(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Email Sign-In Error:', error);
        toast({
@@ -62,7 +62,7 @@ export default function LoginPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: any) {
       console.error('Email Sign-Up Error:', error);
        toast({
@@ -80,11 +80,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
-      <Card className="w-full max-w-md bg-black/30 backdrop-blur-lg border-gray-700 text-white">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md bg-card border">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Welcome to LegiFlow</CardTitle>
-          <CardDescription className="text-muted-foreground">Please sign in or create an account</CardDescription>
+          <CardDescription>Please sign in or create an account</CardDescription>
         </CardHeader>
         <CardContent>
             <Tabs defaultValue="signin" onValueChange={setActiveTab} className="w-full">
@@ -100,7 +100,7 @@ export default function LoginPage() {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="pl-10 bg-background/80"
+                            className="pl-10"
                             disabled={isProcessing}
                         />
                     </div>
@@ -111,7 +111,7 @@ export default function LoginPage() {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10 bg-background/80"
+                            className="pl-10"
                             disabled={isProcessing}
                         />
                     </div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
                             placeholder="Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="pl-10 bg-background/80"
+                            className="pl-10"
                             disabled={isProcessing}
                         />
                     </div>
@@ -138,7 +138,7 @@ export default function LoginPage() {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="pl-10 bg-background/80"
+                            className="pl-10"
                             disabled={isProcessing}
                         />
                     </div>
@@ -149,7 +149,7 @@ export default function LoginPage() {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10 bg-background/80"
+                            className="pl-10"
                             disabled={isProcessing}
                         />
                     </div>
