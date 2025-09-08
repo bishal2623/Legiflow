@@ -33,8 +33,24 @@ function AppHeader() {
     return (
         <header className="fixed left-0 right-0 top-0 h-16 flex items-center justify-between px-5 z-30 backdrop-blur-md bg-background/30">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg">
-                    LF
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white shadow-lg">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="opacity-90"
+                    >
+                      <path d="M4 22h16" />
+                      <path d="M4 22V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14" />
+                      <path d="M12 6V4" />
+                      <path d="M12 14h-2" />
+                      <path d="M12 18h-4" />
+                    </svg>
                 </div>
                 <div>
                     <h1 className="font-bold text-lg">LegiFlow</h1>
