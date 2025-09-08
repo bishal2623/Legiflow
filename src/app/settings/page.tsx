@@ -2,8 +2,10 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { motion } from 'framer-motion';
+import { useAuth } from "@/hooks/use-auth";
 
 export default function SettingsPage() {
+  const { user } = useAuth();
   return (
     <main className="container mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -13,7 +15,8 @@ export default function SettingsPage() {
                 <CardDescription>Manage your application settings.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <p>👤 Profile: Bishal Saha</p>
+                    <p>👤 Profile: {user?.displayName || 'No name set'}</p>
+                    <p>✉️ Email: {user?.email}</p>
                     <p>🌐 Language: English/Hindi</p>
                 </CardContent>
             </Card>
