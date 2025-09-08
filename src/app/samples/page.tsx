@@ -64,7 +64,7 @@ export default function SamplesPage() {
   ];
 
   return (
-    <main className="p-6">
+    <main>
       <Card>
         <CardHeader>
           <CardTitle>Sample Agreements (India)</CardTitle>
@@ -77,7 +77,7 @@ export default function SamplesPage() {
             <Card key={index} className="flex flex-col">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-primary" />
+                    <FileText className="w-5 h-5 text-ring" />
                     {sample.title}
                 </CardTitle>
               </CardHeader>
@@ -102,7 +102,7 @@ export default function SamplesPage() {
                     <ScrollArea className="h-full w-full rounded-md border p-4">
                       {isGenerating ? (
                         <div className="flex items-center justify-center h-full">
-                          <LoaderCircle className="w-10 h-10 animate-spin text-primary" />
+                          <LoaderCircle className="w-10 h-10 animate-spin text-ring" />
                         </div>
                       ) : (
                         <pre className="text-sm whitespace-pre-wrap font-sans">{generatedText}</pre>

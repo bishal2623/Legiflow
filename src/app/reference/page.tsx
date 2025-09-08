@@ -56,10 +56,10 @@ export default function LegalReferencePage() {
   );
 
   return (
-    <main className="p-6">
+    <main>
       <Card>
         <CardHeader>
-          <CardTitle className="text-primary flex items-center gap-3 text-2xl">
+          <CardTitle className="text-primary-foreground flex items-center gap-3 text-2xl">
             📜 Legal Reference Database
           </CardTitle>
            <CardDescription>Search the Constitution of India & Indian Penal Code (IPC).</CardDescription>
@@ -95,5 +95,3 @@ export default function LegalReferencePage() {
     </main>
   );
 }
-
-    

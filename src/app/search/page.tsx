@@ -43,7 +43,7 @@ export default function SearchPage() {
     };
 
     return (
-        <main className="p-6">
+        <main>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <Card>
                     <CardHeader>
@@ -81,7 +81,7 @@ export default function SearchPage() {
                                 <div className="space-y-4 h-80 overflow-y-auto pr-2 border rounded-lg p-4 bg-muted/40">
                                     {isSearching ? (
                                         <div className="flex items-center justify-center h-full">
-                                            <LoaderCircle className="w-8 h-8 animate-spin text-primary" />
+                                            <LoaderCircle className="w-8 h-8 animate-spin text-ring" />
                                         </div>
                                     ) : results.length > 0 ? (
                                         results.map((clause, index) => (

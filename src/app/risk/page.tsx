@@ -56,7 +56,7 @@ const RiskCard = ({ title, description, level }: { title: string, description: s
 
 export default function RiskPage() {
     return (
-        <main className="p-6">
+        <main>
              <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
                 <Card>
                     <CardHeader>

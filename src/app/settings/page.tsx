@@ -1,13 +1,12 @@
 
 'use client';
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ThemeProvider, useTheme } from "@/hooks/use-theme";
+import { useTheme } from "@/hooks/use-theme";
 import { Switch } from "@/components/ui/switch";
 
 function ThemeSwitcher() {
@@ -29,7 +28,7 @@ export default function SettingsPage() {
   const { user } = useAuth();
   
   return (
-    <main className="p-6">
+    <main>
             <Card className="max-w-2xl mx-auto">
                 <CardHeader>
                 <CardTitle className="text-3xl font-bold">Settings</CardTitle>

@@ -47,7 +47,7 @@ export default function AnalyzePage() {
   };
 
   return (
-    <main className="p-6">
+    <main>
       <Card>
         <CardHeader>
             <CardTitle>Document Analysis</CardTitle>

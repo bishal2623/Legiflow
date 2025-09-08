@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 
 export default function HelpPage() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main>
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle>Help & FAQs</CardTitle>

@@ -1,15 +1,14 @@
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload, Search, Download, ShieldAlert, BadgeHelp, FileWarning } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Upload, Search } from "lucide-react";
 import Link from "next/link";
 
 export default function AgreementsPage() {
   return (
-    <main className="p-6">
+    <main>
       <Card>
         <CardHeader>
             <CardTitle>Agreements Management</CardTitle>
@@ -24,9 +23,6 @@ export default function AgreementsPage() {
                   <Upload className="mr-2 h-4 w-4" /> Upload New Agreement
                 </Button>
               </Link>
-              <Button variant="outline">
-                <Download className="mr-2 h-4 w-4" /> Download Reports
-              </Button>
             </div>
 
             <div className="relative mb-6">
