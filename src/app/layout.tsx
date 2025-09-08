@@ -38,7 +38,6 @@ function AppHeader() {
                 </div>
                 <div>
                     <h1 className="font-bold text-lg">LegiFlow</h1>
-                    <p className="text-xs text-muted-foreground">SW Law Portal</p>
                 </div>
             </div>
             <div className="flex items-center gap-2">
