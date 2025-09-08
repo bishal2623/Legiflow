@@ -5,17 +5,17 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { FileSignature, Home, Library, Upload } from 'lucide-react';
+import { FileText, Home, Gavel, Scale, Book, FileUp } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 
 const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
-    { href: '/analyze', icon: Upload, label: 'Upload Documents' },
-    { href: '/reference', icon: Library, label: 'IPC Sections' },
-    { href: '/reference', icon: Library, label: 'Constitution' },
-    { href: '/reference', icon: Library, label: 'Schedules' },
-    { href: '/reference', icon: Library, label: 'Amendments' },
+    { href: '/analyze', icon: FileUp, label: 'Upload Documents' },
+    { href: '/reference', icon: Book, label: 'IPC Sections' },
+    { href: '/reference', icon: Scale, label: 'Constitution' },
+    { href: '/reference', icon: Gavel, label: 'Schedules' },
+    { href: '/reference', icon: FileText, label: 'Amendments' },
 ];
 
 
@@ -84,7 +84,7 @@ export default function RootLayout({
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-sans antialiased">
+      <body className="antialiased">
         <AuthProvider>
           <ThemeProvider defaultTheme='light'>
             <AppLayout>{children}</AppLayout>

@@ -16,6 +16,7 @@ export default function DashboardPage() {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const text = e.target?.result as string;
+                // Navigate to analyze page with the document text
                 router.push(`/analyze?text=${encodeURIComponent(text)}`);
             };
             reader.readAsText(file);
@@ -27,14 +28,14 @@ export default function DashboardPage() {
         <div className="space-y-6">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold">🏠 Welcome to the Law Portal</CardTitle>
+                    <CardTitle className="text-3xl font-bold">Welcome to Indian Law Portal</CardTitle>
                     <CardDescription>Select a section from the sidebar to view details.</CardDescription>
                 </CardHeader>
             </Card>
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold">📂 Upload Documents</CardTitle>
+                    <CardTitle className="text-2xl font-bold">Upload Documents</CardTitle>
                      <CardDescription>Upload your files here (txt, md).</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -51,11 +52,6 @@ export default function DashboardPage() {
                            hover:file:bg-secondary/90"
                         />
                     </div>
-                </CardContent>
-                 <CardContent>
-                    <Link href="/analyze">
-                        <Button>Or Analyze Pasted Text</Button>
-                    </Link>
                 </CardContent>
             </Card>
         </div>
