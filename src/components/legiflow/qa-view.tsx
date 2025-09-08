@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
@@ -104,6 +105,7 @@ export function QaView({ documentText }: QaViewProps) {
                         onChange={(e) => setQuestion(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleAskQuestion()}
                         disabled={isAnswering}
+                        className="bg-transparent"
                     />
                     <Button onClick={handleAskQuestion} disabled={isAnswering || !question.trim()}>
                         <Send className="h-4 w-4" />
@@ -130,7 +132,7 @@ const BotAnswer = ({ result }: { result: AnswerContractQuestionOutput }) => (
                 <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-2 flex items-center gap-2"><FileText className="h-4 w-4" /> Sources</h4>
                 <div className="space-y-2">
                     {result.sources.map((source, i) => (
-                        <p key={i} className="text-xs p-2 bg-background border rounded-md text-muted-foreground italic">"{source}"</p>
+                        <p key={i} className="text-xs p-2 bg-background/50 border rounded-md text-muted-foreground italic">"{source}"</p>
                     ))}
                 </div>
             </div>

@@ -27,7 +27,7 @@ export default function AgreementsPage() {
 
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search agreements..." className="pl-10" />
+              <Input placeholder="Search agreements..." className="pl-10 bg-transparent" />
             </div>
 
             <Tabs defaultValue="saved">
@@ -37,18 +37,18 @@ export default function AgreementsPage() {
                 <TabsTrigger value="simplified">Simplified</TabsTrigger>
               </TabsList>
               <TabsContent value="saved" className="mt-4">
-                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed rounded-lg">
+                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed border-border/20 rounded-lg">
                     <p>You don't have any saved agreements yet.</p>
                     <p className="text-sm">Upload a new agreement to get started.</p>
                 </div>
               </TabsContent>
                <TabsContent value="drafts" className="mt-4">
-                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed rounded-lg">
+                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed border-border/20 rounded-lg">
                     <p>No draft agreements found.</p>
                 </div>
               </TabsContent>
                <TabsContent value="simplified" className="mt-4">
-                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed rounded-lg">
+                 <div className="p-6 text-center text-muted-foreground border-2 border-dashed border-border/20 rounded-lg">
                     <p>No simplified agreements available.</p>
                 </div>
               </TabsContent>

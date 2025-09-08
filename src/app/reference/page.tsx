@@ -5,10 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ipcData, constitutionArticles, constitutionParts, constitutionSchedules, constitutionAmendments } from "@/lib/legal-data";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 
 export default function LegalReferencePage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("ipc");
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    setSearchTerm(query);
+  }
 
   const filteredIpc = useMemo(() => 
     ipcData.filter(item => 
@@ -43,7 +51,7 @@ export default function LegalReferencePage() {
   const renderList = (data: { [key: string]: string }[], keyName: string, keyDescription: string) => (
     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-4">
         {data.length > 0 ? data.map((item, index) => (
-            <Card key={index} className="bg-muted/30">
+            <Card key={index} className="bg-card/50">
                 <CardHeader>
                     <CardTitle className="text-base font-semibold">{item[keyName]}</CardTitle>
                 </CardHeader>
@@ -51,21 +59,29 @@ export default function LegalReferencePage() {
                     <p className="text-sm text-muted-foreground">{item[keyDescription]}</p>
                 </CardContent>
             </Card>
-        )) : <p className="text-center text-muted-foreground">No results found.</p>}
+        )) : <p className="text-center text-muted-foreground py-10">No results found for '{searchTerm}'.</p>}
     </div>
   );
+
+  const searchPlaceholders : { [key: string]: string } = {
+    ipc: "Search IPC (e.g. 302 or 'murder')",
+    articles: "Search Article (e.g. Article 21)",
+    parts: "Search Part (e.g. Part III)",
+    schedules: "Search Schedule (e.g. Eighth)",
+    amendments: "Search Amendment (e.g. 42nd)",
+  }
 
   return (
     <main>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-2xl">
-            📜 Legal Reference Database
+            📘 Legal Reference Database
           </CardTitle>
            <CardDescription>Search the Constitution of India & Indian Penal Code (IPC).</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="ipc" className="w-full">
+          <Tabs defaultValue="ipc" className="w-full" onValueChange={setActiveTab}>
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6">
               <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full sm:w-auto">
                 <TabsTrigger value="ipc">IPC</TabsTrigger>
@@ -74,13 +90,16 @@ export default function LegalReferencePage() {
                 <TabsTrigger value="schedules">Schedules</TabsTrigger>
                 <TabsTrigger value="amendments">Amendments</TabsTrigger>
               </TabsList>
-               <div className="w-full sm:w-auto sm:max-w-xs">
+               <div className="w-full sm:w-auto sm:max-w-xs flex gap-2">
                  <Input
                     type="text"
-                    placeholder="🔍 Search current tab..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder={searchPlaceholders[activeTab]}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    className="bg-transparent"
                  />
+                 <Button onClick={handleSearch}><Search className="h-4 w-4"/></Button>
               </div>
             </div>
             

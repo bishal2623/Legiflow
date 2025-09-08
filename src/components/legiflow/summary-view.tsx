@@ -1,3 +1,4 @@
+
 'use client';
 import { Accordion } from "@/components/ui/accordion";
 import { ClauseItem } from "./clause-item";

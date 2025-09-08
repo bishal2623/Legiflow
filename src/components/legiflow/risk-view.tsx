@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useEffect, useTransition } from 'react';
 import { highlightContractRisks, HighlightContractRisksOutput } from '@/ai/flows/highlight-contract-risks';
@@ -21,12 +22,12 @@ const riskLevelConfig = {
     Medium: {
         icon: ShieldHalf,
         badgeVariant: 'default' as const, 
-        badgeClass: 'bg-accent hover:bg-accent/90 text-accent-foreground border-transparent',
+        badgeClass: 'bg-amber-500 hover:bg-amber-500/90 text-black border-transparent',
     },
     Safe: {
         icon: ShieldCheck,
         badgeVariant: 'secondary' as const,
-        badgeClass: '',
+        badgeClass: 'bg-green-500 hover:bg-green-500/90 text-white border-transparent',
     }
 }
 
@@ -66,7 +67,7 @@ export function RiskView({ documentText }: RiskViewProps) {
             </CardHeader>
             <CardContent className="space-y-4">
                 {[...Array(5)].map((_, i) => (
-                    <div key={i} className="p-4 border rounded-lg space-y-2">
+                    <div key={i} className="p-4 border border-border/50 rounded-lg space-y-2">
                         <Skeleton className="h-4 w-3/4" />
                         <Skeleton className="h-4 w-full" />
                     </div>
@@ -92,10 +93,10 @@ export function RiskView({ documentText }: RiskViewProps) {
              const config = riskLevelConfig[item.riskLevel] || riskLevelConfig.Safe;
              const Icon = config.icon;
             return (
-              <AccordionItem value={`risk-${index}`} key={index}>
+              <AccordionItem value={`risk-${index}`} key={index} className="border-border/50">
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex justify-between items-start w-full pr-4 gap-4">
-                      <p className="flex-1 text-left text-sm font-normal">
+                      <p className="flex-1 text-left text-sm font-normal text-muted-foreground">
                         {item.clause}
                       </p>
                       <Badge variant={config.badgeVariant} className={`${config.badgeClass} flex-shrink-0`}>
@@ -104,7 +105,7 @@ export function RiskView({ documentText }: RiskViewProps) {
                       </Badge>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="space-y-4 p-4 bg-muted/50 rounded-b-md">
+                <AccordionContent className="space-y-4 p-4 bg-muted/20 rounded-b-md">
                     <div>
                         <h4 className="font-semibold mb-1">Explanation:</h4>
                         <p className="text-sm text-muted-foreground">{item.explanation}</p>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useTransition } from 'react';
@@ -40,11 +41,11 @@ export function ClauseItem({ clause, index }: ClauseItemProps) {
   };
 
   return (
-    <AccordionItem value={`item-${index}`}>
+    <AccordionItem value={`item-${index}`} className="border-border/50">
       <AccordionTrigger onClick={handleSimplify} className="text-left hover:no-underline">
         <div className="flex gap-4 items-start w-full">
-            <span className="text-primary font-bold">{index + 1}.</span>
-            <p className="flex-1">
+            <span className="text-accent font-bold">{index + 1}.</span>
+            <p className="flex-1 text-muted-foreground">
                 {clause.length > 150 ? `${clause.substring(0, 150)}...` : clause}
             </p>
         </div>

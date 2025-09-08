@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useEffect, useTransition } from 'react';
 import { extractKeyTermsAndDates, ExtractKeyTermsAndDatesOutput } from '@/ai/flows/extract-key-terms-and-dates';
@@ -11,7 +12,7 @@ interface KeyInfoViewProps {
 }
 
 const InfoCard = ({ title, icon, children }: { title: string; icon: React.ReactNode, children: React.ReactNode }) => (
-    <Card>
+    <Card className="glass-card">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{title}</CardTitle>
             {icon}
@@ -48,7 +49,7 @@ export function KeyInfoView({ documentText }: KeyInfoViewProps) {
     return (
         <div className="grid gap-4 md:grid-cols-2">
             {[...Array(4)].map((_, i) => (
-                <Card key={i}>
+                <Card key={i} className="glass-card">
                     <CardHeader><Skeleton className="h-6 w-1/2" /></CardHeader>
                     <CardContent><Skeleton className="h-20 w-full" /></CardContent>
                 </Card>
@@ -68,10 +69,10 @@ export function KeyInfoView({ documentText }: KeyInfoViewProps) {
                 <ul className="space-y-4">
                     {keyInfo.timeline.map((item, index) => (
                         <li key={index} className="flex items-start gap-4">
-                           <div className="flex-shrink-0 w-28 font-semibold text-primary">{item.date}</div>
+                           <div className="flex-shrink-0 w-28 font-semibold text-accent">{item.date}</div>
                            <div className="relative flex-1 pb-4">
                             <span className="absolute top-1 left-[-25px] h-full w-px bg-border"></span>
-                            <span className="absolute top-1 left-[-29px] h-3 w-3 rounded-full bg-primary"></span>
+                            <span className="absolute top-1 left-[-29px] h-3 w-3 rounded-full bg-accent"></span>
                                 <p className="text-sm">{item.description}</p>
                            </div>
                         </li>
@@ -85,7 +86,7 @@ export function KeyInfoView({ documentText }: KeyInfoViewProps) {
                 {keyInfo.keyTerms.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                         {keyInfo.keyTerms.map((term, index) => (
-                            <p key={index} className="text-sm px-2 py-1 bg-secondary rounded-md">{term}</p>
+                            <p key={index} className="text-sm px-2 py-1 bg-secondary/50 rounded-md">{term}</p>
                         ))}
                     </div>
                 ) : <p className="text-sm text-muted-foreground">No key terms found.</p>}

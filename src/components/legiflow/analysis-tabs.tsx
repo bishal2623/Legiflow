@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,7 +18,7 @@ export function AnalysisTabs({ documentText, clauses, onReset }: AnalysisTabsPro
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" onClick={onReset}>
+        <Button variant="ghost" size="icon" onClick={onReset}>
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back</span>
         </Button>
@@ -28,7 +29,7 @@ export function AnalysisTabs({ documentText, clauses, onReset }: AnalysisTabsPro
           <TabsTrigger value="summary">Clause Summary</TabsTrigger>
           <TabsTrigger value="risks">Risk Analysis</TabsTrigger>
           <TabsTrigger value="key-info">Key Info</TabsTrigger>
-          <TabsTrigger value="qa">Q&amp;A</TabsTrigger>
+          <TabsTrigger value="qa">Q&A</TabsTrigger>
         </TabsList>
         <TabsContent value="summary" className="mt-6">
           <SummaryView clauses={clauses} />

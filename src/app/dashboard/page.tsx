@@ -4,56 +4,70 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+const riskData = [
+  { name: 'Docs', Risks: 4 },
+  { name: 'Clauses', Risks: 12 },
+];
+
 
 export default function DashboardPage() {
-    const router = useRouter();
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const text = e.target?.result as string;
-                // Navigate to analyze page with the document text
-                router.push(`/analyze?text=${encodeURIComponent(text)}`);
-            };
-            reader.readAsText(file);
-        }
-    };
-
-
     return (
         <div className="space-y-6">
-            <Card>
+            <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold">Welcome to Indian Law Portal</CardTitle>
-                    <CardDescription>Select a section from the sidebar to view details.</CardDescription>
-                </CardHeader>
-            </Card>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-2xl font-bold">Upload Documents</CardTitle>
-                     <CardDescription>Upload your files here (txt, md).</CardDescription>
+                    <CardTitle className="text-3xl font-bold">Welcome to LegiFlow</CardTitle>
+                    <CardDescription className="text-lg text-muted-foreground">AI-driven legal simplifier — paste/upload documents, detect risky clauses, and understand laws & IPC quickly.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="border-2 border-dashed p-10 text-center">
-                         <Input
-                            type="file"
-                            accept=".txt,.md"
-                            onChange={handleFileChange}
-                            className="block w-full text-sm
-                           file:mr-4 file:py-2 file:px-4
-                           file:rounded-lg file:border-0
-                           file:text-sm file:font-semibold
-                           file:bg-secondary file:text-secondary-foreground
-                           hover:file:bg-secondary/90"
-                        />
-                    </div>
+                   <div className="flex gap-4">
+                     <Link href="/analyze">
+                        <Button>Upload Document</Button>
+                     </Link>
+                     <Link href="/samples">
+                        <Button variant="ghost">View Samples</Button>
+                     </Link>
+                   </div>
                 </CardContent>
             </Card>
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Quick Stats</CardTitle>
+                        <CardDescription>A brief overview of your activity.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                         <ResponsiveContainer width="100%" height={200}>
+                            <BarChart data={riskData}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.5)" />
+                                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                                <YAxis stroke="hsl(var(--muted-foreground))"/>
+                                <Tooltip
+                                    contentStyle={{
+                                        background: "hsl(var(--background))",
+                                        borderColor: "hsl(var(--border))",
+                                    }}
+                                />
+                                <Legend />
+                                <Bar dataKey="Risks" fill="hsl(var(--accent))" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Recent Activity</CardTitle>
+                        <CardDescription>Your latest analyzed documents.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                         <div className="text-center text-muted-foreground py-10">
+                            <p>No recent activity.</p>
+                         </div>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 }

@@ -7,6 +7,7 @@ import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
+import { Upload } from 'lucide-react';
 
 export default function AnalyzePage() {
   const [documentText, setDocumentText] = useState<string | null>(null);
@@ -48,23 +49,21 @@ export default function AnalyzePage() {
 
   return (
     <main>
-      <Card>
-        <CardHeader>
-            <CardTitle>Document Analysis</CardTitle>
-            <CardDescription>
-                {clauses
-                ? 'Review the analysis results below.'
-                : 'Paste your document text below to get started.'}
-            </CardDescription>
-        </CardHeader>
-        <CardContent>
-            {documentText && clauses ? (
-                <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
-            ) : (
-                <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
-            )}
-        </CardContent>
-      </Card>
+        {documentText && clauses ? (
+            <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
+        ) : (
+             <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-3"><Upload /> Upload Document</CardTitle>
+                    <CardDescription>
+                        Paste your document text below to get started. Supported formats: PDF, DOCX, TXT.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
+                </CardContent>
+            </Card>
+        )}
     </main>
   );
 }
