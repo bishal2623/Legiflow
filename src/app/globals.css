@@ -5,6 +5,34 @@
 
 @layer base {
   :root {
+    --background: 220 20% 96%; /* #f4f6f9 */
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 204 92% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 204 92% 53%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 212 92% 51%;
+    --radius: 0.8rem;
+    --chart-1: 204 75% 55%;
+    --chart-2: 43 96% 56%;
+    --chart-3: 0 84% 60%;
+    --chart-4: 203 30% 60%;
+    --chart-5: 203 30% 70%;
+  }
+
+  .dark {
     --background: 224 71% 4%; /* #0b1220 */
     --foreground: 210 40% 98%; /* Light Gray */
     --card: 222 47% 11%; /* #0f1724 */
@@ -24,34 +52,6 @@
     --border: 217 33% 17%;
     --input: 217 33% 17%;
     --ring: 204 92% 53%;
-    --radius: 0.8rem;
-    --chart-1: 204 75% 55%;
-    --chart-2: 43 96% 56%;
-    --chart-3: 0 84% 60%;
-    --chart-4: 203 30% 60%;
-    --chart-5: 203 30% 70%;
-  }
-
-  .dark {
-     --background: 220 20% 96%; /* #f4f6f9 */
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 204 92% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 204 92% 53%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 212 92% 51%;
   }
 }
 
@@ -63,8 +63,12 @@
     @apply bg-background text-foreground;
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
-    background:linear-gradient(180deg, #071024 0%, #071429 60%);
   }
+  
+  .dark body {
+     background:linear-gradient(180deg, #071024 0%, #071429 60%);
+  }
+
   .glass-card {
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border:1px solid rgba(255,255,255,0.03)

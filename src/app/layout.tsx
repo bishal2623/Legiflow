@@ -43,7 +43,7 @@ function AppHeader() {
             </div>
             <div className="flex items-center gap-2">
                 <Button variant="ghost" onClick={toggleTheme} size="sm">
-                    {theme === 'dark' ? '🌙' : '☀️'} Theme
+                    {theme === 'dark' ? '🌙' : '☀️'}
                 </Button>
                 {user ? (
                      <div className="flex items-center gap-3">
