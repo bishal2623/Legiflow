@@ -1,191 +1,190 @@
 
 'use client';
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Dummy Data
-const legalData = {
-  constitution: {
-    articles: {
-      "Article 1": "Name and territory of the Union.",
-      "Article 2": "Admission or establishment of new States.",
-      "Article 3": "Formation of new States and alteration of areas, boundaries or names of existing States.",
-      "Article 14": "Equality before law. The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
-      "Article 15": "Prohibition of discrimination on grounds of religion, race, caste, sex or place of birth.",
-      "Article 16": "Equality of opportunity in matters of public employment.",
-      "Article 17": "Abolition of Untouchability.",
-      "Article 18": "Abolition of titles.",
-      "Article 19": "Protection of certain rights regarding freedom of speech, etc.",
-      "Article 20": "Protection in respect of conviction for offences.",
-      "Article 21": "Protection of life and personal liberty. No person shall be deprived of his life or personal liberty except according to procedure established by law.",
-      "Article 21A": "Right to education.",
-      "Article 22": "Protection against arrest and detention in certain cases.",
-      "Article 23": "Prohibition of traffic in human beings and forced labour.",
-      "Article 24": "Prohibition of employment of children in factories, etc.",
-      "Article 25": "Freedom of conscience and free profession, practice and propagation of religion.",
-      "Article 32": "Right to Constitutional Remedies. The right to move the Supreme Court for the enforcement of the rights conferred by this Part is guaranteed.",
-      "Article 51A": "Fundamental Duties. It shall be the duty of every citizen of India...",
-      "Article 72": "Power of President to grant pardons, etc., and to suspend, remit or commute sentences in certain cases.",
-      "Article 76": "Attorney-General for India.",
-      "Article 123": "Power of President to promulgate Ordinances during recess of Parliament.",
-      "Article 143": "Power of President to consult Supreme Court.",
-      "Article 148": "Comptroller and Auditor-General of India.",
-      "Article 155": "Appointment of Governor.",
-      "Article 161": "Power of Governor to grant pardons, etc.",
-      "Article 280": "Finance Commission.",
-      "Article 324": "Election Commission.",
-      "Article 352": "Proclamation of Emergency (National Emergency).",
-      "Article 356": "Provisions in case of failure of constitutional machinery in States (President's Rule).",
-      "Article 360": "Provisions as to financial emergency.",
-      "Article 368": "Power of Parliament to amend the Constitution.",
-      "Article 370": "Temporary provisions with respect to the State of Jammu and Kashmir (repealed).",
-    },
-     parts: {
-      "Part I": "The Union and its Territory (Articles 1-4)",
-      "Part II": "Citizenship (Articles 5-11)",
-      "Part III": "Fundamental Rights (Articles 12-35)",
-      "Part IV": "Directive Principles of State Policy (Articles 36-51)",
-      "Part IVA": "Fundamental Duties (Article 51A)",
-      "Part V": "The Union (Articles 52-151)",
-      "Part VI": "The States (Articles 152-237)",
-      "Part VIII": "The Union Territories (Articles 239-242)",
-      "Part IX": "The Panchayats (Articles 243-243O)",
-      "Part IXA": "The Municipalities (Articles 243P-243ZG)",
-      "Part X": "The Scheduled and Tribal Areas (Articles 244-244A)",
-      "Part XI": "Relations between the Union and the States (Articles 245-263)",
-      "Part XII": "Finance, Property, Contracts and Suits (Articles 264-300A)",
-      "Part XIII": "Trade, Commerce and Intercourse within the Territory of India (Articles 301-307)",
-      "Part XIV": "Services under the Union and the States (Articles 308-323)",
-      "Part XIVA": "Tribunals (Articles 323A-323B)",
-      "Part XV": "Elections (Articles 324-329A)",
-      "Part XVI": "Special Provisions relating to Certain Classes (Articles 330-342)",
-      "Part XVII": "Official Language (Articles 343-351)",
-      "Part XVIII": "Emergency Provisions (Articles 352-360)",
-      "Part XX": "Amendment of the Constitution (Article 368)",
-    },
-    schedules: {
-      "First Schedule": "Lists the states and territories of India.",
-      "Second Schedule": "Lists the salaries of public officials, judges, and the President.",
-      "Third Schedule": "Forms of Oaths and Affirmations.",
-      "Fourth Schedule": "Allocation of seats in the Rajya Sabha.",
-      "Fifth Schedule": "Provisions as to the Administration and Control of Scheduled Areas and Scheduled Tribes.",
-      "Sixth Schedule": "Provisions as to the Administration of Tribal Areas in the States of Assam, Meghalaya, Tripura and Mizoram.",
-      "Seventh Schedule": "Union List, State List, and Concurrent List.",
-      "Eighth Schedule": "List of recognized languages.",
-      "Ninth Schedule": "Validation of certain Acts and Regulations.",
-      "Tenth Schedule": "Provisions as to disqualification on ground of defection (Anti-Defection Law).",
-      "Eleventh Schedule": "Powers, authority and responsibilities of Panchayats.",
-      "Twelfth Schedule": "Powers, authority and responsibilities of Municipalities.",
-    },
-    amendments: {
-      "1st Amendment (1951)": "Added Ninth Schedule to protect land reform laws.",
-      "7th Amendment (1956)": "Reorganisation of states on linguistic lines.",
-      "24th Amendment (1971)": "Affirmed the power of Parliament to amend any part of the Constitution, including fundamental rights.",
-      "42nd Amendment (1976)": "The 'Mini-Constitution', added 'socialist' and 'secular' to the preamble, and laid down Fundamental Duties.",
-      "44th Amendment (1978)": "Removed the Right to Property from the list of Fundamental Rights.",
-      "52nd Amendment (1985)": "Added the Tenth Schedule (Anti-Defection Law).",
-      "61st Amendment (1989)": "Lowered the voting age from 21 to 18.",
-      "73rd Amendment (1992)": "Granted constitutional status to Panchayati Raj institutions.",
-      "74th Amendment (1992)": "Granted constitutional status to Urban Local Bodies.",
-      "86th Amendment (2002)": "Made elementary education a fundamental right (Article 21A).",
-      "97th Amendment (2011)": "Gave constitutional status and protection to co-operative societies.",
-      "101st Amendment (2016)": "Introduced the Goods and Services Tax (GST).",
-      "102nd Amendment (2018)": "Gave constitutional status to the National Commission for Backward Classes.",
-      "103rd Amendment (2019)": "Provided 10% reservation for Economically Weaker Sections (EWS).",
-      "104th Amendment (2020)": "Extended the reservation of seats for SCs and STs in the Lok Sabha and state assemblies.",
-      "105th Amendment (2021)": "Restored the power of state governments to identify and specify Socially and Educationally Backward Classes (SEBCs).",
-    },
-  },
-  ipc: {
-    "Section 120B": "Punishment of criminal conspiracy.",
-    "Section 121": "Waging, or attempting to wage war, or abetting waging of war, against the Government of India.",
-    "Section 124A": "Sedition.",
-    "Section 141": "Unlawful assembly.",
-    "Section 146": "Rioting.",
-    "Section 153A": "Promoting enmity between different groups on grounds of religion, race, place of birth, residence, language, etc., and doing acts prejudicial to maintenance of harmony.",
-    "Section 295A": "Deliberate and malicious acts, intended to outrage religious feelings of any class by insulting its religion or religious beliefs.",
-    "Section 299": "Culpable homicide.",
-    "Section 300": "Murder. Culpable homicide is murder, if the act by which the death is caused is done with the intention of causing death...",
-    "Section 302": "Punishment for murder. Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine.",
-    "Section 304": "Punishment for culpable homicide not amounting to murder.",
-    "Section 304A": "Causing death by negligence.",
-    "Section 304B": "Dowry death.",
-    "Section 307": "Attempt to murder. Whoever does any act with such intention or knowledge, and under such circumstances that, if he by that act caused death, he would be guilty of murder, shall be punished...",
-    "Section 308": "Attempt to commit culpable homicide.",
-    "Section 354": "Assault or criminal force to woman with intent to outrage her modesty.",
-    "Section 354D": "Stalking.",
-    "Section 375": "Rape. A man is said to commit rape who penetrates his penis, to any extent, into the vagina, mouth, urethra or anus of a woman or makes her to do so with him or any other person...",
-    "Section 376": "Punishment for rape.",
-    "Section 377": "Unnatural offences.",
-    "Section 378": "Theft. Whoever, intending to take dishonestly any moveable property out of the possession of any person without that person’s consent, moves that property in order to such taking, is said to commit theft.",
-    "Section 379": "Punishment for theft.",
-    "Section 383": "Extortion.",
-    "Section 390": "Robbery.",
-    "Section 391": "Dacoity.",
-    "Section 395": "Punishment for dacoity.",
-    "Section 405": "Criminal breach of trust.",
-    "Section 415": "Cheating.",
-    "Section 420": "Cheating and dishonestly inducing delivery of property. Whoever cheats and thereby dishonestly induces the person deceived to deliver any property to any person...",
-    "Section 441": "Criminal trespass.",
-    "Section 463": "Forgery.",
-    "Section 498A": "Husband or relative of husband of a woman subjecting her to cruelty.",
-    "Section 499": "Defamation. Whoever, by words either spoken or intended to be read, or by signs or by visible representations, makes or publishes any imputation concerning any person intending to harm...",
-    "Section 503": "Criminal intimidation. Whoever threatens another with any injury to his person, reputation or property...",
-    "Section 506": "Punishment for criminal intimidation.",
-    "Section 509": "Word, gesture or act intended to insult the modesty of a woman.",
-  }
-};
+// Data has been restructured for easier filtering and mapping.
+const ipcData = [
+  { section: "Section 120B", description: "Punishment of criminal conspiracy." },
+  { section: "Section 121", description: "Waging, or attempting to wage war, or abetting waging of war, against the Government of India." },
+  { section: "Section 124A", description: "Sedition." },
+  { section: "Section 141", description: "Unlawful assembly." },
+  { section: "Section 146", description: "Rioting." },
+  { section: "Section 153A", description: "Promoting enmity between different groups on grounds of religion, race, place of birth, residence, language, etc., and doing acts prejudicial to maintenance of harmony." },
+  { section: "Section 295A", description: "Deliberate and malicious acts, intended to outrage religious feelings of any class by insulting its religion or religious beliefs." },
+  { section: "Section 299", description: "Culpable homicide." },
+  { section: "Section 300", description: "Murder. Culpable homicide is murder, if the act by which the death is caused is done with the intention of causing death..." },
+  { section: "Section 302", description: "Punishment for murder. Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine." },
+  { section: "Section 304", description: "Punishment for culpable homicide not amounting to murder." },
+  { section: "Section 304A", description: "Causing death by negligence." },
+  { section: "Section 304B", description: "Dowry death." },
+  { section: "Section 307", description: "Attempt to murder. Whoever does any act with such intention or knowledge, and under such circumstances that, if he by that act caused death, he would be guilty of murder, shall be punished..." },
+  { section: "Section 308", description: "Attempt to commit culpable homicide." },
+  { section: "Section 354", description: "Assault or criminal force to woman with intent to outrage her modesty." },
+  { section: "Section 354D", description: "Stalking." },
+  { section: "Section 375", description: "Rape. A man is said to commit rape who penetrates his penis, to any extent, into the vagina, mouth, urethra or anus of a woman or makes her to do so with him or any other person..." },
+  { section: "Section 376", description: "Punishment for rape." },
+  { section: "Section 377", description: "Unnatural offences." },
+  { section: "Section 378", description: "Theft. Whoever, intending to take dishonestly any moveable property out of the possession of any person without that person’s consent, moves that property in order to such taking, is said to commit theft." },
+  { section: "Section 379", description: "Punishment for theft." },
+  { section: "Section 383", description: "Extortion." },
+  { section: "Section 390", description: "Robbery." },
+  { section: "Section 391", description: "Dacoity." },
+  { section: "Section 395", description: "Punishment for dacoity." },
+  { section: "Section 405", description: "Criminal breach of trust." },
+  { section: "Section 415", description: "Cheating." },
+  { section: "Section 420", description: "Cheating and dishonestly inducing delivery of property. Whoever cheats and thereby dishonestly induces the person deceived to deliver any property to any person..." },
+  { section: "Section 441", description: "Criminal trespass." },
+  { section: "Section 463", description: "Forgery." },
+  { section: "Section 498A", description: "Husband or relative of husband of a woman subjecting her to cruelty." },
+  { section: "Section 499", description: "Defamation. Whoever, by words either spoken or intended to be read, or by signs or by visible representations, makes or publishes any imputation concerning any person intending to harm..." },
+  { section: "Section 503", description: "Criminal intimidation. Whoever threatens another with any injury to his person, reputation or property..." },
+  { section: "Section 506", description: "Punishment for criminal intimidation." },
+  { section: "Section 509", description: "Word, gesture or act intended to insult the modesty of a woman." },
+];
+
+const constitutionArticles = [
+  { article: "Article 1", description: "Name and territory of the Union." },
+  { article: "Article 2", description: "Admission or establishment of new States." },
+  { article: "Article 3", description: "Formation of new States and alteration of areas, boundaries or names of existing States." },
+  { article: "Article 14", description: "Equality before law. The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India." },
+  { article: "Article 15", description: "Prohibition of discrimination on grounds of religion, race, caste, sex or place of birth." },
+  { article: "Article 16", description: "Equality of opportunity in matters of public employment." },
+  { article: "Article 17", description: "Abolition of Untouchability." },
+  { article: "Article 18", description: "Abolition of titles." },
+  { article: "Article 19", description: "Protection of certain rights regarding freedom of speech, etc." },
+  { article: "Article 20", description: "Protection in respect of conviction for offences." },
+  { article: "Article 21", description: "Protection of life and personal liberty. No person shall be deprived of his life or personal liberty except according to procedure established by law." },
+  { article: "Article 21A", description: "Right to education." },
+  { article: "Article 22", description: "Protection against arrest and detention in certain cases." },
+  { article: "Article 23", description: "Prohibition of traffic in human beings and forced labour." },
+  { article: "Article 24", description: "Prohibition of employment of children in factories, etc." },
+  { article: "Article 25", description: "Freedom of conscience and free profession, practice and propagation of religion." },
+  { article: "Article 32", description: "Right to Constitutional Remedies. The right to move the Supreme Court for the enforcement of the rights conferred by this Part is guaranteed." },
+  { article: "Article 51A", description: "Fundamental Duties. It shall be the duty of every citizen of India..." },
+  { article: "Article 72", description: "Power of President to grant pardons, etc., and to suspend, remit or commute sentences in certain cases." },
+  { article: "Article 76", description: "Attorney-General for India." },
+  { article: "Article 123", description: "Power of President to promulgate Ordinances during recess of Parliament." },
+  { article: "Article 143", description: "Power of President to consult Supreme Court." },
+  { article: "Article 148", description: "Comptroller and Auditor-General of India." },
+  { article: "Article 155", description: "Appointment of Governor." },
+  { article: "Article 161", description: "Power of Governor to grant pardons, etc." },
+  { article: "Article 280", description: "Finance Commission." },
+  { article: "Article 324", description: "Election Commission." },
+  { article: "Article 352", description: "Proclamation of Emergency (National Emergency)." },
+  { article: "Article 356", description: "Provisions in case of failure of constitutional machinery in States (President's Rule)." },
+  { article: "Article 360", description: "Provisions as to financial emergency." },
+  { article: "Article 368", description: "Power of Parliament to amend the Constitution." },
+  { article: "Article 370", description: "Temporary provisions with respect to the State of Jammu and Kashmir (repealed)." },
+];
+
+const constitutionParts = [
+    { part: "Part I", description: "The Union and its Territory (Articles 1-4)" },
+    { part: "Part II", description: "Citizenship (Articles 5-11)" },
+    { part: "Part III", description: "Fundamental Rights (Articles 12-35)" },
+    { part: "Part IV", description: "Directive Principles of State Policy (Articles 36-51)" },
+    { part: "Part IVA", description: "Fundamental Duties (Article 51A)" },
+    { part: "Part V", description: "The Union (Articles 52-151)" },
+    { part: "Part VI", description: "The States (Articles 152-237)" },
+    { part: "Part VIII", description: "The Union Territories (Articles 239-242)" },
+    { part: "Part IX", description: "The Panchayats (Articles 243-243O)" },
+    { part: "Part IXA", description: "The Municipalities (Articles 243P-243ZG)" },
+    { part: "Part X", description: "The Scheduled and Tribal Areas (Articles 244-244A)" },
+    { part: "Part XI", description: "Relations between the Union and the States (Articles 245-263)" },
+    { part: "Part XII", description: "Finance, Property, Contracts and Suits (Articles 264-300A)" },
+    { part: "Part XIII", description: "Trade, Commerce and Intercourse within the Territory of India (Articles 301-307)" },
+    { part: "Part XIV", description: "Services under the Union and the States (Articles 308-323)" },
+    { part: "Part XIVA", description: "Tribunals (Articles 323A-323B)" },
+    { part: "Part XV", description: "Elections (Articles 324-329A)" },
+    { part: "Part XVI", description: "Special Provisions relating to Certain Classes (Articles 330-342)" },
+    { part: "Part XVII", description: "Official Language (Articles 343-351)" },
+    { part: "Part XVIII", description: "Emergency Provisions (Articles 352-360)" },
+    { part: "Part XX", description: "Amendment of the Constitution (Article 368)" },
+];
+
+const constitutionSchedules = [
+    { schedule: "First Schedule", description: "Lists the states and territories of India." },
+    { schedule: "Second Schedule", description: "Lists the salaries of public officials, judges, and the President." },
+    { schedule: "Third Schedule", description: "Forms of Oaths and Affirmations." },
+    { schedule: "Fourth Schedule", description: "Allocation of seats in the Rajya Sabha." },
+    { schedule: "Fifth Schedule", description: "Provisions as to the Administration and Control of Scheduled Areas and Scheduled Tribes." },
+    { schedule: "Sixth Schedule", description: "Provisions as to the Administration of Tribal Areas in the States of Assam, Meghalaya, Tripura and Mizoram." },
+    { schedule: "Seventh Schedule", description: "Union List, State List, and Concurrent List." },
+    { schedule: "Eighth Schedule", description: "List of recognized languages." },
+    { schedule: "Ninth Schedule", description: "Validation of certain Acts and Regulations." },
+    { schedule: "Tenth Schedule", description: "Provisions as to disqualification on ground of defection (Anti-Defection Law)." },
+    { schedule: "Eleventh Schedule", description: "Powers, authority and responsibilities of Panchayats." },
+    { schedule: "Twelfth Schedule", description: "Powers, authority and responsibilities of Municipalities." },
+];
+
+const constitutionAmendments = [
+    { amendment: "1st Amendment (1951)", description: "Added Ninth Schedule to protect land reform laws." },
+    { amendment: "7th Amendment (1956)", description: "Reorganisation of states on linguistic lines." },
+    { amendment: "24th Amendment (1971)", description: "Affirmed the power of Parliament to amend any part of the Constitution, including fundamental rights." },
+    { amendment: "42nd Amendment (1976)", description: "The 'Mini-Constitution', added 'socialist' and 'secular' to the preamble, and laid down Fundamental Duties." },
+    { amendment: "44th Amendment (1978)", description: "Removed the Right to Property from the list of Fundamental Rights." },
+    { amendment: "52nd Amendment (1985)", description: "Added the Tenth Schedule (Anti-Defection Law)." },
+    { amendment: "61st Amendment (1989)", description: "Lowered the voting age from 21 to 18." },
+    { amendment: "73rd Amendment (1992)", description: "Granted constitutional status to Panchayati Raj institutions." },
+    { amendment: "74th Amendment (1992)", description: "Granted constitutional status to Urban Local Bodies." },
+    { amendment: "86th Amendment (2002)", description: "Made elementary education a fundamental right (Article 21A)." },
+    { amendment: "97th Amendment (2011)", description: "Gave constitutional status and protection to co-operative societies." },
+    { amendment: "101st Amendment (2016)", description: "Introduced the Goods and Services Tax (GST)." },
+    { amendment: "102nd Amendment (2018)", description: "Gave constitutional status to the National Commission for Backward Classes." },
+    { amendment: "103rd Amendment (2019)", description: "Provided 10% reservation for Economically Weaker Sections (EWS)." },
+    { amendment: "104th Amendment (2020)", description: "Extended the reservation of seats for SCs and STs in the Lok Sabha and state assemblies." },
+    { amendment: "105th Amendment (2021)", description: "Restored the power of state governments to identify and specify Socially and Educationally Backward Classes (SEBCs)." },
+];
+
 
 export default function LegalReferencePage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [result, setResult] = useState("");
 
-  const handleSearch = () => {
-    const term = searchTerm.toLowerCase().trim();
-    if (!term) {
-        setResult("");
-        return;
-    }
-    let found = null;
+  const filteredIpc = useMemo(() => 
+    ipcData.filter(item => 
+        item.section.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ), [searchTerm]);
 
-    const searchCategory = (category: Record<string, string>, prefix = '') => {
-        for (const [key, value] of Object.entries(category)) {
-            const fullKey = `${prefix}${key}`;
-            if (fullKey.toLowerCase().includes(term) || value.toLowerCase().includes(term)) {
-                found = `${fullKey}: ${value}`;
-                return;
-            }
-        }
-    };
+  const filteredArticles = useMemo(() =>
+    constitutionArticles.filter(item => 
+        item.article.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ), [searchTerm]);
     
-    searchCategory(legalData.constitution.articles);
-    if (found) { setResult(found); return; }
+  const filteredParts = useMemo(() =>
+    constitutionParts.filter(item => 
+        item.part.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ), [searchTerm]);
 
-    searchCategory(legalData.constitution.parts);
-    if (found) { setResult(found); return; }
-
-    searchCategory(legalData.constitution.schedules);
-    if (found) { setResult(found); return; }
-
-    searchCategory(legalData.constitution.amendments);
-    if (found) { setResult(found); return; }
-
-    searchCategory(legalData.ipc, 'IPC ');
-    if (found) { setResult(found); return; }
+  const filteredSchedules = useMemo(() =>
+    constitutionSchedules.filter(item => 
+        item.schedule.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ), [searchTerm]);
     
-    setResult("❌ No match found!");
-  };
+  const filteredAmendments = useMemo(() =>
+    constitutionAmendments.filter(item => 
+        item.amendment.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ), [searchTerm]);
 
-  const renderList = (data: Record<string, string>, prefix = '') => (
-    <ul className="list-disc ml-5 space-y-2">
-        {Object.entries(data).map(([key, value]) => (
-            <li key={key}>
-            <strong>{prefix}{key}</strong>: {value}
-            </li>
-        ))}
-    </ul>
+  const renderList = (data: { [key: string]: string }[], keyName: string, keyDescription: string) => (
+    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-4">
+        {data.length > 0 ? data.map((item, index) => (
+            <Card key={index} className="bg-muted/30">
+                <CardHeader>
+                    <CardTitle className="text-base font-semibold">{item[keyName]}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-sm text-muted-foreground">{item[keyDescription]}</p>
+                </CardContent>
+            </Card>
+        )) : <p className="text-center text-muted-foreground">No results found.</p>}
+    </div>
   );
 
   return (
@@ -193,52 +192,40 @@ export default function LegalReferencePage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-3 text-2xl">
-            📜 Constitution of India & ⚔️ Indian Penal Code (IPC)
+            📜 Legal Reference Database
           </CardTitle>
-           <CardDescription>Access Articles, Parts, Schedules, Amendments and search IPC sections.</CardDescription>
+           <CardDescription>Search the Constitution of India & Indian Penal Code (IPC).</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2 mb-6">
-            <Input
-              type="text"
-              placeholder="🔍 Search (e.g. Article 21, Part III, IPC 302)"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <Button onClick={handleSearch}>Search</Button>
-          </div>
-
-          {result && (
-            <Card className="mb-6 p-4 bg-muted/50">
-              <p>{result}</p>
-            </Card>
-          )}
-          
-           <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📜 Constitution Articles</h3>
-                  {renderList(legalData.constitution.articles)}
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📚 Constitution Parts</h3>
-                  {renderList(legalData.constitution.parts)}
-                </div>
-                 <div>
-                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📖 Constitution Schedules</h3>
-                  {renderList(legalData.constitution.schedules)}
-                </div>
-                 <div>
-                  <h3 className="text-xl font-semibold mb-3 text-primary/90">📅 Constitution Amendments</h3>
-                  {renderList(legalData.constitution.amendments)}
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-3 text-destructive/90">⚖️ IPC Sections</h3>
-                  {renderList(legalData.ipc, 'IPC ')}
-                </div>
+          <Tabs defaultValue="ipc" className="w-full">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6">
+              <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full sm:w-auto">
+                <TabsTrigger value="ipc">IPC</TabsTrigger>
+                <TabsTrigger value="articles">Articles</TabsTrigger>
+                <TabsTrigger value="parts">Parts</TabsTrigger>
+                <TabsTrigger value="schedules">Schedules</TabsTrigger>
+                <TabsTrigger value="amendments">Amendments</TabsTrigger>
+              </TabsList>
+               <div className="w-full sm:w-auto sm:max-w-xs">
+                 <Input
+                    type="text"
+                    placeholder="🔍 Search current tab..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                 />
+              </div>
             </div>
+            
+            <TabsContent value="ipc">{renderList(filteredIpc, 'section', 'description')}</TabsContent>
+            <TabsContent value="articles">{renderList(filteredArticles, 'article', 'description')}</TabsContent>
+            <TabsContent value="parts">{renderList(filteredParts, 'part', 'description')}</TabsContent>
+            <TabsContent value="schedules">{renderList(filteredSchedules, 'schedule', 'description')}</TabsContent>
+            <TabsContent value="amendments">{renderList(filteredAmendments, 'amendment', 'description')}</TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </main>
   );
 }
+
+    
