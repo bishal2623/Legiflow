@@ -19,9 +19,11 @@ export default function AgreementsPage() {
         </CardHeader>
         <CardContent>
              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <Button>
-                <Upload className="mr-2 h-4 w-4" /> Upload New Agreement
-              </Button>
+              <Link href="/analyze">
+                <Button>
+                  <Upload className="mr-2 h-4 w-4" /> Upload New Agreement
+                </Button>
+              </Link>
               <Button variant="outline">
                 <Download className="mr-2 h-4 w-4" /> Download Reports
               </Button>

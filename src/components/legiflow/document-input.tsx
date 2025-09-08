@@ -4,8 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, LoaderCircle } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
 interface DocumentInputProps {
@@ -18,9 +17,9 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const sampleText = searchParams.get('sampleText');
+    const sampleText = searchParams.get('text');
     if (sampleText) {
-      setText(sampleText);
+      setText(decodeURIComponent(sampleText));
     }
   }, [searchParams]);
 
@@ -36,7 +35,7 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
           placeholder="Paste the text of your legal document here..."
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="min-h-64 text-base bg-background/80 focus:border-primary font-code mb-4"
+          className="min-h-64 text-base bg-background/80 focus:border-primary font-sans mb-4"
           disabled={isLoading}
         />
         <Button onClick={handleSubmit} className="w-full sm:w-auto" disabled={isLoading || !text.trim()}>

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ShieldAlert, AlertTriangle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const highRiskAgreements = [
     { title: "Employment Contract", description: "Non-compete clause, unfair termination / heavy bond", level: "High" },
@@ -48,6 +49,23 @@ const RiskCard = ({ title, description, level }: { title: string, description: s
 }
 
 export default function DashboardPage() {
+    const router = useRouter();
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target?.result as string;
+                // For simplicity, we'll navigate to the analyze page with the content in a query param.
+                // For larger files, a different approach (like state management) would be better.
+                // This is a quick way to get it working.
+                router.push(`/analyze?text=${encodeURIComponent(text)}`);
+            };
+            reader.readAsText(file);
+        }
+    };
+
 
     return (
         <div className="p-6 space-y-6">
@@ -65,6 +83,8 @@ export default function DashboardPage() {
                 <CardContent>
                     <Input
                         type="file"
+                        accept=".txt,.md,.html"
+                        onChange={handleFileChange}
                         className="block w-full text-sm
                        file:mr-4 file:py-2 file:px-4
                        file:rounded-lg file:border-0
@@ -72,6 +92,11 @@ export default function DashboardPage() {
                        file:bg-primary file:text-primary-foreground
                        hover:file:bg-primary/90"
                     />
+                </CardContent>
+                 <CardContent>
+                    <Link href="/analyze">
+                        <Button variant="secondary">Or Analyze Pasted Text</Button>
+                    </Link>
                 </CardContent>
             </Card>
 

@@ -5,7 +5,7 @@ import './globals.css';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
-import { LayoutDashboard, FileText, ShieldAlert, BookOpen, Search, Settings, LogOut, Home, FileQuestion, Upload, Book } from 'lucide-react';
+import { LayoutDashboard, FileText, ShieldAlert, BookOpen, Search, Settings, LogOut, Home, FileQuestion, Upload, Book, FileSignature } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
     { href: '/agreements', icon: Upload, label: 'Upload Documents' },
+    { href: '/analyze', icon: FileSignature, label: 'Analyze' },
     { href: '/risk', icon: ShieldAlert, label: 'High Risk Agreements' },
     { href: '/reference', icon: Book, label: 'IPC Sections' },
     { href: '/reference', icon: BookOpen, label: 'Constitution' },
