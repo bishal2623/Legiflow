@@ -4,12 +4,20 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, CartesianAxis } from 'recharts';
+import { Chart, ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from "@/components/ui/chart";
 
 const riskData = [
   { name: 'Docs', Risks: 4 },
   { name: 'Clauses', Risks: 12 },
 ];
+
+const chartConfig = {
+  risks: {
+    label: "Risks",
+    color: "hsl(var(--accent))",
+  },
+} satisfies ChartConfig;
 
 
 export default function DashboardPage() {
@@ -39,21 +47,23 @@ export default function DashboardPage() {
                         <CardDescription>A brief overview of your activity.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                         <ResponsiveContainer width="100%" height={200}>
-                            <BarChart data={riskData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.5)" />
-                                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
-                                <YAxis stroke="hsl(var(--muted-foreground))"/>
-                                <Tooltip
-                                    contentStyle={{
-                                        background: "hsl(var(--background))",
-                                        borderColor: "hsl(var(--border))",
-                                    }}
+                         <ChartContainer config={chartConfig} className="min-h-52 w-full">
+                            <BarChart accessibilityLayer data={riskData}>
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="name"
+                                    tickLine={false}
+                                    tickMargin={10}
+                                    axisLine={false}
                                 />
-                                <Legend />
-                                <Bar dataKey="Risks" fill="hsl(var(--accent))" />
+                                <YAxis />
+                                <ChartTooltip 
+                                    cursor={false} 
+                                    content={<ChartTooltipContent />} 
+                                />
+                                <Bar dataKey="Risks" fill="var(--color-risks)" radius={4} />
                             </BarChart>
-                        </ResponsiveContainer>
+                        </ChartContainer>
                     </CardContent>
                 </Card>
                  <Card>
