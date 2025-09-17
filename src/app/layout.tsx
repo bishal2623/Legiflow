@@ -2,15 +2,17 @@
 'use client';
 
 import './globals.css';
+import { useEffect } from 'react';
 import { ThemeProvider, useTheme } from '@/hooks/use-theme';
 import { Toaster } from '@/components/ui/toaster';
 import Link from 'next/link';
 import { 
     FileText, Home, Gavel, Scale, Book, FileUp, Settings, BarChart, FileQuestion, MessageSquare, ShieldAlert, FileCheck, LogOut 
 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
+import { LoaderCircle } from 'lucide-react';
 
 const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
@@ -78,16 +80,20 @@ function AppHeader() {
 function AppLayout({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth();
     const pathname = usePathname();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user && pathname !== '/login') {
+            router.push('/login');
+        }
+    }, [user, loading, pathname, router]);
 
     if (loading) {
-        return <div className="flex h-screen w-full items-center justify-center bg-background text-foreground">Loading...</div>;
+        return <div className="flex h-screen w-full items-center justify-center bg-background text-foreground"><LoaderCircle className="h-8 w-8 animate-spin" /></div>;
     }
   
     if (!user) {
-        if (pathname === '/login') {
-            return <>{children}</>;
-        }
-        return null; 
+        return <>{pathname === '/login' && children}</>;
     }
   
     return (

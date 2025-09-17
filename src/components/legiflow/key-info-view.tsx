@@ -4,7 +4,7 @@ import { useState, useEffect, useTransition } from 'react';
 import { extractKeyTermsAndDates, ExtractKeyTermsAndDatesOutput } from '@/ai/flows/extract-key-terms-and-dates';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader, CardTitle } from '@/componentsui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays, CircleDollarSign, FileText, Users } from 'lucide-react';
 
 interface KeyInfoViewProps {

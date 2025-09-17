@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { getAuth, onAuthStateChanged, User, signOut } from 'firebase/auth';
 import { app } from '@/lib/firebase';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface AuthContextType {
   user: User | null;
@@ -19,21 +19,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const auth = getAuth(app);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setUser(authUser);
       setLoading(false);
-      if (!user) {
-        router.push('/login');
-      }
     });
-
     return () => unsubscribe();
-  }, [auth, router]);
+  }, [auth]);
+
+  useEffect(() => {
+    if (!loading && !user && pathname !== '/login') {
+      router.push('/login');
+    }
+  }, [user, loading, router, pathname]);
 
   const logout = async () => {
     await signOut(auth);
+    setUser(null);
     router.push('/login');
   };
 
