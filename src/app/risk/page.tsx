@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from '@/components/ui/badge';
-import { ShieldAlert, ShieldHalf } from 'lucide-react';
+import { ShieldAlert, ShieldHalf, ShieldCheck } from 'lucide-react';
 
 const highRiskAgreements = [
     { title: "Employment Contract", description: "Non-compete clause, unfair termination/bond", level: "High" },
@@ -26,27 +26,34 @@ const highRiskAgreements = [
     { title: "Investment Agreement", description: "Fraud, mismanagement risk", level: "High" }
 ];
 
-const riskStyles = {
+const riskStyles: { [key: string]: { badgeVariant: 'destructive' | 'default' | 'secondary', icon: React.ElementType, className?: string } } = {
     High: {
-        badgeVariant: 'destructive' as const,
-        icon: <ShieldAlert className="h-4 w-4 mr-2" />,
+        badgeVariant: 'destructive',
+        icon: ShieldAlert,
     },
     Medium: {
-        badgeVariant: 'default' as const,
-        icon: <ShieldHalf className="h-4 w-4 mr-2" />,
+        badgeVariant: 'default',
+        icon: ShieldHalf,
+        className: 'bg-amber-500 text-black hover:bg-amber-600',
+    },
+    Safe: {
+        badgeVariant: 'secondary',
+        icon: ShieldCheck,
+        className: 'bg-green-500 text-white hover:bg-green-600',
     }
 }
 
 const RiskCard = ({ title, description, level }: { title: string, description: string, level: 'High' | 'Medium' | 'Safe' }) => {
-    const style = riskStyles[level as 'High' | 'Medium'] || { badgeVariant: 'secondary', icon: null };
+    const style = riskStyles[level];
+    const Icon = style.icon;
     
     return (
         <Card className="glass-card">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-lg">{title}</CardTitle>
-                    <Badge variant={style.badgeVariant} className={level === 'Medium' ? 'bg-amber-500 text-black' : ''}>
-                        {style.icon}
+                    <Badge variant={style.badgeVariant} className={style.className}>
+                        <Icon className="h-4 w-4 mr-2" />
                         {level} Risk
                     </Badge>
                 </div>

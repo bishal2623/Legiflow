@@ -28,7 +28,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [activeTab, setActiveTab] = useState('signin');
 
 
   useEffect(() => {
@@ -75,7 +74,7 @@ export default function LoginPage() {
     }
   };
 
-  if (loading || user) {
+  if (loading || (!loading && user)) {
     return <div className="flex h-screen items-center justify-center"><LoaderCircle className="h-10 w-10 animate-spin" /></div>;
   }
 
@@ -87,7 +86,7 @@ export default function LoginPage() {
           <CardDescription>Please sign in or create an account</CardDescription>
         </CardHeader>
         <CardContent>
-            <Tabs defaultValue="signin" onValueChange={setActiveTab} className="w-full">
+            <Tabs defaultValue="signin" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signin">Sign In</TabsTrigger>
                     <TabsTrigger value="signup">Sign Up</TabsTrigger>
