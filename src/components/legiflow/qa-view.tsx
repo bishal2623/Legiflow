@@ -62,7 +62,7 @@ export function QaView({ documentText }: QaViewProps) {
     return (
         <Card className="h-[70vh] flex flex-col">
             <CardHeader>
-                <CardTitle>Interactive Q&amp;A</CardTitle>
+                <CardTitle>Interactive Q&A</CardTitle>
                 <CardDescription>Ask specific questions about your document.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow overflow-hidden">
