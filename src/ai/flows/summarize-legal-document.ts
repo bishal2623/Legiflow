@@ -32,9 +32,9 @@ const prompt = ai.definePrompt({
   name: 'summarizeLegalDocumentPrompt',
   input: {schema: SummarizeLegalDocumentInputSchema},
   output: {schema: SummarizeLegalDocumentOutputSchema},
-  prompt: `You are an expert legal professional skilled at summarizing complex legal documents into plain, easy-to-understand language. Please provide a clause-by-clause summary of the following legal document. For each clause, rewrite it in everyday simple English, focusing on clarity and readability. 
+  prompt: `You are an expert legal professional skilled at summarizing complex legal text into plain, easy-to-understand language. Please rewrite the following legal text into everyday simple English, focusing on clarity and readability.
 
-Legal Document:
+Legal Text:
 {{{legalDocument}}}`,
 });
 
