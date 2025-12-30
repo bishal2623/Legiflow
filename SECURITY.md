@@ -24,9 +24,13 @@ If you discover a security vulnerability or misuse of this project:
 - Please report it responsibly by contacting the repository owner.
 - Do not publicly disclose vulnerabilities without prior discussion.
 
-📧 **Contact:**  
-GitHub: https://github.com/bishal2623
-Linkedin: https://www.linkedin.com/in/bishal-saha-934484378/
+<h2>📬 Contact</h2>
+<p>
+<b>Developer:</b> Bishal Saha <br/>
+<b>GitHub:</b> <a href="https://github.com/bishal2623">bishal2623</a> <br/>
+<b>LinkedIn:</b> <a href="https://www.linkedin.com/in/bishal-saha-934484378/">Bishal Saha</a>
+</p>
+
 
 ---
 
