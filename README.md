@@ -7,7 +7,7 @@
   <p><b>Demystifying Legal Documents. Simplifying Law for Everyone.</b></p>
 
   <img src="https://img.shields.io/badge/Status-Active-success" />
-  <img src="https://img.shields.io/badge/Made%20With-HTML%20|%20CSS%20|%20JS-blue" />
+  <img src="https://img.shields.io/badge/Made%20With-HTML%20|%20CSS%20|%20TypeScript-blue" />
   <img src="https://img.shields.io/badge/Focus-Indian%20Law-orange" />
 </div>
 
@@ -34,7 +34,7 @@ The goal of this project is to make legal knowledge more <b>accessible, practica
 
 <h2>🛠️ Tech Stack</h2>
 <ul>
-  <li><b>Frontend:</b> HTML, CSS, JavaScript, Bootstrap</li>
+  <li><b>Frontend:</b> HTML, CSS, <b>TypeScript</b>, Bootstrap</li>
   <li><b>Backend:</b> PHP</li>
   <li><b>Database:</b> MySQL</li>
 </ul>
