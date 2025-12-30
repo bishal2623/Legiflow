@@ -86,6 +86,12 @@ Contributions are welcome! If you have ideas to improve Legiflow or want to add 
 
 <hr/>
 
+
+> ⚠️ This project is protected under a custom restricted license.  
+> Unauthorized use, copying, or deployment is strictly prohibited.
+
+
+
 <div align="center">
   <b>⚖️ Making Law Simple, Accessible & Understandable with Legiflow ⚖️</b>
 </div>
@@ -93,5 +99,3 @@ Contributions are welcome! If you have ideas to improve Legiflow or want to add 
 
 
 
-> ⚠️ This project is protected under a custom restricted license.  
-> Unauthorized use, copying, or deployment is strictly prohibited.
