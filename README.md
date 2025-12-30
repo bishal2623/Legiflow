@@ -1,5 +1,83 @@
-# Firebase Studio
+<!-- ==========================
+     LEGIFLOW - README
+     ========================== -->
 
-This is a NextJS starter in Firebase Studio.
+<div align="center">
+  <h1>⚖️ Legiflow</h1>
+  <p><b>Demystifying Legal Documents. Simplifying Law for Everyone.</b></p>
 
-To get started, take a look at src/app/page.tsx.
+  <img src="https://img.shields.io/badge/Status-Active-success" />
+  <img src="https://img.shields.io/badge/Made%20With-HTML%20|%20CSS%20|%20JS-blue" />
+  <img src="https://img.shields.io/badge/Focus-Indian%20Law-orange" />
+</div>
+
+<hr/>
+
+<h2>📌 About Legiflow</h2>
+<p>
+<b>Legiflow</b> is a web-based platform designed to <b>simplify and demystify complex legal documents</b> into easy-to-understand language. 
+The goal of this project is to make legal knowledge more <b>accessible, practical, and user-friendly</b>, especially for students, startups, and individuals with no legal background.
+</p>
+
+<hr/>
+
+<h2>✨ Key Features</h2>
+<ul>
+  <li>📄 <b>Legal Document Simplification</b> – Converts complex legal terms into plain and understandable language.</li>
+  <li>📝 <b>Sample Agreements</b> – Ready-to-use agreement templates that users can customize as per their needs.</li>
+  <li>⚖️ <b>Indian Penal Code (IPC)</b> – Complete IPC sections along with amendments.</li>
+  <li>📜 <b>Indian Constitution</b> – Articles of the Indian Constitution presented in a structured and readable format.</li>
+  <li>🎯 <b>User-Centric Design</b> – Clean UI focused on clarity and ease of navigation.</li>
+</ul>
+
+<hr/>
+
+<h2>🛠️ Tech Stack</h2>
+<ul>
+  <li><b>Frontend:</b> HTML, CSS, JavaScript, Bootstrap</li>
+  <li><b>Backend:</b> PHP</li>
+  <li><b>Database:</b> MySQL</li>
+</ul>
+
+<hr/>
+
+<h2>🎯 Project Objective</h2>
+<p>
+Legal documents are often difficult to understand due to complex terminology and structure. 
+<b>Legiflow aims to bridge the gap between law and common users</b> by presenting legal information in a simplified and practical manner, enabling users to make informed decisions without feeling overwhelmed.
+</p>
+
+<hr/>
+
+<h2>🚀 Use Cases</h2>
+<ul>
+  <li>👨‍🎓 Law & non-law students learning Indian legal basics</li>
+  <li>🚀 Startups & freelancers creating basic agreements</li>
+  <li>👥 General users seeking awareness of IPC sections and constitutional rights</li>
+</ul>
+
+<hr/>
+
+<h2>📷 Preview</h2>
+<p><i>(Add screenshots of your website here for better presentation)</i></p>
+
+<hr/>
+
+<h2>🤝 Contribution</h2>
+<p>
+Contributions are welcome! If you have ideas to improve Legiflow or want to add new features, feel free to fork the repository and submit a pull request.
+</p>
+
+<hr/>
+
+<h2>📬 Contact</h2>
+<p>
+<b>Developer:</b> Bishal Saha <br/>
+<b>GitHub:</b> <a href="https://github.com/bishal2623">bishal2623</a>
+</p>
+
+<hr/>
+
+<div align="center">
+  <b>⚖️ Making Law Simple, Accessible & Understandable with Legiflow ⚖️</b>
+</div>
