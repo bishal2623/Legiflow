@@ -60,10 +60,10 @@ Legal documents are often difficult to understand due to complex terminology and
   <img src="screenshots/login.png" width="80%" alt="Legiflow Login Page"/>
   <br/><br/>
 
-  <img src="screenshots/agreements.png" width="80%" alt="Sample Agreements"/>
+  <img src="screenshots/sample agreements.png" width="80%" alt="Sample Agreements"/>
   <br/><br/>
 
-  <img src="screenshots/ipc.png" width="80%" alt="IPC & Constitution Section"/>
+  <img src="screenshots/leagal refrence.png" width="80%" alt="IPC & Constitution Section"/>
 </div>
 
 <hr/>
