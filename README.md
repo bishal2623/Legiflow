@@ -63,6 +63,9 @@ Legal documents are often difficult to understand due to complex terminology and
   <img src="screenshots/sample agreements.png" width="80%" alt="Sample Agreements"/>
   <br/><br/>
 
+  <img src="screenshots/upload documents.png" width="80%" alt="Upload Documents"/>
+  <br/><br/>
+
   <img src="screenshots/leagal refrence.png" width="80%" alt="IPC & Constitution Section"/>
 </div>
 
