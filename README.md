@@ -57,7 +57,7 @@ Legal documents are often difficult to understand due to complex terminology and
 <h2>📷 Preview</h2>
 
 <div align="center">
-  <img src="screenshots/home.png" width="80%" alt="Legiflow Home Page"/>
+  <img src="screenshots/login.png" width="80%" alt="Legiflow Login Page"/>
   <br/><br/>
 
   <img src="screenshots/agreements.png" width="80%" alt="Sample Agreements"/>
