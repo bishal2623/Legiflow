@@ -67,7 +67,7 @@ Contributions are welcome! If you have ideas to improve Legiflow or want to add 
 <h2>📬 Contact</h2>
 <p>
 <b>Developer:</b> Bishal Saha <br/>
-<b>GitHub:</b> <a href="https://github.com/bishal2623">bishal2623</a>
+<b>Linkedin:</b> <a href="https://www.linkedin.com/in/bishal-saha-934484378/">bishal2623</a>
 </p>
 
 <hr/>
