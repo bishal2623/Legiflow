@@ -89,3 +89,7 @@ Contributions are welcome! If you have ideas to improve Legiflow or want to add 
 <div align="center">
   <b>⚖️ Making Law Simple, Accessible & Understandable with Legiflow ⚖️</b>
 </div>
+
+
+> ⚠️ This project is protected under a custom restricted license.  
+> Unauthorized use, copying, or deployment is strictly prohibited.
