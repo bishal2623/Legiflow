@@ -56,16 +56,7 @@ Legal documents are often difficult to understand due to complex terminology and
 
 <h2>📷 Preview</h2>
 
-<div align="center">
-  <img src="<img width="1919" height="1079" alt="Screenshot 2025-12-30 184820" src="https://github.com/user-attachments/assets/efcda76d-d8ed-41f6-8573-63461e025807" />" width="80%" alt="Legiflow Login Page"/>
-  <br/><br/>
-
-  <img src="screenshots/agreements.png" width="80%" alt="Sample Agreements"/>
-  <br/><br/>
-
-  <img src="screenshots/ipc.png" width="80%" alt="IPC & Constitution Section"/>
-</div>
-
+<h2>📷 Preview</h2> <div align="center"> <img src="screenshots/home.png" width="80%" alt="Legiflow Home Page"/> <br/><br/> <img src="screenshots/agreements.png" width="80%" alt="Sample Agreements"/> <br/><br/> <img src="screenshots/ipc.png" width="80%" alt="IPC & Constitution Section"/> </div>
 <hr/>
 
 <h2>🤝 Contribution</h2>
