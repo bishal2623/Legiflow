@@ -28,6 +28,8 @@ The goal of this project is to make legal knowledge more <b>accessible, practica
   <li>⚖️ <b>Indian Penal Code (IPC)</b> – Complete IPC sections along with amendments.</li>
   <li>📜 <b>Indian Constitution</b> – Articles of the Indian Constitution presented in a structured and readable format.</li>
   <li>🎯 <b>User-Centric Design</b> – Clean UI focused on clarity and ease of navigation.</li>
+  <li>⚠️ <b>High-Risk Agreement Identification</b> – Highlights and categorizes agreements based on risk level, helping users understand which agreements require extra caution.</li>
+
 </ul>
 
 <hr/>
