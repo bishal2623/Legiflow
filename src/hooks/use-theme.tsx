@@ -19,20 +19,28 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') as Theme | null;
-    if (storedTheme) {
-        setTheme(storedTheme);
+    setMounted(true);
+    if (typeof window !== 'undefined') {
+        const storedTheme = window.localStorage?.getItem?.('theme') as Theme | null;
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+            setTheme(storedTheme);
+        }
     }
   }, []);
 
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    if (!mounted) return;
+    
+    if (typeof window !== 'undefined') {
+        const root = window.document.documentElement;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        window.localStorage?.setItem?.('theme', theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
