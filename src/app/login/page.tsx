@@ -28,6 +28,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
   
   // Counting animation states
   const [docCount, setDocCount] = useState(0);
@@ -42,6 +43,9 @@ export default function LoginPage() {
 
   // Counting animation effect
   useEffect(() => {
+    const timeoutIds: ReturnType<typeof setTimeout>[] = [];
+    const intervalIds: ReturnType<typeof setInterval>[] = [];
+
     const animateCount = (start: number, end: number, duration: number, setter: (value: number) => void) => {
       const increment = (end - start) / (duration / 16); // 60fps = 16ms per frame
       let current = start;
@@ -55,22 +59,27 @@ export default function LoginPage() {
           setter(Math.floor(current));
         }
       }, 16);
-      
-      return timer;
+
+      intervalIds.push(timer);
     };
 
     // Start animations with slight delays for staggered effect
-    setTimeout(() => {
+    timeoutIds.push(setTimeout(() => {
       animateCount(0, 100, 2000, setDocCount);
-    }, 300);
+    }, 300));
     
-    setTimeout(() => {
+    timeoutIds.push(setTimeout(() => {
       animateCount(0, 50, 2000, setUserCount);
-    }, 500);
+    }, 500));
     
-    setTimeout(() => {
+    timeoutIds.push(setTimeout(() => {
       animateCount(0, 99, 2000, setSatisfactionCount);
-    }, 700);
+    }, 700));
+
+    return () => {
+      timeoutIds.forEach((id) => clearTimeout(id));
+      intervalIds.forEach((id) => clearInterval(id));
+    };
   }, []);
   
 
@@ -116,7 +125,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-background overflow-hidden">
+    <div className="flex min-h-screen bg-background overflow-y-auto">
       {/* LEFT SIDE - INFO & ANIMATION */}
       <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 p-12 flex-col justify-between overflow-hidden relative">
         {/* Animated Background Elements */}
@@ -196,7 +205,7 @@ export default function LoginPage() {
 
           <Card className="border">
             <CardContent className="pt-8 pb-8 px-8">
-              <Tabs defaultValue="signin" className="w-full">
+              <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-8 h-11">
                   <TabsTrigger value="signin">Sign In</TabsTrigger>
                   <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -234,7 +243,10 @@ export default function LoginPage() {
                     {isProcessing ? <LoaderCircle className="animate-spin mr-2" /> : 'Sign In'}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center">
-                    Don't have an account? <span className="text-blue-900 font-semibold cursor-pointer">Sign up</span>
+                    Don't have an account?{' '}
+                    <button type="button" onClick={() => setActiveTab('signup')} className="text-blue-900 font-semibold hover:underline">
+                      Sign up
+                    </button>
                   </p>
                 </TabsContent>
 
@@ -281,7 +293,10 @@ export default function LoginPage() {
                     {isProcessing ? <LoaderCircle className="animate-spin mr-2" /> : 'Create Account'}
                   </Button>
                   <p className="text-xs text-muted-foreground text-center">
-                    Already have an account? <span className="text-blue-900 font-semibold cursor-pointer">Sign in</span>
+                    Already have an account?{' '}
+                    <button type="button" onClick={() => setActiveTab('signin')} className="text-blue-900 font-semibold hover:underline">
+                      Sign in
+                    </button>
                   </p>
                 </TabsContent>
               </Tabs>
