@@ -20,7 +20,7 @@ export function DashboardStats({ total, open, closed, pending }: DashboardStatsP
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{total}</div>
-                    <p className="text-xs text-muted-foreground">+3 since last month</p>
+                    <p className="text-xs text-muted-foreground">All tracked cases</p>
                 </CardContent>
             </Card>
             <Card>

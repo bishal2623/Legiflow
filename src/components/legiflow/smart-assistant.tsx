@@ -16,6 +16,13 @@ const SUGGESTIONS = [
   "Give me insights"
 ];
 
+const markdownComponents = {
+  p: ({node, ...props}: any) => <p className="mb-2 last:mb-0" {...props} />,
+  ul: ({node, ...props}: any) => <ul className="pl-4 mb-2 space-y-1 list-disc" {...props} />,
+  li: ({node, ...props}: any) => <li className="marker:text-muted-foreground" {...props} />,
+  strong: ({node, ...props}: any) => <strong className="font-semibold text-foreground" {...props} />
+};
+
 export function SmartAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -120,14 +127,7 @@ export function SmartAssistant() {
                             {msg.role === 'user' ? (
                                 msg.content
                             ) : (
-                                <ReactMarkdown
-                                   components={{
-                                     p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
-                                     ul: ({node, ...props}) => <ul className="pl-4 mb-2 space-y-1 list-disc" {...props} />,
-                                     li: ({node, ...props}) => <li className="marker:text-muted-foreground" {...props} />,
-                                     strong: ({node, ...props}) => <strong className="font-semibold text-foreground" {...props} />
-                                   }}
-                                >
+                                <ReactMarkdown components={markdownComponents}>
                                   {msg.content}
                                 </ReactMarkdown>
                             )}
