@@ -83,7 +83,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md bg-card border">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Welcome to LegiFlow</CardTitle>
-          <CardDescription>Please sign in or create an account</CardDescription>
+          <CardDescription>Please sign in or create an account (Mocked)</CardDescription>
         </CardHeader>
         <CardContent>
             <Tabs defaultValue="signin" className="w-full">

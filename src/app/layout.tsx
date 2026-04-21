@@ -1,6 +1,33 @@
 
 'use client';
 
+// Safety blanket for broken localStorage polyfills in some environments
+(function() {
+    const noop = () => null;
+    const fakeStorage = {
+        getItem: noop,
+        setItem: noop,
+        removeItem: noop,
+        clear: noop,
+        key: noop,
+        length: 0
+    };
+
+    if (typeof window === 'undefined') {
+        if (!global.localStorage || typeof (global as any).localStorage.getItem !== 'function') {
+            (global as any).localStorage = fakeStorage;
+        }
+    } else {
+        try {
+            if (!window.localStorage || typeof window.localStorage.getItem !== 'function') {
+                Object.defineProperty(window, 'localStorage', { value: fakeStorage, writable: true });
+            }
+        } catch (e) {
+            // Ignore if we can't redefine
+        }
+    }
+})();
+
 import './globals.css';
 import { useEffect } from 'react';
 import { ThemeProvider, useTheme } from '@/hooks/use-theme';
@@ -29,14 +56,15 @@ const navItems = [
     { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
+import { UserProfileDropdown } from '@/components/legiflow/user-profile-dropdown';
+
 function AppHeader() {
-    const { user, logout } = useAuth();
-    const { theme, toggleTheme } = useTheme();
+    const { user } = useAuth();
 
     return (
-        <header className="fixed left-0 right-0 top-0 h-16 flex items-center justify-between px-5 z-30 backdrop-blur-md bg-background/30">
+        <header className="fixed left-0 right-0 top-0 h-16 flex items-center justify-between px-5 z-30 backdrop-blur-md bg-background/30 border-b border-border/40">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                     <svg
                       width="24"
                       height="24"
@@ -56,21 +84,15 @@ function AppHeader() {
                     </svg>
                 </div>
                 <div>
-                    <h1 className="font-bold text-lg">LegiFlow</h1>
+                    <h1 className="font-bold text-lg tracking-tight">LegiFlow</h1>
                 </div>
             </div>
-            <div className="flex items-center gap-2">
-                <Button variant="ghost" onClick={toggleTheme} size="sm">
-                    {theme === 'dark' ? '🌙' : '☀️'}
-                </Button>
+            <div className="flex items-center gap-4">
                 {user ? (
-                     <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium px-3 py-1.5 rounded-full bg-card/80">{user.displayName || user.email}</span>
-                        <Button variant="ghost" size="sm" onClick={logout}><LogOut className="mr-2 h-4 w-4"/> Sign Out</Button>
-                     </div>
+                    <UserProfileDropdown />
                 ) : (
                     <Link href="/login">
-                        <Button>Sign In</Button>
+                        <Button variant="outline" size="sm" className="rounded-full px-5">Sign In</Button>
                     </Link>
                 )}
             </div>
