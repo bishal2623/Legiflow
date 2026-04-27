@@ -14,7 +14,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LoaderCircle, Mail, KeyRound, User } from 'lucide-react';
+import { LoaderCircle, Mail, KeyRound, User, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -28,6 +28,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
 
   useEffect(() => {
@@ -106,13 +107,18 @@ export default function LoginPage() {
                      <div className="relative">
                         <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10"
+                            className="pl-10 pr-10"
                             disabled={isProcessing}
                         />
+                  <button type = "button" 
+                  onClick = {() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                 </button>
                     </div>
                     <Button onClick={handleEmailSignIn} disabled={isProcessing} className="w-full">
                         {isProcessing ? <LoaderCircle className="animate-spin" /> : 'Sign In'}
@@ -144,13 +150,18 @@ export default function LoginPage() {
                     <div className="relative">
                         <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
-                            type="password"
+                            type= {showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="pl-10"
+                            className="pl-10 pr-10"
                             disabled={isProcessing}
                         />
+                        <button type="button"
+                           onClick={() => setShowPassword(!showPassword)}
+                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                           {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
                     </div>
                      <Button onClick={handleEmailSignUp} disabled={isProcessing} className="w-full">
                         {isProcessing ? <LoaderCircle className="animate-spin" /> : 'Sign Up'}
