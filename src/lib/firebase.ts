@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: your_firebase_api_key,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "legiflow-e5cce.firebaseapp.com",
   projectId: "legiflow-e5cce",
   storageBucket: "legiflow-e5cce.firebasestorage.app",
