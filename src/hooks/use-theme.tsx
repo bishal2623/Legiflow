@@ -1,7 +1,7 @@
-
 'use client';
-
 import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+
+// Theme Changer
 
 type Theme = 'light' | 'dark';
 
@@ -14,6 +14,8 @@ interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
 }
+
+// Theme Change Context Type
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
