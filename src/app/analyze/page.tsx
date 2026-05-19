@@ -56,7 +56,7 @@ export default function AnalyzePage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-3"><Upload /> Upload Document</CardTitle>
                     <CardDescription>
-                        Paste your document text below to get started. Supported formats: PDF, DOCX, TXT.
+                        Paste your document text below to get started. All the doc formats are supported.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
