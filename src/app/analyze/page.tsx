@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useTransition } from 'react';
@@ -45,21 +44,44 @@ export default function AnalyzePage() {
     setClauses(null);
   };
 
+  if (documentText && clauses) {
+    return (
+      <main>
+        <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
+      </main>
+    );
+  }
+
   return (
-    <main>
-        {documentText && clauses ? (
-            <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
-        ) : (
-             <div className="space-y-4">
-                <div>
-                    <h1 className="page-title">Upload Document</h1>
-                    <p className="page-subtitle">
-                        Paste your document text below to get started. All document formats are supported.
-                    </p>
-                </div>
-                <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
-            </div>
-        )}
+    <main
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        minHeight: 'calc(100vh - 52px - var(--space-2xl))',
+        paddingTop: 'var(--space-2xl)',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '640px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-xl)',
+        }}
+      >
+        {/* Page title block */}
+        <div>
+          <h1 className="page-title">Upload a Document</h1>
+          <p className="page-subtitle">
+            Paste text or upload a file. We&apos;ll extract, simplify, and flag risky clauses.
+          </p>
+        </div>
+
+        {/* Upload form */}
+        <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
+      </div>
     </main>
   );
 }

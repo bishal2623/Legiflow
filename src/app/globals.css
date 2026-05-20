@@ -386,3 +386,11 @@ nav a,
   font-family: var(--font-body) !important;
   font-size: 14px !important;
 }
+
+/* ─────────────────────────────────────────────
+   Keyframes
+   ───────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
