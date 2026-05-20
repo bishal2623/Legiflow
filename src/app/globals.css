@@ -3,56 +3,85 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 220 20% 96%; /* #f4f6f9 */
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 204 92% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 204 92% 53%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 212 92% 51%;
-    --radius: 0.8rem;
-    --chart-1: 204 75% 55%;
-    --chart-2: 43 96% 56%;
-    --chart-3: 0 84% 60%;
-    --chart-4: 203 30% 60%;
-    --chart-5: 203 30% 70%;
-  }
+/* ─────────────────────────────────────────────
+   Design Tokens — light mode
+   ───────────────────────────────────────────── */
+:root {
+  /* Semantic surface tokens */
+  --bg-primary:    #f4f6f9;
+  --bg-secondary:  #ffffff;
+  --text-primary:  #0f172a;
+  --text-muted:    #64748b;
+  --border-subtle: #e2e8f0;
+  --accent:        #38bdf8;
+  --danger:        #ef4444;
+  --warning:       #f59e0b;
+  --success:       #22c55e;
 
-  .dark {
-    --background: 224 71% 4%; /* #0b1220 */
-    --foreground: 210 40% 98%; /* Light Gray */
-    --card: 222 47% 11%; /* #0f1724 */
-    --card-foreground: 210 40% 98%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 204 92% 53%; /* Sky Blue */
-    --primary-foreground: 224 71% 4%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%; /* #94a3b8 */
-    --accent: 204 92% 53%; /* #38bdf8 */
-    --accent-foreground: 224 71% 4%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 204 92% 53%;
-  }
+  /* shadcn/ui HSL tokens — light */
+  --background: 220 20% 96%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 204 92% 53%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent-hsl: 204 92% 53%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 212 92% 51%;
+  --radius: 0.8rem;
+  --chart-1: 204 75% 55%;
+  --chart-2: 43 96% 56%;
+  --chart-3: 0 84% 60%;
+  --chart-4: 203 30% 60%;
+  --chart-5: 203 30% 70%;
+}
+
+/* ─────────────────────────────────────────────
+   Design Tokens — dark mode
+   ───────────────────────────────────────────── */
+.dark,
+[data-theme="dark"] {
+  /* Semantic surface tokens */
+  --bg-primary:    #071024;
+  --bg-secondary:  #0f1724;
+  --text-primary:  #f1f5f9;
+  --text-muted:    #94a3b8;
+  --border-subtle: #1e293b;
+  --accent:        #38bdf8;
+  --danger:        #f87171;
+  --warning:       #fbbf24;
+  --success:       #4ade80;
+
+  /* shadcn/ui HSL tokens — dark */
+  --background: 224 71% 4%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 98%;
+  --popover: 224 71% 4%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 204 92% 53%;
+  --primary-foreground: 224 71% 4%;
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent-hsl: 204 92% 53%;
+  --accent-foreground: 224 71% 4%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --ring: 204 92% 53%;
 }
 
 @layer base {
@@ -64,13 +93,87 @@
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  
+
   .dark body {
-     background:linear-gradient(180deg, #071024 0%, #071429 60%);
+    background: linear-gradient(180deg, #071024 0%, #071429 60%);
   }
 
   .glass-card {
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03)
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.03);
   }
+}
+
+/* ─────────────────────────────────────────────
+   Navbar hover utility
+   ───────────────────────────────────────────── */
+.navbar-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--text-muted);
+  transition: background 150ms ease, color 150ms ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.navbar-icon-btn:hover {
+  background: rgba(148, 163, 184, 0.08);
+  color: var(--text-primary);
+}
+
+/* Tooltip */
+.navbar-icon-btn [data-tooltip] {
+  display: none;
+}
+
+.navbar-icon-btn:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Avatar circle */
+.navbar-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Sidebar nav link active state */
+.sidebar-link-active {
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--accent);
+}
+
+.sidebar-link-active svg {
+  color: var(--accent);
 }
