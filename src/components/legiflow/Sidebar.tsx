@@ -60,7 +60,7 @@ export function Sidebar() {
             width: '30px',
             height: '30px',
             borderRadius: '8px',
-            background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
+            background: 'linear-gradient(135deg, var(--text-primary), var(--text-muted))',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

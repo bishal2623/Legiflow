@@ -43,13 +43,13 @@ const riskStyles: { [key: string]: { variant: 'default' | 'secondary' | 'destruc
 const RiskCard = ({ title, description, level }: { title: string, description: string, level: 'High' | 'Medium' | 'Safe' }) => {
     const style = riskStyles[level];
     const Icon = style.icon;
+    const riskColor = level === 'High' ? 'var(--risk-high)' : level === 'Medium' ? 'var(--risk-medium)' : 'var(--risk-low)';
     
     return (
         <div className="border border-[var(--border-subtle)] rounded-md p-4">
             <div className="flex justify-between items-start gap-3 mb-2">
                 <h3 className="text-sm font-medium text-[var(--text-primary)]">{title}</h3>
-                <Badge variant={style.variant} className="flex-shrink-0">
-                    <Icon className="h-3 w-3 mr-1" />
+                <Badge variant={style.variant} style={{ borderColor: riskColor, color: riskColor }}>
                     {level}
                 </Badge>
             </div>

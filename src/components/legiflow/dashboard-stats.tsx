@@ -25,7 +25,7 @@ export function DashboardStats({ total, open, closed, pending }: DashboardStatsP
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Open Cases</CardTitle>
-                    <FolderOpen className="h-4 w-4 text-blue-500" />
+                    <FolderOpen className="h-4 w-4 text-[var(--text-muted)]" />
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{open}</div>

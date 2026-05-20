@@ -13,10 +13,11 @@
   --text-primary:  #0f172a;
   --text-muted:    #64748b;
   --border-subtle: #e2e8f0;
-  --accent:        #38bdf8;
-  --danger:        #ef4444;
-  --warning:       #f59e0b;
-  --success:       #22c55e;
+  
+  /* Risk severity colors */
+  --risk-high:     #C0392B;
+  --risk-medium:   #D4860A;
+  --risk-low:      #2D7A4F;
 
   /* shadcn/ui HSL tokens — light */
   --background: 220 20% 96%;
@@ -25,21 +26,21 @@
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
-  --primary: 204 92% 53%;
+  --primary: 222.2 84% 4.9%;
   --primary-foreground: 210 40% 98%;
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  --accent-hsl: 204 92% 53%;
-  --accent-foreground: 24 9.8% 10%;
+  --accent-hsl: 222.2 84% 4.9%;
+  --accent-foreground: 210 40% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 212 92% 51%;
+  --ring: 222.2 84% 4.9%;
   --radius: 0.8rem;
-  --chart-1: 204 75% 55%;
+  --chart-1: 222.2 84% 4.9%;
   --chart-2: 43 96% 56%;
   --chart-3: 0 84% 60%;
   --chart-4: 203 30% 60%;
@@ -57,10 +58,11 @@
   --text-primary:  #f1f5f9;
   --text-muted:    #94a3b8;
   --border-subtle: #1e293b;
-  --accent:        #38bdf8;
-  --danger:        #f87171;
-  --warning:       #fbbf24;
-  --success:       #4ade80;
+  
+  /* Risk severity colors */
+  --risk-high:     #C0392B;
+  --risk-medium:   #D4860A;
+  --risk-low:      #2D7A4F;
 
   /* shadcn/ui HSL tokens — dark */
   --background: 224 71% 4%;

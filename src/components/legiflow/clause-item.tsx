@@ -41,7 +41,7 @@ export function ClauseItem({ clause, index }: ClauseItemProps) {
     <AccordionItem value={`item-${index}`} className="border-border/50">
       <AccordionTrigger onClick={handleSimplify} className="text-left hover:no-underline">
         <div className="flex gap-4 items-start w-full">
-            <span className="text-accent font-bold">{index + 1}.</span>
+            <span className="text-[var(--text-primary)] font-bold">{index + 1}.</span>
             <p className="flex-1 text-muted-foreground">
                 {clause.length > 150 ? `${clause.substring(0, 150)}...` : clause}
             </p>
@@ -53,7 +53,7 @@ export function ClauseItem({ clause, index }: ClauseItemProps) {
             <TabsTrigger value="simplified">Simplified Version</TabsTrigger>
             <TabsTrigger value="legal">Original Legal Text</TabsTrigger>
           </TabsList>
-          <TabsContent value="simplified" className="mt-4 p-4 bg-primary/5 rounded-md border border-primary/20">
+          <TabsContent value="simplified" className="mt-4 p-4 bg-[var(--border-subtle)]/30 rounded-md border border-[var(--border-subtle)]">
             {isSimplifying ? (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-full" />

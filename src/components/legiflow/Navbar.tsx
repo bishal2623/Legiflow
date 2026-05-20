@@ -62,6 +62,9 @@ function IconBtn({ tooltip, onClick, children }: IconBtnProps) {
       onClick={onClick}
       aria-label={tooltip}
       type="button"
+      style={{
+        color: 'var(--text-muted)',
+      }}
     >
       {children}
     </button>

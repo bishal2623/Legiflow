@@ -75,7 +75,7 @@ export default function SamplesPage() {
         {samples.map((sample, index) => (
           <div key={index} className="border border-[var(--border-subtle)] rounded-md p-4">
             <div className="flex items-start gap-3 mb-4">
-              <FileText className="w-5 h-5 text-[var(--accent)] flex-shrink-0 mt-0.5" />
+              <FileText className="w-5 h-5 text-[var(--text-muted)] flex-shrink-0 mt-0.5" />
               <h3 className="text-sm font-medium text-[var(--text-primary)]">{sample.title}</h3>
             </div>
             <Dialog>

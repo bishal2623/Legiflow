@@ -69,10 +69,10 @@ export function KeyInfoView({ documentText }: KeyInfoViewProps) {
                 <ul className="space-y-4">
                     {keyInfo.timeline.map((item, index) => (
                         <li key={index} className="flex items-start gap-4">
-                           <div className="flex-shrink-0 w-28 font-semibold text-accent">{item.date}</div>
+                           <div className="flex-shrink-0 w-28 font-semibold text-[var(--text-primary)]">{item.date}</div>
                            <div className="relative flex-1 pb-4">
                             <span className="absolute top-1 left-[-25px] h-full w-px bg-border"></span>
-                            <span className="absolute top-1 left-[-29px] h-3 w-3 rounded-full bg-accent"></span>
+                            <span className="absolute top-1 left-[-29px] h-3 w-3 rounded-full bg-[var(--text-primary)]"></span>
                                 <p className="text-sm">{item.description}</p>
                            </div>
                         </li>
