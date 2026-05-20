@@ -1,4 +1,4 @@
-# **App Name**: LegiFlow
+# **App Name**: LegiFlow 
 
 ## Core Features:
 
