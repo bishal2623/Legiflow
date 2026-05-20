@@ -38,10 +38,29 @@ export default function DashboardPage() {
 
     return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
+
+            {/* ── Hero ── */}
+            <div style={{ paddingBottom: 'var(--space-xl)', borderBottom: '1px solid var(--border-subtle)' }}>
+                <h1 className="page-title">Understand Legal Documents Clearly.</h1>
+                <p style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '15px',
+                    fontWeight: 400,
+                    color: 'var(--text-muted)',
+                    lineHeight: 1.65,
+                    marginTop: 'var(--space-sm)',
+                    maxWidth: '480px',
+                }}>
+                    Upload agreements, identify risky clauses,<br />
+                    and explore Indian law in plain language.
+                </p>
+            </div>
+
+            {/* ── Analytics header + filters ── */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-md)' }}>
                 <div>
-                    <h1 className="page-title">Analytics Dashboard</h1>
-                    <p className="page-subtitle">Real-time insights and progression tracking for your cases.</p>
+                    <h2 className="section-heading">Analytics Dashboard</h2>
+                    <p className="page-subtitle" style={{ marginTop: 'var(--space-xs)' }}>Real-time insights and progression tracking for your cases.</p>
                 </div>
 
             {/* Filters */}
