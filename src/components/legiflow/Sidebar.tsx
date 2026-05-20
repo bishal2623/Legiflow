@@ -10,17 +10,19 @@ import {
   Book,
   FileQuestion,
   BarChart,
+  Bell,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/dashboard',  icon: Home,         label: 'Dashboard'           },
-  { href: '/analyze',    icon: FileUp,        label: 'Upload Documents'    },
-  { href: '/samples',    icon: FileCheck,     label: 'Sample Agreements'   },
-  { href: '/agreements', icon: FileText,      label: 'Agreements'          },
-  { href: '/risk',       icon: ShieldAlert,   label: 'High-Risk Agreements'},
-  { href: '/reference',  icon: Book,          label: 'Legal Reference'     },
-  { href: '/search',     icon: FileQuestion,  label: 'Clause Search'       },
-  { href: '/compare',    icon: BarChart,      label: 'Compare'             },
+  { href: '/dashboard',     icon: Home,          label: 'Dashboard'            },
+  { href: '/analyze',       icon: FileUp,         label: 'Upload Documents'     },
+  { href: '/samples',       icon: FileCheck,      label: 'Sample Agreements'    },
+  { href: '/agreements',    icon: FileText,        label: 'Agreements'           },
+  { href: '/risk',          icon: ShieldAlert,    label: 'High-Risk Agreements' },
+  { href: '/reference',     icon: Book,           label: 'Legal Reference'      },
+  { href: '/search',        icon: FileQuestion,   label: 'Clause Search'        },
+  { href: '/compare',       icon: BarChart,       label: 'Compare'              },
+  { href: '/notifications', icon: Bell,           label: 'Activity'             },
 ];
 
 export function Sidebar() {
