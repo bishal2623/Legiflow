@@ -65,8 +65,8 @@ export default function SamplesPage() {
   return (
     <main className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1">Sample Agreements (India)</h1>
-        <p className="text-sm text-[var(--text-muted)]">
+        <h1 className="page-title">Sample Agreements</h1>
+        <p className="page-subtitle">
           Use these sample agreements to test LegiFlow's analysis capabilities. Click to generate and view.
         </p>
       </div>

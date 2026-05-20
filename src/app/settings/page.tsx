@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -28,13 +28,13 @@ export default function SettingsPage() {
   const { user } = useAuth();
   
   return (
-    <main>
-            <Card className="max-w-2xl mx-auto">
-                <CardHeader>
-                <CardTitle className="text-3xl font-bold">Settings</CardTitle>
-                <CardDescription>Manage your application settings.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
+    <main className="space-y-[var(--space-xl)]">
+      <div>
+        <h1 className="page-title">Settings</h1>
+        <p className="page-subtitle">Manage your application preferences and account.</p>
+      </div>
+      <Card className="max-w-2xl">
+        <CardContent className="space-y-[var(--space-lg)] pt-[var(--space-lg)]">
                     <div>
                         <Label htmlFor="name">Profile Name</Label>
                         <Input id="name" readOnly value={user?.displayName || 'No name set'} />

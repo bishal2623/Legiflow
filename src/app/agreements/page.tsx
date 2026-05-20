@@ -8,8 +8,8 @@ export default function AgreementsPage() {
   return (
     <main className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1">Agreements Management</h1>
-        <p className="text-sm text-[var(--text-muted)]">Upload, manage, and review all your legal documents.</p>
+        <h1 className="page-title">Agreements</h1>
+        <p className="page-subtitle">Upload, manage, and review all your legal documents.</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">

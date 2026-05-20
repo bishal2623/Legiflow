@@ -109,11 +109,11 @@ export function Navbar() {
       {/* Left — page title */}
       <span
         style={{
-          fontSize: "15px",
+          fontSize: "14px",
+          fontFamily: "var(--font-body)",
           fontWeight: 500,
           color: "var(--text-primary)",
           letterSpacing: "-0.01em",
-          fontFamily: "inherit",
         }}
       >
         {pageTitle}

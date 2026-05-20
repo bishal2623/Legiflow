@@ -62,8 +62,8 @@ export default function RiskPage() {
     return (
         <main className="space-y-6">
             <div>
-              <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1">🚨 High-Risk Agreements</h1>
-              <p className="text-sm text-[var(--text-muted)]">Common agreement types that frequently contain risky clauses.</p>
+              <h1 className="page-title">High-Risk Agreements</h1>
+              <p className="page-subtitle">Common agreement types that frequently contain risky clauses.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {highRiskAgreements.map((item, index) => (

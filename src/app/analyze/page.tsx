@@ -6,7 +6,6 @@ import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
 import { useToast } from '@/hooks/use-toast';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
-import { Upload } from 'lucide-react';
 
 export default function AnalyzePage() {
   const [documentText, setDocumentText] = useState<string | null>(null);
@@ -53,10 +52,8 @@ export default function AnalyzePage() {
         ) : (
              <div className="space-y-4">
                 <div>
-                    <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1 flex items-center gap-2">
-                      <Upload className="h-5 w-5" /> Upload Document
-                    </h1>
-                    <p className="text-sm text-[var(--text-muted)]">
+                    <h1 className="page-title">Upload Document</h1>
+                    <p className="page-subtitle">
                         Paste your document text below to get started. All document formats are supported.
                     </p>
                 </div>

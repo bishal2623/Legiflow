@@ -1,17 +1,15 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 export default function HelpPage() {
   return (
-    <main>
-      <Card className="max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle>Help & FAQs</CardTitle>
-          <CardDescription>
-            Find answers to common questions about LegiFlow Webapplication.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <main className="space-y-[var(--space-xl)]">
+      <div>
+        <h1 className="page-title">Help &amp; FAQs</h1>
+        <p className="page-subtitle">Find answers to common questions about LegiFlow.</p>
+      </div>
+      <Card className="max-w-4xl">
+        <CardContent className="pt-[var(--space-lg)]">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger>What is LegiFlow?</AccordionTrigger>

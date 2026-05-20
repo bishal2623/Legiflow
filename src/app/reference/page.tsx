@@ -69,10 +69,8 @@ export default function LegalReferencePage() {
   return (
     <main className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1 flex items-center gap-2">
-          📘 Legal Reference Database
-        </h1>
-        <p className="text-sm text-[var(--text-muted)]">Search the Constitution of India & Indian Penal Code (IPC).</p>
+        <h1 className="page-title">Legal Reference</h1>
+        <p className="page-subtitle">Search the Constitution of India &amp; Indian Penal Code (IPC).</p>
       </div>
 
       <Tabs defaultValue="ipc" className="w-full" onValueChange={setActiveTab}>

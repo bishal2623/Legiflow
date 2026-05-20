@@ -173,7 +173,7 @@ export default function ComparePage() {
   const canCompare = !!agreements.A.file && !!agreements.B.file;
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-10 font-sans">
+    <main className="space-y-[var(--space-xl)]">
       <motion.div
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -181,17 +181,14 @@ export default function ComparePage() {
         className="max-w-3xl mx-auto space-y-6"
       >
         {/* Header */}
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2">
-              <span>📑</span> Compare Agreements
-            </CardTitle>
-            <CardDescription className="text-zinc-400">
-              Upload two agreements to instantly surface clause-level differences.
-            </CardDescription>
-          </CardHeader>
+        <div style={{ marginBottom: 'var(--space-lg)' }}>
+          <h1 className="page-title">Compare Agreements</h1>
+          <p className="page-subtitle">Upload two agreements to instantly surface clause-level differences.</p>
+        </div>
 
-          <CardContent className="space-y-4">
+        {/* Upload card */}
+        <Card className="bg-zinc-900 border-zinc-800">
+          <CardContent className="space-y-4 pt-6">
             {/* Drop zones */}
             <div className="grid md:grid-cols-2 gap-4">
               <DropZone agreement={agreements.A} onFile={handleFile} />

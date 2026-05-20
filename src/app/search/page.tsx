@@ -43,10 +43,8 @@ export default function SearchPage() {
     return (
         <main className="space-y-6">
             <div>
-                <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1 flex items-center gap-2">
-                    🔍 Clause Search
-                </h1>
-                <p className="text-sm text-[var(--text-muted)]">Find specific clauses within any legal document.</p>
+                <h1 className="page-title">Clause Search</h1>
+                <p className="page-subtitle">Find specific clauses within any legal document.</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
