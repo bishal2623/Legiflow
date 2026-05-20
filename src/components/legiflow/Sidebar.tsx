@@ -39,7 +39,7 @@ export function Sidebar() {
         borderRight: '1px solid var(--border-subtle)',
         display: 'flex',
         flexDirection: 'column',
-        padding: '16px 10px',
+        padding: 'var(--space-md) var(--space-sm)',
         zIndex: 20,
         overflowY: 'auto',
       }}
@@ -49,17 +49,17 @@ export function Sidebar() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
-          padding: '0 6px 20px',
+          gap: 'var(--space-sm)',
+          padding: '0 var(--space-xs) var(--space-md)',
           borderBottom: '1px solid var(--border-subtle)',
-          marginBottom: '12px',
+          marginBottom: 'var(--space-md)',
         }}
       >
         <div
           style={{
             width: '30px',
             height: '30px',
-            borderRadius: '8px',
+            borderRadius: '6px',
             background: 'linear-gradient(135deg, var(--text-primary), var(--text-muted))',
             display: 'flex',
             alignItems: 'center',
@@ -104,41 +104,9 @@ export function Sidebar() {
             <Link
               key={href}
               href={href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '8px 10px',
-                paddingLeft: isActive ? '8px' : '10px',
-                borderLeft: isActive ? '2px solid var(--text-primary)' : 'none',
-                borderRadius: '0',
-                fontSize: '14px',
-                fontFamily: 'var(--font-body)',
-                fontWeight: isActive ? 500 : 400,
-                color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                background: isActive ? 'var(--bg-secondary)' : 'transparent',
-                textDecoration: 'none',
-                transition: 'color 140ms ease, background 140ms ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLAnchorElement).style.color =
-                    'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLAnchorElement).style.color =
-                    'var(--text-muted)';
-                }
-              }}
+              className={`sidebar-link${isActive ? ' active' : ''}`}
             >
-              <Icon
-                size={16}
-                style={{
-                  flexShrink: 0,
-                }}
-              />
+              <Icon size={16} style={{ flexShrink: 0 }} />
               <span>{label}</span>
             </Link>
           );

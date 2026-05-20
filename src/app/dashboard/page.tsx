@@ -37,15 +37,15 @@ export default function DashboardPage() {
     }, [stats, filteredCases]);
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-md)' }}>
                 <div>
                     <h1 className="page-title">Analytics Dashboard</h1>
                     <p className="page-subtitle">Real-time insights and progression tracking for your cases.</p>
                 </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <Select value={selectedType} onValueChange={(val: string) => setSelectedType(val as CaseType | 'All')}>
                     <SelectTrigger className="w-[160px] h-9 border-[var(--border-subtle)]">
                         <SelectValue placeholder="Case Type" />
@@ -74,13 +74,11 @@ export default function DashboardPage() {
             </div>
 
             {/* Smart Insight Banner */}
-            <div className="border border-[var(--border-subtle)] rounded-md p-4 flex items-center gap-3">
-                <div className="flex-shrink-0">
-                    <Sparkles className="h-5 w-5 text-[var(--accent)]" />
-                </div>
+            <div style={{ border: '1px solid var(--border-subtle)', borderRadius: '6px', padding: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                <Sparkles style={{ width: '16px', height: '16px', color: 'var(--text-muted)', flexShrink: 0 }} />
                 <div>
-                    <h4 className="font-medium text-sm text-[var(--text-primary)]">Smart Insight</h4>
-                    <p className="text-sm text-[var(--text-muted)]">{insightText}</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)', marginBottom: '2px' }}>Smart Insight</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-muted)' }}>{insightText}</p>
                 </div>
             </div>
 
@@ -94,7 +92,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Timelines */}
-            <div className="grid grid-cols-1">
+            <div>
                 <CaseTimeline cases={filteredCases} />
             </div>
         </div>

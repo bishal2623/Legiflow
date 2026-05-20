@@ -1,70 +1,62 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   Font families
+   Font families · Spacing tokens · Design tokens
    ───────────────────────────────────────────── */
 :root {
+  /* Fonts */
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Inter', system-ui, sans-serif;
-}
 
-/* ─────────────────────────────────────────────
-   Spacing tokens
-   ───────────────────────────────────────────── */
-:root {
+  /* Spacing */
   --space-xs:  4px;
   --space-sm:  8px;
   --space-md:  16px;
   --space-lg:  24px;
   --space-xl:  40px;
   --space-2xl: 64px;
-}
 
-/* ─────────────────────────────────────────────
-   Design Tokens — light mode
-   ───────────────────────────────────────────── */
-:root {
-  /* Semantic surface tokens */
+  /* Surfaces — light */
   --bg-primary:    #f4f6f9;
   --bg-secondary:  #ffffff;
   --text-primary:  #0f172a;
   --text-muted:    #64748b;
   --border-subtle: #e2e8f0;
-  
-  /* Risk severity colors */
-  --risk-high:     #C0392B;
-  --risk-medium:   #D4860A;
-  --risk-low:      #2D7A4F;
+  --accent:        #0f172a;
 
-  /* shadcn/ui HSL tokens — light */
-  --background: 220 20% 96%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 222.2 84% 4.9%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent-hsl: 222.2 84% 4.9%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 84.2% 60.2%;
+  /* Risk */
+  --risk-high:   #C0392B;
+  --risk-medium: #D4860A;
+  --risk-low:    #2D7A4F;
+
+  /* shadcn HSL tokens — light */
+  --background:          220 20% 96%;
+  --foreground:          222.2 84% 4.9%;
+  --card:                0 0% 100%;
+  --card-foreground:     222.2 84% 4.9%;
+  --popover:             0 0% 100%;
+  --popover-foreground:  222.2 84% 4.9%;
+  --primary:             222.2 84% 4.9%;
+  --primary-foreground:  210 40% 98%;
+  --secondary:           210 40% 96.1%;
+  --secondary-foreground:222.2 47.4% 11.2%;
+  --muted:               210 40% 96.1%;
+  --muted-foreground:    215.4 16.3% 46.9%;
+  --accent-hsl:          222.2 84% 4.9%;
+  --accent-foreground:   210 40% 98%;
+  --destructive:         0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  --radius: 0.8rem;
-  --chart-1: 222.2 84% 4.9%;
-  --chart-2: 43 96% 56%;
-  --chart-3: 0 84% 60%;
-  --chart-4: 203 30% 60%;
-  --chart-5: 203 30% 70%;
+  --border:              214.3 31.8% 91.4%;
+  --input:               214.3 31.8% 91.4%;
+  --ring:                222.2 84% 4.9%;
+  --radius:              0.375rem;
+  --chart-1:             222.2 84% 4.9%;
+  --chart-2:             43 96% 56%;
+  --chart-3:             0 84% 60%;
+  --chart-4:             203 30% 60%;
+  --chart-5:             203 30% 70%;
 }
 
 /* ─────────────────────────────────────────────
@@ -72,44 +64,47 @@
    ───────────────────────────────────────────── */
 .dark,
 [data-theme="dark"] {
-  /* Semantic surface tokens */
   --bg-primary:    #071024;
   --bg-secondary:  #0f1724;
   --text-primary:  #f1f5f9;
   --text-muted:    #94a3b8;
   --border-subtle: #1e293b;
-  
-  /* Risk severity colors */
-  --risk-high:     #C0392B;
-  --risk-medium:   #D4860A;
-  --risk-low:      #2D7A4F;
+  --accent:        #38bdf8;
 
-  /* shadcn/ui HSL tokens — dark */
-  --background: 224 71% 4%;
-  --foreground: 210 40% 98%;
-  --card: 222 47% 11%;
-  --card-foreground: 210 40% 98%;
-  --popover: 224 71% 4%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 204 92% 53%;
-  --primary-foreground: 224 71% 4%;
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
-  --accent-hsl: 204 92% 53%;
-  --accent-foreground: 224 71% 4%;
-  --destructive: 0 63% 31%;
+  --risk-high:   #e05c4b;
+  --risk-medium: #e09a2a;
+  --risk-low:    #3d9e65;
+
+  --background:          224 71% 4%;
+  --foreground:          210 40% 98%;
+  --card:                222 47% 11%;
+  --card-foreground:     210 40% 98%;
+  --popover:             224 71% 4%;
+  --popover-foreground:  210 40% 98%;
+  --primary:             204 92% 53%;
+  --primary-foreground:  224 71% 4%;
+  --secondary:           217 33% 17%;
+  --secondary-foreground:210 40% 98%;
+  --muted:               217 33% 17%;
+  --muted-foreground:    215 20% 65%;
+  --accent-hsl:          204 92% 53%;
+  --accent-foreground:   224 71% 4%;
+  --destructive:         0 63% 31%;
   --destructive-foreground: 210 40% 98%;
-  --border: 217 33% 17%;
-  --input: 217 33% 17%;
-  --ring: 204 92% 53%;
+  --border:              217 33% 17%;
+  --input:               217 33% 17%;
+  --ring:                204 92% 53%;
 }
 
+/* ─────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
@@ -122,15 +117,154 @@
   .dark body {
     background: linear-gradient(180deg, #071024 0%, #071429 60%);
   }
-
-  .glass-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.03);
-  }
 }
 
 /* ─────────────────────────────────────────────
-   Navbar hover utility
+   Border-radius — max 6px, no !important
+   ───────────────────────────────────────────── */
+.card, [class*="card"],
+.badge, [class*="badge"],
+button, .btn, [class*="button"],
+input, textarea, select,
+[role="dialog"] > div,
+[data-radix-popper-content-wrapper] > div {
+  border-radius: 6px;
+}
+
+/* ─────────────────────────────────────────────
+   Typography utilities
+   ───────────────────────────────────────────── */
+.page-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.page-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: var(--space-sm) 0 0;
+}
+
+.section-heading {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.label-caps {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────
+   Buttons — font + shape only, no color forcing
+   ───────────────────────────────────────────── */
+button,
+.btn,
+[class*="button"] {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  box-shadow: none;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+button:disabled,
+[class*="button"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   Cards — no shadow
+   ───────────────────────────────────────────── */
+.card,
+[class*="card"] {
+  box-shadow: none;
+}
+
+/* ─────────────────────────────────────────────
+   Tabs — underline style
+   ───────────────────────────────────────────── */
+[role="tablist"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
+  padding: 0;
+  gap: var(--space-lg);
+}
+
+[role="tab"] {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1.5px solid transparent;
+  color: var(--text-muted);
+  padding: var(--space-sm) 0;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+[role="tab"][data-state="active"] {
+  background: transparent;
+  border-bottom: 1.5px solid var(--text-primary);
+  color: var(--text-primary);
+  font-weight: 500;
+  box-shadow: none;
+}
+
+[role="tab"]:hover:not([data-state="active"]) {
+  color: var(--text-primary);
+  background: transparent;
+}
+
+/* ─────────────────────────────────────────────
+   Badges
+   ───────────────────────────────────────────── */
+.badge,
+[class*="badge"] {
+  border-radius: 4px;
+  padding: 2px var(--space-sm);
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+/* ─────────────────────────────────────────────
+   Nav items
+   ───────────────────────────────────────────── */
+nav a,
+.nav-item {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+/* ─────────────────────────────────────────────
+   Navbar icon buttons
    ───────────────────────────────────────────── */
 .navbar-icon-btn {
   display: flex;
@@ -140,22 +274,17 @@
   height: 32px;
   border-radius: 6px;
   color: var(--text-muted);
-  transition: background 150ms ease, color 150ms ease;
-  cursor: pointer;
   background: transparent;
   border: none;
   padding: 0;
   position: relative;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .navbar-icon-btn:hover {
   background: rgba(148, 163, 184, 0.08);
   color: var(--text-primary);
-}
-
-/* Tooltip */
-.navbar-icon-btn [data-tooltip] {
-  display: none;
 }
 
 .navbar-icon-btn:hover::after {
@@ -167,22 +296,25 @@
   background: var(--bg-secondary);
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
   font-size: 11px;
   white-space: nowrap;
-  padding: 3px 8px;
+  padding: 3px var(--space-sm);
   border-radius: 4px;
   pointer-events: none;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
-/* Avatar circle */
+/* ─────────────────────────────────────────────
+   Navbar avatar
+   ───────────────────────────────────────────── */
 .navbar-avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   background: var(--bg-secondary);
   color: var(--text-primary);
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
   display: flex;
@@ -193,198 +325,48 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* Sidebar nav link active state */
-.sidebar-link-active {
-  background: rgba(56, 189, 248, 0.08);
-  color: var(--accent);
+/* ─────────────────────────────────────────────
+   Sidebar row hover — CSS-only, no JS needed
+   ───────────────────────────────────────────── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-sm);
+  padding-left: 10px;
+  border-left: 2px solid transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
 }
 
-.sidebar-link-active svg {
-  color: var(--accent);
+.sidebar-link:hover {
+  color: var(--text-primary);
+  background: rgba(148, 163, 184, 0.05);
+}
+
+.sidebar-link.active {
+  color: var(--text-primary);
+  font-weight: 500;
+  border-left-color: var(--text-primary);
+  padding-left: 8px;
+  background: transparent;
 }
 
 /* ─────────────────────────────────────────────
-   Global overrides — kill pills & chunky borders
+   Row hover utility — used by list rows
    ───────────────────────────────────────────── */
-
-/* Enforce max border-radius of 6px */
-* {
-  border-radius: min(var(--radius, 6px), 6px) !important;
+.list-row {
+  transition: background 0.15s ease;
+  cursor: pointer;
 }
 
-/* Remove shadows from cards */
-.card,
-[class*="card"] {
-  box-shadow: none !important;
-}
-
-/* Button overrides */
-button,
-.btn,
-[class*="button"] {
-  border-radius: 5px !important;
-  box-shadow: none !important;
-}
-
-/* Primary button style */
-button[class*="default"]:not([class*="outline"]):not([class*="ghost"]),
-.btn-primary {
-  background: var(--text-primary) !important;
-  color: var(--bg-primary) !important;
-  border: none !important;
-}
-
-/* Secondary button style */
-button[class*="outline"],
-.btn-secondary {
-  background: transparent !important;
-  border: 1px solid var(--border-subtle) !important;
-  color: var(--text-primary) !important;
-}
-
-/* Ghost button style */
-button[class*="ghost"],
-.btn-ghost {
-  background: transparent !important;
-  border: none !important;
-  color: var(--text-muted) !important;
-}
-
-button[class*="ghost"]:hover,
-.btn-ghost:hover {
-  text-decoration: underline !important;
-}
-
-/* Tab overrides — underline style */
-[role="tablist"],
-.tabs-list {
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid var(--border-subtle) !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  gap: 24px !important;
-}
-
-[role="tab"],
-.tab-trigger {
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  border-bottom: 1.5px solid transparent !important;
-  color: var(--text-muted) !important;
-  padding: 8px 0 !important;
-  font-weight: 400 !important;
-  transition: color 150ms ease, border-color 150ms ease !important;
-}
-
-[role="tab"][data-state="active"],
-.tab-trigger[data-state="active"] {
-  background: transparent !important;
-  border-bottom: 1.5px solid var(--text-primary) !important;
-  color: var(--text-primary) !important;
-  font-weight: 500 !important;
-  box-shadow: none !important;
-}
-
-[role="tab"]:hover,
-.tab-trigger:hover {
-  color: var(--text-primary) !important;
-  background: transparent !important;
-}
-
-/* Badge overrides — remove pills */
-.badge,
-[class*="badge"] {
-  border-radius: 4px !important;
-  padding: 2px 8px !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-}
-
-/* ─────────────────────────────────────────────
-   Typography utilities
-   ───────────────────────────────────────────── */
-
-/* Page title — Cormorant Garamond, 40px, weight 400 */
-.page-title {
-  font-family: var(--font-display);
-  font-size: 40px;
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-
-/* Section heading — Inter, 18px, weight 500 */
-.section-heading {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: var(--text-primary);
-}
-
-/* Body text — Inter, 14px, weight 400 */
-.body-text {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--text-primary);
-}
-
-/* Muted helper text — Inter, 13px, weight 400 */
-.text-helper {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-/* Page subtitle — sits beneath page-title */
-.page-subtitle {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--text-muted);
-  margin-top: var(--space-sm);
-}
-
-/* All-caps label */
-.label-caps {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-/* Button text */
-button,
-.btn,
-[class*="button"] {
-  font-family: var(--font-body) !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-/* Nav items */
-nav a,
-.nav-item {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-}
-
-/* Tab text */
-[role="tab"],
-.tab-trigger {
-  font-family: var(--font-body) !important;
-  font-size: 14px !important;
+.list-row:hover {
+  background: var(--bg-secondary);
 }
 
 /* ─────────────────────────────────────────────
@@ -397,5 +379,5 @@ nav a,
 
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0);   }
+  to   { opacity: 1; transform: translateY(0); }
 }
