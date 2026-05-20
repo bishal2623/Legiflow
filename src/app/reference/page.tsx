@@ -276,7 +276,7 @@ export default function LegalReferencePage() {
         <nav
           style={{
             position: 'sticky',
-            top: 'calc(52px + var(--space-xl))',
+            top: 'calc(var(--navbar-height) + var(--space-xl))',
             display: 'flex',
             flexDirection: 'column',
             gap: '2px',
@@ -324,7 +324,7 @@ export default function LegalReferencePage() {
           <div
             style={{
               position: 'sticky',
-              top: 'calc(52px + var(--space-md))',
+              top: 'calc(var(--navbar-height) + var(--space-md))',
               zIndex: 10,
               background: 'var(--bg-primary)',
               paddingBottom: 'var(--space-sm)',
