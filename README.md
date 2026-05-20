@@ -16,7 +16,7 @@
 <h2>📌 About Legiflow</h2>
 <p>
 <b>Legiflow</b> is a web-based platform designed to <b>simplify and demystify complex legal documents</b> into easy-to-understand language. 
-The goal of this project is to make legal knowledge more <b>accessible, practical, and user-friendly</b>, especially for students, startups, and individuals with no legal background.
+The goal of this project is to make legal knowledge more <b>accessible, practical, and user-friendly</b>, especially for students, startups, and individuals with no legal background. 
 </p>
 
 <hr/>
