@@ -44,43 +44,43 @@ export default function DashboardPage() {
                     <p className="text-muted-foreground mt-1">Real-time insights and progression tracking for your cases.</p>
                 </div>
 
-                {/* Filters */}
-                <div className="flex flex-wrap items-center gap-3 bg-card p-2 rounded-lg border shadow-sm">
-                    <Select value={selectedType} onValueChange={(val: string) => setSelectedType(val as CaseType | 'All')}>
-                        <SelectTrigger className="w-[160px] h-9">
-                            <SelectValue placeholder="Case Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="All">All Types</SelectItem>
-                            <SelectItem value="Corporate">Corporate</SelectItem>
-                            <SelectItem value="Civil">Civil</SelectItem>
-                            <SelectItem value="Intellectual Property">Intellectual Property</SelectItem>
-                            <SelectItem value="Employment">Employment</SelectItem>
-                        </SelectContent>
-                    </Select>
+            {/* Filters */}
+            <div className="flex flex-wrap items-center gap-3">
+                <Select value={selectedType} onValueChange={(val: string) => setSelectedType(val as CaseType | 'All')}>
+                    <SelectTrigger className="w-[160px] h-9 border-[var(--border-subtle)]">
+                        <SelectValue placeholder="Case Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="All">All Types</SelectItem>
+                        <SelectItem value="Corporate">Corporate</SelectItem>
+                        <SelectItem value="Civil">Civil</SelectItem>
+                        <SelectItem value="Intellectual Property">Intellectual Property</SelectItem>
+                        <SelectItem value="Employment">Employment</SelectItem>
+                    </SelectContent>
+                </Select>
 
-                    <Select value={selectedStatus} onValueChange={(val: string) => setSelectedStatus(val as CaseStatus | 'All')}>
-                        <SelectTrigger className="w-[140px] h-9">
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="All">All Statuses</SelectItem>
-                            <SelectItem value="Open">Open</SelectItem>
-                            <SelectItem value="Pending">Pending</SelectItem>
-                            <SelectItem value="Closed">Closed</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <Select value={selectedStatus} onValueChange={(val: string) => setSelectedStatus(val as CaseStatus | 'All')}>
+                    <SelectTrigger className="w-[140px] h-9 border-[var(--border-subtle)]">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="All">All Statuses</SelectItem>
+                        <SelectItem value="Open">Open</SelectItem>
+                        <SelectItem value="Pending">Pending</SelectItem>
+                        <SelectItem value="Closed">Closed</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
             </div>
 
             {/* Smart Insight Banner */}
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl p-4 flex items-center gap-3">
-                <div className="bg-primary/20 p-2 rounded-full hidden sm:block">
-                    <Sparkles className="h-5 w-5 text-primary" />
+            <div className="border border-[var(--border-subtle)] rounded-md p-4 flex items-center gap-3">
+                <div className="flex-shrink-0">
+                    <Sparkles className="h-5 w-5 text-[var(--accent)]" />
                 </div>
                 <div>
-                    <h4 className="font-semibold text-sm">Smart Insight</h4>
-                    <p className="text-sm text-muted-foreground">{insightText}</p>
+                    <h4 className="font-medium text-sm text-[var(--text-primary)]">Smart Insight</h4>
+                    <p className="text-sm text-[var(--text-muted)]">{insightText}</p>
                 </div>
             </div>
 

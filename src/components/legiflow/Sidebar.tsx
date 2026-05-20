@@ -97,7 +97,7 @@ export function Sidebar() {
       </div>
 
       {/* Nav links */}
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href;
           return (
@@ -109,26 +109,24 @@ export function Sidebar() {
                 alignItems: 'center',
                 gap: '10px',
                 padding: '8px 10px',
-                borderRadius: '7px',
+                paddingLeft: isActive ? '8px' : '10px',
+                borderLeft: isActive ? '2px solid var(--text-primary)' : 'none',
+                borderRadius: '0',
                 fontSize: '13.5px',
                 fontWeight: isActive ? 500 : 400,
-                color: isActive ? 'var(--accent)' : 'var(--text-muted)',
-                background: isActive ? 'rgba(56,189,248,0.08)' : 'transparent',
+                color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+                background: isActive ? 'var(--bg-secondary)' : 'transparent',
                 textDecoration: 'none',
-                transition: 'background 140ms ease, color 140ms ease',
+                transition: 'color 140ms ease, background 140ms ease',
               }}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  (e.currentTarget as HTMLAnchorElement).style.background =
-                    'rgba(148,163,184,0.07)';
                   (e.currentTarget as HTMLAnchorElement).style.color =
                     'var(--text-primary)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isActive) {
-                  (e.currentTarget as HTMLAnchorElement).style.background =
-                    'transparent';
                   (e.currentTarget as HTMLAnchorElement).style.color =
                     'var(--text-muted)';
                 }
@@ -138,7 +136,6 @@ export function Sidebar() {
                 size={16}
                 style={{
                   flexShrink: 0,
-                  color: isActive ? 'var(--accent)' : 'inherit',
                 }}
               />
               <span>{label}</span>

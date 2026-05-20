@@ -1,7 +1,6 @@
 
 'use client';
 import React, { useState, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ipcData, constitutionArticles, constitutionParts, constitutionSchedules, constitutionAmendments } from "@/lib/legal-data";
@@ -49,17 +48,13 @@ export default function LegalReferencePage() {
     ), [searchTerm]);
 
   const renderList = (data: { [key: string]: string }[], keyName: string, keyDescription: string) => (
-    <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-4">
+    <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-4">
         {data.length > 0 ? data.map((item, index) => (
-            <Card key={index} className="bg-card/50">
-                <CardHeader>
-                    <CardTitle className="text-base font-semibold">{item[keyName]}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-muted-foreground">{item[keyDescription]}</p>
-                </CardContent>
-            </Card>
-        )) : <p className="text-center text-muted-foreground py-10">No results found for '{searchTerm}'.</p>}
+            <div key={index} className="border border-[var(--border-subtle)] rounded-md p-4">
+                <h3 className="text-sm font-medium text-[var(--text-primary)] mb-1">{item[keyName]}</h3>
+                <p className="text-sm text-[var(--text-muted)]">{item[keyDescription]}</p>
+            </div>
+        )) : <p className="text-center text-[var(--text-muted)] py-10">No results found for '{searchTerm}'.</p>}
     </div>
   );
 
@@ -72,45 +67,42 @@ export default function LegalReferencePage() {
   }
 
   return (
-    <main>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-2xl">
-            📘 Legal Reference Database
-          </CardTitle>
-           <CardDescription>Search the Constitution of India & Indian Penal Code (IPC).</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="ipc" className="w-full" onValueChange={setActiveTab}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6">
-              <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full sm:w-auto">
-                <TabsTrigger value="ipc">IPC</TabsTrigger>
-                <TabsTrigger value="articles">Articles</TabsTrigger>
-                <TabsTrigger value="parts">Parts</TabsTrigger>
-                <TabsTrigger value="schedules">Schedules</TabsTrigger>
-                <TabsTrigger value="amendments">Amendments</TabsTrigger>
-              </TabsList>
-               <div className="w-full sm:w-auto sm:max-w-xs flex gap-2">
-                 <Input
-                    type="text"
-                    placeholder={searchPlaceholders[activeTab]}
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="bg-transparent"
-                 />
-                 <Button onClick={handleSearch}><Search className="h-4 w-4"/></Button>
-              </div>
-            </div>
-            
-            <TabsContent value="ipc">{renderList(filteredIpc, 'section', 'description')}</TabsContent>
-            <TabsContent value="articles">{renderList(filteredArticles, 'article', 'description')}</TabsContent>
-            <TabsContent value="parts">{renderList(filteredParts, 'part', 'description')}</TabsContent>
-            <TabsContent value="schedules">{renderList(filteredSchedules, 'schedule', 'description')}</TabsContent>
-            <TabsContent value="amendments">{renderList(filteredAmendments, 'amendment', 'description')}</TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+    <main className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1 flex items-center gap-2">
+          📘 Legal Reference Database
+        </h1>
+        <p className="text-sm text-[var(--text-muted)]">Search the Constitution of India & Indian Penal Code (IPC).</p>
+      </div>
+
+      <Tabs defaultValue="ipc" className="w-full" onValueChange={setActiveTab}>
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full sm:w-auto">
+            <TabsTrigger value="ipc">IPC</TabsTrigger>
+            <TabsTrigger value="articles">Articles</TabsTrigger>
+            <TabsTrigger value="parts">Parts</TabsTrigger>
+            <TabsTrigger value="schedules">Schedules</TabsTrigger>
+            <TabsTrigger value="amendments">Amendments</TabsTrigger>
+          </TabsList>
+          <div className="w-full sm:w-auto sm:max-w-xs flex gap-2">
+            <Input
+              type="text"
+              placeholder={searchPlaceholders[activeTab]}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              className="bg-transparent border-[var(--border-subtle)]"
+            />
+            <Button onClick={handleSearch}><Search className="h-4 w-4"/></Button>
+          </div>
+        </div>
+        
+        <TabsContent value="ipc">{renderList(filteredIpc, 'section', 'description')}</TabsContent>
+        <TabsContent value="articles">{renderList(filteredArticles, 'article', 'description')}</TabsContent>
+        <TabsContent value="parts">{renderList(filteredParts, 'part', 'description')}</TabsContent>
+        <TabsContent value="schedules">{renderList(filteredSchedules, 'schedule', 'description')}</TabsContent>
+        <TabsContent value="amendments">{renderList(filteredAmendments, 'amendment', 'description')}</TabsContent>
+      </Tabs>
     </main>
   );
 }

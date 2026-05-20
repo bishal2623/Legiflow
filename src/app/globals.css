@@ -177,3 +177,102 @@
 .sidebar-link-active svg {
   color: var(--accent);
 }
+
+/* ─────────────────────────────────────────────
+   Global overrides — kill pills & chunky borders
+   ───────────────────────────────────────────── */
+
+/* Enforce max border-radius of 6px */
+* {
+  border-radius: min(var(--radius, 6px), 6px) !important;
+}
+
+/* Remove shadows from cards */
+.card,
+[class*="card"] {
+  box-shadow: none !important;
+}
+
+/* Button overrides */
+button,
+.btn,
+[class*="button"] {
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+/* Primary button style */
+button[class*="default"]:not([class*="outline"]):not([class*="ghost"]),
+.btn-primary {
+  background: var(--text-primary) !important;
+  color: var(--bg-primary) !important;
+  border: none !important;
+}
+
+/* Secondary button style */
+button[class*="outline"],
+.btn-secondary {
+  background: transparent !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ghost button style */
+button[class*="ghost"],
+.btn-ghost {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+}
+
+button[class*="ghost"]:hover,
+.btn-ghost:hover {
+  text-decoration: underline !important;
+}
+
+/* Tab overrides — underline style */
+[role="tablist"],
+.tabs-list {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 24px !important;
+}
+
+[role="tab"],
+.tab-trigger {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-bottom: 1.5px solid transparent !important;
+  color: var(--text-muted) !important;
+  padding: 8px 0 !important;
+  font-weight: 400 !important;
+  transition: color 150ms ease, border-color 150ms ease !important;
+}
+
+[role="tab"][data-state="active"],
+.tab-trigger[data-state="active"] {
+  background: transparent !important;
+  border-bottom: 1.5px solid var(--text-primary) !important;
+  color: var(--text-primary) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+[role="tab"]:hover,
+.tab-trigger:hover {
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+
+/* Badge overrides — remove pills */
+.badge,
+[class*="badge"] {
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}

@@ -3,7 +3,6 @@
 
 import { useState, useTransition } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileText, LoaderCircle } from "lucide-react";
@@ -64,57 +63,52 @@ export default function SamplesPage() {
   ];
 
   return (
-    <main>
-      <Card>
-        <CardHeader>
-          <CardTitle>Sample Agreements (India)</CardTitle>
-          <CardDescription>
-            Use these sample agreements to test LegiFlow's analysis capabilities. Click to generate and view.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {samples.map((sample, index) => (
-            <Card key={index} className="flex flex-col">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-ring" />
-                    {sample.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow flex items-end">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="w-full" 
-                      onClick={() => handleGenerateSample(sample.title)}
-                    >
-                      Use this Sample
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl h-[90vh]">
-                    <DialogHeader>
-                      <DialogTitle>{sample.title}</DialogTitle>
-                      <DialogDescription>
-                        This is an AI-generated sample document. It is not legal advice.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <ScrollArea className="h-full w-full rounded-md border p-4">
-                      {isGenerating ? (
-                        <div className="flex items-center justify-center h-full">
-                          <LoaderCircle className="w-10 h-10 animate-spin text-ring" />
-                        </div>
-                      ) : (
-                        <pre className="text-sm whitespace-pre-wrap font-sans">{generatedText}</pre>
-                      )}
-                    </ScrollArea>
-                  </DialogContent>
-                </Dialog>
-              </CardContent>
-            </Card>
-          ))}
-        </CardContent>
-      </Card>
+    <main className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1">Sample Agreements (India)</h1>
+        <p className="text-sm text-[var(--text-muted)]">
+          Use these sample agreements to test LegiFlow's analysis capabilities. Click to generate and view.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {samples.map((sample, index) => (
+          <div key={index} className="border border-[var(--border-subtle)] rounded-md p-4">
+            <div className="flex items-start gap-3 mb-4">
+              <FileText className="w-5 h-5 text-[var(--accent)] flex-shrink-0 mt-0.5" />
+              <h3 className="text-sm font-medium text-[var(--text-primary)]">{sample.title}</h3>
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="w-full text-sm"
+                  onClick={() => handleGenerateSample(sample.title)}
+                >
+                  Use this Sample
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl h-[90vh]">
+                <DialogHeader>
+                  <DialogTitle>{sample.title}</DialogTitle>
+                  <DialogDescription>
+                    This is an AI-generated sample document. It is not legal advice.
+                  </DialogDescription>
+                </DialogHeader>
+                <ScrollArea className="h-full w-full rounded-md border border-[var(--border-subtle)] p-4">
+                  {isGenerating ? (
+                    <div className="flex items-center justify-center h-full">
+                      <LoaderCircle className="w-10 h-10 animate-spin text-[var(--accent)]" />
+                    </div>
+                  ) : (
+                    <pre className="text-sm whitespace-pre-wrap font-sans text-[var(--text-primary)]">{generatedText}</pre>
+                  )}
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
+          </div>
+        ))}
+      </div>
     </main>
   );
 }

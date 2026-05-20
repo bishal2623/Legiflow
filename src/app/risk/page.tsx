@@ -1,7 +1,6 @@
 
 'use client';
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from '@/components/ui/badge';
 import { ShieldAlert, ShieldHalf, ShieldCheck } from 'lucide-react';
 
@@ -26,20 +25,18 @@ const highRiskAgreements = [
     { title: "Investment Agreement", description: "Fraud, mismanagement risk", level: "High" }
 ];
 
-const riskStyles: { [key: string]: { badgeVariant: 'destructive' | 'default' | 'secondary', icon: React.ElementType, className?: string } } = {
+const riskStyles: { [key: string]: { variant: 'default' | 'secondary' | 'destructive' | 'outline', icon: React.ElementType } } = {
     High: {
-        badgeVariant: 'destructive',
+        variant: 'destructive',
         icon: ShieldAlert,
     },
     Medium: {
-        badgeVariant: 'default',
+        variant: 'default',
         icon: ShieldHalf,
-        className: 'bg-amber-500 text-black hover:bg-amber-600',
     },
     Safe: {
-        badgeVariant: 'secondary',
+        variant: 'secondary',
         icon: ShieldCheck,
-        className: 'bg-green-500 text-white hover:bg-green-600',
     }
 }
 
@@ -48,37 +45,31 @@ const RiskCard = ({ title, description, level }: { title: string, description: s
     const Icon = style.icon;
     
     return (
-        <Card className="glass-card">
-            <CardHeader>
-                <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{title}</CardTitle>
-                    <Badge variant={style.badgeVariant} className={style.className}>
-                        <Icon className="h-4 w-4 mr-2" />
-                        {level} Risk
-                    </Badge>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground">{description}</p>
-            </CardContent>
-        </Card>
+        <div className="border border-[var(--border-subtle)] rounded-md p-4">
+            <div className="flex justify-between items-start gap-3 mb-2">
+                <h3 className="text-sm font-medium text-[var(--text-primary)]">{title}</h3>
+                <Badge variant={style.variant} className="flex-shrink-0">
+                    <Icon className="h-3 w-3 mr-1" />
+                    {level}
+                </Badge>
+            </div>
+            <p className="text-sm text-[var(--text-muted)]">{description}</p>
+        </div>
     )
 }
 
 export default function RiskPage() {
     return (
-        <main>
-            <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold">🚨 High-Risk Agreements</CardTitle>
-                  <CardDescription>Common agreement types that frequently contain risky clauses.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {highRiskAgreements.map((item, index) => (
-                        <RiskCard key={index} title={item.title} description={item.description} level={item.level as 'High' | 'Medium'} />
-                    ))}
-                </CardContent>
-            </Card>
+        <main className="space-y-6">
+            <div>
+              <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-1">🚨 High-Risk Agreements</h1>
+              <p className="text-sm text-[var(--text-muted)]">Common agreement types that frequently contain risky clauses.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {highRiskAgreements.map((item, index) => (
+                    <RiskCard key={index} title={item.title} description={item.description} level={item.level as 'High' | 'Medium'} />
+                ))}
+            </div>
         </main>
     );
 }
