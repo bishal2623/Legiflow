@@ -1,5 +1,4 @@
 'use server';
-
 /**
  * @fileOverview This flow allows users to ask questions about a legal contract and receive clear answers.
  *
@@ -52,10 +51,8 @@ const answerContractQuestionPrompt = ai.definePrompt({
 
   Given the following legal contract and a question, provide a clear and concise answer in plain language. Your answer should incorporate relevant legal principles and cite specific government laws or regulations where applicable.
   Also, provide a confidence score (0-1) indicating the certainty of your answer and cite the specific clauses or sections of the contract that support your answer.
-
   Contract:
   {{contractText}}
-
   Question:
   {{question}}
 
