@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
@@ -11,7 +11,8 @@ interface DocumentInputProps {
   isLoading: boolean;
 }
 
-export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
+/* ── inner component that uses useSearchParams ── */
+function DocumentInputInner({ onParse, isLoading }: DocumentInputProps) {
   const [text, setText] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -58,7 +59,8 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
   };
 
   const handleSubmit = () => {
-    if (text.trim()) onParse(text.trim());
+    const trimmed = text.trim();
+    if (trimmed) onParse(trimmed);
   };
 
   const canSubmit = text.trim().length > 0 && !isLoading;
@@ -82,13 +84,10 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
         }}
       >
         {fileName ? (
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '14px',
-            color: 'var(--text-primary)',
-          }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-primary)' }}>
             {fileName}
             <button
+              type="button"
               onClick={() => { setFileName(null); setText(''); }}
               style={{
                 marginLeft: '10px',
@@ -123,6 +122,7 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
             }}>
               or{' '}
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
                 style={{
                   fontFamily: 'var(--font-body)',
@@ -158,11 +158,7 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
       </div>
 
       {/* ── OR divider ── */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--space-md)',
-      }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
         <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
         <span style={{
           fontFamily: 'var(--font-body)',
@@ -197,7 +193,8 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
 
       {/* ── Analyze button — right-aligned ── */}
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button
+        <button
+          type="button"
           onClick={handleSubmit}
           disabled={!canSubmit}
           style={{
@@ -205,20 +202,33 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
             fontSize: '13px',
             fontWeight: 500,
             minWidth: '148px',
+            height: '40px',
+            padding: '0 20px',
+            borderRadius: '5px',
+            border: 'none',
+            cursor: canSubmit ? 'pointer' : 'not-allowed',
+            opacity: canSubmit ? 1 : 0.45,
+            background: 'var(--text-primary)',
+            color: 'var(--bg-primary)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'opacity 150ms ease',
           }}
         >
           {isLoading ? (
             <>
               <LoaderCircle
                 size={14}
-                style={{ marginRight: 'var(--space-sm)', animation: 'spin 1s linear infinite' }}
+                style={{ animation: 'spin 1s linear infinite', flexShrink: 0 }}
               />
               Analyzing…
             </>
           ) : (
             'Analyze Document'
           )}
-        </Button>
+        </button>
       </div>
 
       {/* ── What happens next ── */}
@@ -261,5 +271,14 @@ export function DocumentInput({ onParse, isLoading }: DocumentInputProps) {
       </div>
 
     </div>
+  );
+}
+
+/* ── public export wrapped in Suspense for useSearchParams ── */
+export function DocumentInput(props: DocumentInputProps) {
+  return (
+    <Suspense fallback={null}>
+      <DocumentInputInner {...props} />
+    </Suspense>
   );
 }
