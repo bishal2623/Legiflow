@@ -139,7 +139,8 @@ export default function SearchPage() {
     startSearching(async () => {
       try {
         const response = await searchClauses({
-          documentText: documentText.trim() || `Search for clauses related to: ${q}`,
+          documentText: documentText.trim() ||
+            'Generate representative example clauses from a typical Indian legal agreement.',
           query: q,
         });
         setResults(response.clauses);

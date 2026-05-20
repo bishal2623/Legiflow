@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FileText, Upload } from 'lucide-react';
 import Link from 'next/link';
@@ -107,15 +107,10 @@ function RiskBadge({ level }: { level: RiskLevel }) {
 
 /* ─── single row ─────────────────────────────────────────── */
 function AgreementRow({ item }: { item: Agreement }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onKeyDown={(e) => e.key === 'Enter' && undefined}
+    <Link
+      href={`/agreements/${item.id}`}
+      className="list-row"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -123,9 +118,7 @@ function AgreementRow({ item }: { item: Agreement }) {
         minHeight: '56px',
         padding: '0 var(--space-sm)',
         borderBottom: '1px solid var(--border-subtle)',
-        background: hovered ? 'var(--bg-secondary)' : 'transparent',
-        cursor: 'pointer',
-        transition: 'background 120ms ease',
+        textDecoration: 'none',
         userSelect: 'none',
       }}
     >
@@ -146,6 +139,7 @@ function AgreementRow({ item }: { item: Agreement }) {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           lineHeight: 1.4,
+          margin: 0,
         }}>
           {item.title}
         </p>
@@ -155,6 +149,7 @@ function AgreementRow({ item }: { item: Agreement }) {
           color: 'var(--text-muted)',
           marginTop: '2px',
           lineHeight: 1.3,
+          margin: 0,
         }}>
           {item.tags.join(' · ')}
         </p>
@@ -179,7 +174,7 @@ function AgreementRow({ item }: { item: Agreement }) {
           {item.date}
         </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -231,34 +226,21 @@ export default function AgreementsPage() {
           <p className="page-subtitle">Upload, manage, and review all your legal documents.</p>
         </div>
 
-        <Link href="/analyze" style={{ flexShrink: 0, marginTop: '6px' }}>
+        <Link href="/analyze" style={{ flexShrink: 0, marginTop: 'var(--space-xs)' }}>
           <button
             type="button"
+            className="btn-outline"
             style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '13px',
-              fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--space-xs)',
               height: '36px',
               padding: '0 var(--space-md)',
-              borderRadius: '5px',
               border: '1px solid var(--border-subtle)',
               background: 'transparent',
               color: 'var(--text-primary)',
-              cursor: 'pointer',
               whiteSpace: 'nowrap',
-              transition: 'background 150ms ease',
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.background =
-                'rgba(148,163,184,0.06)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.background =
-                'transparent')
-            }
           >
             <Upload size={14} />
             Upload New Agreement

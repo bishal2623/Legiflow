@@ -6,6 +6,10 @@
    Font families · Spacing tokens · Design tokens
    ───────────────────────────────────────────── */
 :root {
+  /* Layout dimensions */
+  --navbar-height: 52px;
+  --sidebar-width: 220px;
+
   /* Fonts */
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'Inter', system-ui, sans-serif;
@@ -367,6 +371,46 @@ nav a,
 
 .list-row:hover {
   background: var(--bg-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   Outline button — secondary action
+   ───────────────────────────────────────────── */
+.btn-outline {
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-primary);
+  border-radius: 5px;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: rgba(148, 163, 184, 0.06);
+}
+
+/* ─────────────────────────────────────────────
+   Reference page nav buttons
+   ───────────────────────────────────────────── */
+.ref-nav-btn {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-sm) 10px;
+  padding-left: 10px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ref-nav-btn:hover {
+  border-left-color: var(--border-subtle);
+}
+
+.ref-nav-btn.active {
+  border-left-color: var(--text-primary);
+  padding-left: 8px;
 }
 
 /* ─────────────────────────────────────────────

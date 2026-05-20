@@ -94,7 +94,7 @@ export function Navbar() {
         top: 0,
         left: 0,
         right: 0,
-        height: "52px",
+        height: "var(--navbar-height)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

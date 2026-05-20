@@ -31,12 +31,12 @@ export function Sidebar() {
   return (
     <aside
       style={{
-        width: '220px',
+        width: 'var(--sidebar-width)',
         flexShrink: 0,
         position: 'fixed',
-        top: '52px',
+        top: 'var(--navbar-height)',
         left: 0,
-        height: 'calc(100vh - 52px)',
+        height: 'calc(100vh - var(--navbar-height))',
         background: 'var(--bg-secondary)',
         borderRight: '1px solid var(--border-subtle)',
         display: 'flex',

@@ -289,29 +289,7 @@ export default function LegalReferencePage() {
                 key={id}
                 type="button"
                 onClick={() => scrollTo(id)}
-                style={{
-                  all: 'unset',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1px',
-                  padding: '8px 10px',
-                  paddingLeft: isActive ? '8px' : '10px',
-                  borderLeft: isActive
-                    ? '2px solid var(--text-primary)'
-                    : '2px solid transparent',
-                  cursor: 'pointer',
-                  transition: 'border-color 140ms ease',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive)
-                    (e.currentTarget as HTMLButtonElement).style.borderLeftColor =
-                      'var(--border-subtle)';
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive)
-                    (e.currentTarget as HTMLButtonElement).style.borderLeftColor =
-                      'transparent';
-                }}
+                className={`ref-nav-btn${isActive ? ' active' : ''}`}
               >
                 <span
                   style={{
@@ -319,7 +297,7 @@ export default function LegalReferencePage() {
                     fontSize: '14px',
                     fontWeight: isActive ? 500 : 400,
                     color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                    transition: 'color 140ms ease',
+                    transition: 'color 0.15s ease',
                   }}
                 >
                   {label}

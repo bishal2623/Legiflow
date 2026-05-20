@@ -398,13 +398,10 @@ export default function ComparePage() {
           type="button"
           onClick={handleCompare}
           disabled={loading || agreementA === agreementB}
+          className="btn-outline"
           style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: '13px',
-            fontWeight: 500,
             height: '36px',
             padding: '0 var(--space-lg)',
-            borderRadius: '5px',
             border: '1px solid var(--border-subtle)',
             background: 'transparent',
             color: loading ? 'var(--text-muted)' : 'var(--text-primary)',
@@ -412,15 +409,8 @@ export default function ComparePage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 'var(--space-xs)',
-            transition: 'background 150ms ease',
             whiteSpace: 'nowrap',
             flexShrink: 0,
-          }}
-          onMouseEnter={(e) => {
-            if (!loading) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(148,163,184,0.06)';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
           }}
         >
           {loading ? (

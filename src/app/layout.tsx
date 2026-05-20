@@ -29,12 +29,12 @@ function AppLayout({ children }: { children: React.ReactNode }) {
             <Sidebar />
             <main
                 style={{
-                    marginTop: '52px',
-                    marginLeft: '220px',
+                    marginTop: 'var(--navbar-height)',
+                    marginLeft: 'var(--sidebar-width)',
                     flex: 1,
                     padding: 'var(--space-xl)',
                     overflowY: 'auto',
-                    minHeight: 'calc(100vh - 52px)',
+                    minHeight: 'calc(100vh - var(--navbar-height))',
                 }}
             >
                 {children}
