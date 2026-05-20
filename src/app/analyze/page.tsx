@@ -1,6 +1,5 @@
 
 'use client';
-
 import { useState, useTransition } from 'react';
 import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
