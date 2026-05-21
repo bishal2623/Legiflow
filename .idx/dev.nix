@@ -1,4 +1,3 @@
-
 {pkgs}: {
   channel = "stable-24.11"; # or "unstable"
   packages = [
@@ -14,16 +13,19 @@
     detect = false;
     projectId = "demo-app";
     services = ["auth" "firestore"];
+
   };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       # "vscodevim.vim"
+
     ];
     workspace = {
       onCreate = {
         default.openFiles = [
           "src/app/page.tsx"
+
         ];
       };
     };
