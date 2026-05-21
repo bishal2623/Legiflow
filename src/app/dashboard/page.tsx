@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -23,7 +22,6 @@ export default function DashboardPage() {
         return cases;
     }, [selectedType, selectedStatus]);
 
-    // Data Aggregation
     const stats = useMemo(() => getStats(filteredCases), [filteredCases]);
     const monthlyData = useMemo(() => getCasesPerMonth(filteredCases), [filteredCases]);
     const distributionData = useMemo(() => getStatusDistribution(filteredCases), [filteredCases]);
@@ -73,7 +71,6 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Smart Insight Banner */}
             <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl p-4 flex items-center gap-3">
                 <div className="bg-primary/20 p-2 rounded-full hidden sm:block">
                     <Sparkles className="h-5 w-5 text-primary" />
