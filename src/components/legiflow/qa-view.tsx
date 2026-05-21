@@ -77,8 +77,8 @@ export function QaView({ documentText }: QaViewProps) {
                         ) : (
                              messages.map((msg, index) => (
                                 <div key={index} className={`flex items-start gap-3 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
-                                    {msg.sender === 'bot' && <div className="p-2 bg-primary rounded-full text-primary-foreground"><Bot className="h-5 w-5 flex-shrink-0" /></div>}
-                                    <div className={`p-3 rounded-lg max-w-[80%] ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                                    {msg.sender === 'bot' && <div className="p-2 bg-[var(--border-subtle)] rounded-full text-[var(--text-primary)]"><Bot className="h-5 w-5 flex-shrink-0" /></div>}
+                                    <div className={`p-3 rounded-lg max-w-[80%] ${msg.sender === 'user' ? 'bg-[var(--text-primary)] text-[var(--bg-primary)]' : 'bg-muted'}`}>
                                         {msg.content}
                                     </div>
                                     {msg.sender === 'user' && <div className="p-2 bg-muted rounded-full text-foreground"><User className="h-5 w-5 flex-shrink-0" /></div>}
@@ -87,7 +87,7 @@ export function QaView({ documentText }: QaViewProps) {
                         )}
                         {isAnswering && (
                              <div className="flex items-start gap-3">
-                                <div className="p-2 bg-primary rounded-full text-primary-foreground"><Bot className="h-5 w-5 flex-shrink-0" /></div>
+                                <div className="p-2 bg-[var(--border-subtle)] rounded-full text-[var(--text-primary)]"><Bot className="h-5 w-5 flex-shrink-0" /></div>
                                 <div className="p-3 rounded-lg bg-muted">
                                     <LoaderCircle className="h-5 w-5 animate-spin" />
                                 </div>

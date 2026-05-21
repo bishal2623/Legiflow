@@ -37,50 +37,67 @@ export default function DashboardPage() {
     }, [stats, filteredCases]);
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
+
+            {/* ── Hero ── */}
+            <div style={{ paddingBottom: 'var(--space-xl)', borderBottom: '1px solid var(--border-subtle)' }}>
+                <h1 className="page-title">Understand Legal Documents Clearly.</h1>
+                <p style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '15px',
+                    fontWeight: 400,
+                    color: 'var(--text-muted)',
+                    lineHeight: 1.65,
+                    marginTop: 'var(--space-sm)',
+                    maxWidth: '480px',
+                }}>
+                    Upload agreements, identify risky clauses,<br />
+                    and explore Indian law in plain language.
+                </p>
+            </div>
+
+            {/* ── Analytics header + filters ── */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--space-md)' }}>
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h2>
-                    <p className="text-muted-foreground mt-1">Real-time insights and progression tracking for your cases.</p>
+                    <h2 className="section-heading">Analytics Dashboard</h2>
+                    <p className="page-subtitle" style={{ marginTop: 'var(--space-xs)' }}>Real-time insights and progression tracking for your cases.</p>
                 </div>
 
-                {/* Filters */}
-                <div className="flex flex-wrap items-center gap-3 bg-card p-2 rounded-lg border shadow-sm">
-                    <Select value={selectedType} onValueChange={(val: string) => setSelectedType(val as CaseType | 'All')}>
-                        <SelectTrigger className="w-[160px] h-9">
-                            <SelectValue placeholder="Case Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="All">All Types</SelectItem>
-                            <SelectItem value="Corporate">Corporate</SelectItem>
-                            <SelectItem value="Civil">Civil</SelectItem>
-                            <SelectItem value="Intellectual Property">Intellectual Property</SelectItem>
-                            <SelectItem value="Employment">Employment</SelectItem>
-                        </SelectContent>
-                    </Select>
+            {/* Filters */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                <Select value={selectedType} onValueChange={(val: string) => setSelectedType(val as CaseType | 'All')}>
+                    <SelectTrigger className="w-[160px] h-9 border-[var(--border-subtle)]">
+                        <SelectValue placeholder="Case Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="All">All Types</SelectItem>
+                        <SelectItem value="Corporate">Corporate</SelectItem>
+                        <SelectItem value="Civil">Civil</SelectItem>
+                        <SelectItem value="Intellectual Property">Intellectual Property</SelectItem>
+                        <SelectItem value="Employment">Employment</SelectItem>
+                    </SelectContent>
+                </Select>
 
-                    <Select value={selectedStatus} onValueChange={(val: string) => setSelectedStatus(val as CaseStatus | 'All')}>
-                        <SelectTrigger className="w-[140px] h-9">
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="All">All Statuses</SelectItem>
-                            <SelectItem value="Open">Open</SelectItem>
-                            <SelectItem value="Pending">Pending</SelectItem>
-                            <SelectItem value="Closed">Closed</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                <Select value={selectedStatus} onValueChange={(val: string) => setSelectedStatus(val as CaseStatus | 'All')}>
+                    <SelectTrigger className="w-[140px] h-9 border-[var(--border-subtle)]">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="All">All Statuses</SelectItem>
+                        <SelectItem value="Open">Open</SelectItem>
+                        <SelectItem value="Pending">Pending</SelectItem>
+                        <SelectItem value="Closed">Closed</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
             </div>
 
             {/* Smart Insight Banner */}
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl p-4 flex items-center gap-3">
-                <div className="bg-primary/20 p-2 rounded-full hidden sm:block">
-                    <Sparkles className="h-5 w-5 text-primary" />
-                </div>
+            <div style={{ border: '1px solid var(--border-subtle)', borderRadius: '6px', padding: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                <Sparkles style={{ width: '16px', height: '16px', color: 'var(--text-muted)', flexShrink: 0 }} />
                 <div>
-                    <h4 className="font-semibold text-sm">Smart Insight</h4>
-                    <p className="text-sm text-muted-foreground">{insightText}</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)', marginBottom: '2px' }}>Smart Insight</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-muted)' }}>{insightText}</p>
                 </div>
             </div>
 
@@ -94,7 +111,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Timelines */}
-            <div className="grid grid-cols-1">
+            <div>
                 <CaseTimeline cases={filteredCases} />
             </div>
         </div>

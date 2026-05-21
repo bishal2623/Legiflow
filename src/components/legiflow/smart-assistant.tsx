@@ -95,7 +95,7 @@ export function SmartAssistant() {
           {/* Header */}
           <CardHeader className="p-4 border-b bg-muted/40 flex flex-row items-center justify-between space-y-0 rounded-t-xl">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <div className="w-8 h-8 rounded-full bg-[var(--border-subtle)] flex items-center justify-center text-[var(--text-primary)]">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
@@ -114,14 +114,14 @@ export function SmartAssistant() {
                 <div key={msg.id} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} max-w-full space-y-1`}>
                     <div className={`flex items-end gap-2 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                         {/* Avatar */}
-                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted border text-foreground'}`}>
+                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${msg.role === 'user' ? 'bg-[var(--text-primary)] text-[var(--bg-primary)]' : 'bg-muted border text-foreground'}`}>
                             {msg.role === 'user' ? <User className="w-3 h-3" /> : <Bot className="w-3 h-3" />}
                         </div>
                         
                         {/* Bubble */}
                         <div className={`p-3 rounded-2xl text-sm ${
                             msg.role === 'user' 
-                                ? 'bg-primary text-primary-foreground rounded-br-sm' 
+                                ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-br-sm' 
                                 : 'bg-muted/80 text-foreground border rounded-bl-sm prose prose-sm dark:prose-invert max-w-none'
                         }`}>
                             {msg.role === 'user' ? (
@@ -198,7 +198,7 @@ export function SmartAssistant() {
       <Button 
         size="icon" 
         onClick={toggleChat}
-        className={`h-14 w-14 rounded-full shadow-xl transition-all duration-300 ${isOpen ? 'bg-muted text-foreground hover:bg-muted/80' : 'bg-primary hover:bg-primary/90 hover:scale-105'} flex items-center justify-center`}
+        className={`h-14 w-14 rounded-full shadow-xl transition-all duration-300 ${isOpen ? 'bg-muted text-foreground hover:bg-muted/80' : 'bg-[var(--text-primary)] text-[var(--bg-primary)] hover:opacity-90 hover:scale-105'} flex items-center justify-center`}
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
       </Button>

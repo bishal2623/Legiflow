@@ -1,270 +1,570 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useCallback } from 'react';
+import { ChevronDown, LoaderCircle, FileText } from 'lucide-react';
 
-// --- Types ---
-interface Agreement {
-  id: 'A' | 'B';
+/* ─── types ──────────────────────────────────────────────── */
+type LineType = 'removed' | 'added' | 'unchanged';
+
+interface DiffLine {
+  type: LineType;
+  text: string;
+  version?: string; // e.g. "2024" | "2025"
+}
+
+interface DiffClause {
+  heading: string;       // "Clause 4 — Termination"
+  lines: DiffLine[];
+  hasChanges: boolean;
+}
+
+interface DiffSummary {
+  changed: number;
+  added: number;
+  removed: number;
+  notes: string[];
+}
+
+/* ─── mock agreements ────────────────────────────────────── */
+interface MockAgreement {
+  id: string;
   label: string;
-  file: File | null;
-  content: string;
+  year: string;
 }
 
-interface Diff {
-  clause: string;
-  description: string;
-  severity: 'high' | 'medium' | 'low';
-}
+const MOCK_AGREEMENTS: MockAgreement[] = [
+  { id: 'nda_2025', label: 'NDA_2025.pdf',              year: '2025' },
+  { id: 'nda_2024', label: 'NDA_2024.pdf',              year: '2024' },
+  { id: 'emp_2025', label: 'Employment_2025.pdf',       year: '2025' },
+  { id: 'emp_2024', label: 'Employment_2024.pdf',       year: '2024' },
+  { id: 'sla_2025', label: 'SLA_2025.pdf',              year: '2025' },
+  { id: 'sla_2023', label: 'SLA_2023.pdf',              year: '2023' },
+];
 
-// --- Mock diff engine (replace with real diffing logic) ---
-function computeDiffs(a: Agreement, b: Agreement): Diff[] {
-  if (!a.file || !b.file) return [];
-  // Placeholder: swap with actual text-diff or AI-powered comparison
-  return [
-    { clause: 'Clause 4 – Termination', description: 'Stricter notice period in the 2025 version (30 → 60 days).', severity: 'high' },
-    { clause: 'Clause 7 – Liability', description: 'Cap raised from $50k to $200k in the newer agreement.', severity: 'medium' },
-    { clause: 'Clause 11 – Governing Law', description: 'Jurisdiction changed from Delaware to New York.', severity: 'low' },
+/* ─── mock diff engine ───────────────────────────────────── */
+function computeDiff(aId: string, bId: string): { clauses: DiffClause[]; summary: DiffSummary } {
+  // Realistic mock — in production replace with AI-powered or text-diff comparison
+  const aYear = MOCK_AGREEMENTS.find((m) => m.id === aId)?.year ?? 'A';
+  const bYear = MOCK_AGREEMENTS.find((m) => m.id === bId)?.year ?? 'B';
+
+  const clauses: DiffClause[] = [
+    {
+      heading: 'Clause 1 — Parties',
+      hasChanges: false,
+      lines: [
+        {
+          type: 'unchanged',
+          text: 'This agreement is entered into between the parties named in Schedule 1.',
+        },
+      ],
+    },
+    {
+      heading: 'Clause 4 — Termination',
+      hasChanges: true,
+      lines: [
+        {
+          type: 'removed',
+          text: 'The contract may be terminated with 30 days written notice.',
+          version: aYear,
+        },
+        {
+          type: 'added',
+          text: 'The contract may be terminated with 90 days written notice.',
+          version: bYear,
+        },
+      ],
+    },
+    {
+      heading: 'Clause 6 — Confidentiality',
+      hasChanges: true,
+      lines: [
+        {
+          type: 'removed',
+          text: 'Confidentiality obligations shall survive for 2 years post-termination.',
+          version: aYear,
+        },
+        {
+          type: 'added',
+          text: 'Confidentiality obligations shall survive indefinitely post-termination.',
+          version: bYear,
+        },
+      ],
+    },
+    {
+      heading: 'Clause 7 — Governing Law',
+      hasChanges: false,
+      lines: [
+        {
+          type: 'unchanged',
+          text: 'This agreement shall be governed by the laws of India.',
+        },
+      ],
+    },
+    {
+      heading: 'Clause 9 — Liability Cap',
+      hasChanges: true,
+      lines: [
+        {
+          type: 'removed',
+          text: 'Total liability of either party shall not exceed ₹50,00,000.',
+          version: aYear,
+        },
+        {
+          type: 'added',
+          text: 'Total liability of either party shall not exceed ₹2,00,00,000.',
+          version: bYear,
+        },
+      ],
+    },
+    {
+      heading: 'Clause 12 — Dispute Resolution',
+      hasChanges: true,
+      lines: [
+        {
+          type: 'unchanged',
+          text: 'Disputes shall first be referred to mediation.',
+        },
+        {
+          type: 'removed',
+          text: 'If unresolved, disputes shall be referred to arbitration in Mumbai.',
+          version: aYear,
+        },
+        {
+          type: 'added',
+          text: 'If unresolved, disputes shall be referred to arbitration in Delhi under the Arbitration and Conciliation Act, 1996.',
+          version: bYear,
+        },
+      ],
+    },
+    {
+      heading: 'Clause 14 — Force Majeure',
+      hasChanges: false,
+      lines: [
+        {
+          type: 'unchanged',
+          text: 'Neither party shall be liable for delays caused by circumstances beyond their reasonable control.',
+        },
+      ],
+    },
+    {
+      heading: 'Clause 16 — Intellectual Property',
+      hasChanges: true,
+      lines: [
+        {
+          type: 'added',
+          text: 'All intellectual property created during the term of this agreement shall vest exclusively in the Company.',
+          version: bYear,
+        },
+      ],
+    },
   ];
+
+  const changed = clauses.filter(
+    (c) => c.hasChanges && c.lines.some((l) => l.type === 'removed') && c.lines.some((l) => l.type === 'added')
+  ).length;
+  const added   = clauses.filter(
+    (c) => c.hasChanges && !c.lines.some((l) => l.type === 'removed') && c.lines.some((l) => l.type === 'added')
+  ).length;
+  const removed = clauses.filter(
+    (c) => c.hasChanges && c.lines.some((l) => l.type === 'removed') && !c.lines.some((l) => l.type === 'added')
+  ).length;
+
+  return {
+    clauses,
+    summary: {
+      changed,
+      added,
+      removed,
+      notes: [
+        'Termination notice period extended from 30 to 90 days in the newer version.',
+        'Confidentiality obligation changed from 2 years to indefinite.',
+        'Liability cap raised from ₹50L to ₹2Cr.',
+        'Arbitration venue changed from Mumbai to Delhi.',
+        'New IP ownership clause added in the newer version.',
+      ],
+    },
+  };
 }
 
-// --- Sub-components ---
-const severityStyles: Record<Diff['severity'], string> = {
-  high: 'bg-red-500/10 border-red-500/30 text-red-400',
-  medium: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
-  low: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
+/* ─── line type styles ───────────────────────────────────── */
+const LINE_STYLES: Record<LineType, { borderColor: string; color: string; extra?: React.CSSProperties }> = {
+  removed: {
+    borderColor: 'var(--risk-high)',
+    color: 'var(--risk-high)',
+    extra: { textDecoration: 'line-through', opacity: 0.75 },
+  },
+  added: {
+    borderColor: 'var(--risk-low)',
+    color: 'var(--risk-low)',
+    extra: { opacity: 0.85 },
+  },
+  unchanged: {
+    borderColor: 'transparent',
+    color: 'var(--text-muted)',
+    extra: { opacity: 0.6 },
+  },
 };
 
-const severityLabel: Record<Diff['severity'], string> = {
-  high: '● High',
-  medium: '◑ Medium',
-  low: '○ Low',
-};
-
-function DropZone({
-  agreement,
-  onFile,
+/* ─── selector dropdown ──────────────────────────────────── */
+function AgreementSelector({
+  label,
+  value,
+  onChange,
+  exclude,
 }: {
-  agreement: Agreement;
-  onFile: (id: 'A' | 'B', file: File) => void;
+  label: string;
+  value: string;
+  onChange: (id: string) => void;
+  exclude: string;
 }) {
-  const [dragging, setDragging] = useState(false);
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragging(false);
-      const file = e.dataTransfer.files[0];
-      if (file) onFile(agreement.id, file);
-    },
-    [agreement.id, onFile]
-  );
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) onFile(agreement.id, file);
-    },
-    [agreement.id, onFile]
-  );
-
   return (
-    <motion.label
-      htmlFor={`upload-${agreement.id}`}
-      className={`
-        relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed
-        p-6 cursor-pointer transition-all duration-200 select-none
-        ${dragging
-          ? 'border-indigo-400 bg-indigo-500/10 scale-[1.02]'
-          : agreement.file
-          ? 'border-indigo-500/50 bg-indigo-500/5'
-          : 'border-zinc-700 bg-zinc-900/50 hover:border-zinc-500 hover:bg-zinc-800/50'
-        }
-      `}
-      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={handleDrop}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.99 }}
-    >
-      <input
-        id={`upload-${agreement.id}`}
-        type="file"
-        accept=".pdf,.doc,.docx,.txt"
-        className="sr-only"
-        onChange={handleChange}
-      />
-
-      <span className="text-2xl">{agreement.file ? '📄' : '📂'}</span>
-
-      <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-1">
-          Agreement {agreement.id}
-        </p>
-        {agreement.file ? (
-          <p className="text-sm font-medium text-indigo-300 truncate max-w-[180px]">
-            {agreement.file.name}
-          </p>
-        ) : (
-          <p className="text-sm text-zinc-400">Drop file or click to upload</p>
-        )}
-      </div>
-
-      {agreement.file && (
-        <motion.span
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute top-2 right-2 text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full"
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <span
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '11px',
+          fontWeight: 500,
+          letterSpacing: '0.07em',
+          textTransform: 'uppercase',
+          color: 'var(--text-muted)',
+        }}
+      >
+        {label}
+      </span>
+      <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '14px',
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+            background: 'transparent',
+            border: 'none',
+            borderBottom: '1px solid var(--border-subtle)',
+            outline: 'none',
+            padding: '4px 24px 4px 0',
+            cursor: 'pointer',
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            minWidth: '200px',
+          }}
         >
-          Ready
-        </motion.span>
-      )}
-    </motion.label>
-  );
-}
-
-function DiffCard({ diff, index }: { diff: Diff; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -12 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.07 }}
-      className={`rounded-lg border p-4 ${severityStyles[diff.severity]}`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-sm font-semibold text-white">{diff.clause}</p>
-        <span className={`text-xs font-medium whitespace-nowrap ${severityStyles[diff.severity]}`}>
-          {severityLabel[diff.severity]}
-        </span>
+          {MOCK_AGREEMENTS.filter((m) => m.id !== exclude).map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          size={14}
+          style={{
+            position: 'absolute',
+            right: 0,
+            color: 'var(--text-muted)',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
-      <p className="mt-1 text-sm opacity-80">{diff.description}</p>
-    </motion.div>
+    </div>
   );
 }
 
-// --- Page ---
+/* ─── diff line ──────────────────────────────────────────── */
+function DiffLineRow({ line }: { line: DiffLine }) {
+  const s = LINE_STYLES[line.type];
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 'var(--space-md)',
+        paddingLeft: 'var(--space-md)',
+        borderLeft: `2px solid ${s.borderColor}`,
+        paddingTop: '3px',
+        paddingBottom: '3px',
+      }}
+    >
+      <p
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '14px',
+          lineHeight: 1.65,
+          color: s.color,
+          margin: 0,
+          flex: 1,
+          ...s.extra,
+        }}
+      >
+        {line.text}
+      </p>
+      {line.version && (
+        <span
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '11px',
+            color: 'var(--text-muted)',
+            opacity: 0.6,
+            flexShrink: 0,
+            letterSpacing: '0.03em',
+          }}
+        >
+          [{line.version}]
+        </span>
+      )}
+    </div>
+  );
+}
+
+/* ─── clause block ───────────────────────────────────────── */
+function ClauseBlock({ clause }: { clause: DiffClause }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+      {/* heading */}
+      <p
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '13px',
+          fontWeight: 500,
+          color: clause.hasChanges ? 'var(--text-primary)' : 'var(--text-muted)',
+          letterSpacing: '0.01em',
+          margin: 0,
+          opacity: clause.hasChanges ? 1 : 0.55,
+        }}
+      >
+        {clause.heading}
+      </p>
+
+      {/* lines */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        {clause.lines.map((line, i) => (
+          <DiffLineRow key={i} line={line} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── page ───────────────────────────────────────────────── */
 export default function ComparePage() {
-  const [agreements, setAgreements] = useState<{ A: Agreement; B: Agreement }>({
-    A: { id: 'A', label: 'Agreement A', file: null, content: '' },
-    B: { id: 'B', label: 'Agreement B', file: null, content: '' },
-  });
-
-  const [diffs, setDiffs] = useState<Diff[] | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleFile = useCallback((id: 'A' | 'B', file: File) => {
-    setAgreements((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], file },
-    }));
-    setDiffs(null);
-  }, []);
+  const [agreementA, setAgreementA] = useState(MOCK_AGREEMENTS[0].id);
+  const [agreementB, setAgreementB] = useState(MOCK_AGREEMENTS[1].id);
+  const [result, setResult]         = useState<ReturnType<typeof computeDiff> | null>(null);
+  const [loading, setLoading]       = useState(false);
 
   const handleCompare = useCallback(async () => {
-    if (!agreements.A.file || !agreements.B.file) return;
     setLoading(true);
-    // Simulate async diff (replace with real API/diff call)
-    await new Promise((r) => setTimeout(r, 900));
-    setDiffs(computeDiffs(agreements.A, agreements.B));
+    setResult(null);
+    // Simulate async — replace with real AI diff call
+    await new Promise((r) => setTimeout(r, 700));
+    setResult(computeDiff(agreementA, agreementB));
     setLoading(false);
-  }, [agreements]);
+  }, [agreementA, agreementB]);
 
-  const canCompare = !!agreements.A.file && !!agreements.B.file;
+  const labelA = MOCK_AGREEMENTS.find((m) => m.id === agreementA)?.label ?? '';
+  const labelB = MOCK_AGREEMENTS.find((m) => m.id === agreementB)?.label ?? '';
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-10 font-sans">
-      <motion.div
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="max-w-3xl mx-auto space-y-6"
+    <main style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
+
+      {/* ── page title ── */}
+      <div>
+        <h1 className="page-title">Compare Agreements</h1>
+        <p className="page-subtitle">
+          Select two agreements to surface clause-level differences.
+        </p>
+      </div>
+
+      {/* ── selectors row ── */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
+          alignItems: 'end',
+          gap: 'var(--space-lg)',
+        }}
       >
-        {/* Header */}
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2">
-              <span>📑</span> Compare Agreements
-            </CardTitle>
-            <CardDescription className="text-zinc-400">
-              Upload two agreements to instantly surface clause-level differences.
-            </CardDescription>
-          </CardHeader>
+        <AgreementSelector
+          label="Agreement A (older)"
+          value={agreementA}
+          onChange={(id) => { setAgreementA(id); setResult(null); }}
+          exclude={agreementB}
+        />
 
-          <CardContent className="space-y-4">
-            {/* Drop zones */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <DropZone agreement={agreements.A} onFile={handleFile} />
-              <DropZone agreement={agreements.B} onFile={handleFile} />
-            </div>
+        {/* compare button — center */}
+        <button
+          type="button"
+          onClick={handleCompare}
+          disabled={loading || agreementA === agreementB}
+          className="btn-outline"
+          style={{
+            height: '36px',
+            padding: '0 var(--space-lg)',
+            border: '1px solid var(--border-subtle)',
+            background: 'transparent',
+            color: loading ? 'var(--text-muted)' : 'var(--text-primary)',
+            cursor: loading ? 'default' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 'var(--space-xs)',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}
+        >
+          {loading ? (
+            <LoaderCircle size={14} style={{ animation: 'spin 1s linear infinite' }} />
+          ) : null}
+          {loading ? 'Comparing…' : 'Compare'}
+        </button>
 
-            {/* Compare button */}
-            <motion.button
-              onClick={handleCompare}
-              disabled={!canCompare || loading}
-              whileHover={canCompare && !loading ? { scale: 1.02 } : {}}
-              whileTap={canCompare && !loading ? { scale: 0.98 } : {}}
-              className={`
-                w-full py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-200
-                ${canCompare && !loading
-                  ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/40'
-                  : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
-                }
-              `}
-            >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <motion.span
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
-                    className="inline-block"
-                  >
-                    ⟳
-                  </motion.span>
-                  Comparing…
+        <AgreementSelector
+          label="Agreement B (newer)"
+          value={agreementB}
+          onChange={(id) => { setAgreementB(id); setResult(null); }}
+          exclude={agreementA}
+        />
+      </div>
+
+      {/* ── diff view ── */}
+      {result && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--space-xl)',
+            animation: 'fadeSlideIn 250ms ease both',
+          }}
+        >
+          {/* column headers */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 'var(--space-lg)',
+              paddingBottom: 'var(--space-sm)',
+              borderBottom: '1px solid var(--border-subtle)',
+            }}
+          >
+            {[
+              { label: labelA, color: 'var(--risk-high)' },
+              { label: labelB, color: 'var(--risk-low)'  },
+            ].map(({ label, color }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FileText size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                <span
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {label}
                 </span>
-              ) : (
-                'Compare Agreements'
-              )}
-            </motion.button>
-          </CardContent>
-        </Card>
+                <span
+                  style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: color,
+                    flexShrink: 0,
+                    marginLeft: '2px',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
 
-        {/* Results */}
-        <AnimatePresence>
-          {diffs !== null && (
-            <motion.div
-              key="results"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.35 }}
+          {/* clause blocks */}
+          {result.clauses.map((clause, i) => (
+            <ClauseBlock key={i} clause={clause} />
+          ))}
+
+          {/* ── summary ── */}
+          <div
+            style={{
+              paddingTop: 'var(--space-xl)',
+              borderTop: '1px solid var(--border-subtle)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--space-md)',
+            }}
+          >
+            {/* heading */}
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                fontWeight: 500,
+                letterSpacing: '0.07em',
+                textTransform: 'uppercase',
+                color: 'var(--text-muted)',
+                margin: 0,
+              }}
             >
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base flex items-center justify-between">
-                    <span>🔍 Differences Found</span>
-                    <span className="text-xs font-normal text-zinc-400 bg-zinc-800 px-2 py-1 rounded-full">
-                      {diffs.length} issue{diffs.length !== 1 ? 's' : ''}
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {diffs.length === 0 ? (
-                    <p className="text-sm text-zinc-400 text-center py-6">
-                      ✅ No differences found — agreements are identical.
-                    </p>
-                  ) : (
-                    diffs.map((diff, i) => (
-                      <DiffCard key={diff.clause} diff={diff} index={i} />
-                    ))
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+              Differences summary
+            </p>
+
+            {/* counts */}
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '14px',
+                color: 'var(--text-primary)',
+                margin: 0,
+              }}
+            >
+              <span style={{ color: 'var(--risk-medium)', fontWeight: 500 }}>
+                {result.summary.changed} clause{result.summary.changed !== 1 ? 's' : ''} changed
+              </span>
+              {' · '}
+              <span style={{ color: 'var(--risk-low)', fontWeight: 500 }}>
+                {result.summary.added} added
+              </span>
+              {' · '}
+              <span style={{ color: 'var(--risk-high)', fontWeight: 500 }}>
+                {result.summary.removed} removed
+              </span>
+            </p>
+
+            {/* notes */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {result.summary.notes.map((note, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '13px',
+                    color: 'var(--text-muted)',
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
+                  {i + 1} → {note}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── empty state ── */}
+      {!result && !loading && (
+        <div
+          style={{
+            paddingTop: 'var(--space-xl)',
+            textAlign: 'center',
+            fontFamily: 'var(--font-body)',
+            fontSize: '13px',
+            color: 'var(--text-muted)',
+          }}
+        >
+          Select two agreements and click Compare to see the diff.
+        </div>
+      )}
+
     </main>
   );
 }

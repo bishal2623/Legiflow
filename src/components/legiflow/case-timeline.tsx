@@ -59,7 +59,7 @@ export function CaseTimeline({ cases }: CaseTimelineProps) {
                                     <div className="flex flex-col md:flex-row justify-between gap-4 relative z-10">
                                         {record.milestones.map((milestone, idx) => (
                                             <div key={idx} className="flex md:flex-col items-center gap-3 md:gap-2 text-center group">
-                                                <div className={`w-7 h-7 rounded-full flex items-center justify-center bg-background border-2 ${milestone.completed ? 'border-primary text-primary' : 'border-muted-foreground text-muted-foreground'} transition-colors`}>
+                                                <div className={`w-7 h-7 rounded-full flex items-center justify-center bg-background border-2 ${milestone.completed ? 'border-[var(--text-primary)] text-[var(--text-primary)]' : 'border-muted-foreground text-muted-foreground'} transition-colors`}>
                                                     {milestone.completed ? <CheckCircle2 className="w-4 h-4" /> : <Circle className="w-3 h-3" />}
                                                 </div>
                                                 <div className="text-left md:text-center shrink-0">

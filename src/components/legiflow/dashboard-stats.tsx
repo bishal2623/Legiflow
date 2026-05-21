@@ -9,49 +9,35 @@ interface DashboardStatsProps {
     closed: number;
     pending: number;
 }
+
 export function DashboardStats({ total, open, closed, pending }: DashboardStatsProps) {
+    const stats = [
+        { label: 'Total Cases',   value: total,   sub: 'All tracked cases',      Icon: FileStack,    iconColor: 'var(--text-muted)'   },
+        { label: 'Open Cases',    value: open,    sub: 'Active and ongoing',     Icon: FolderOpen,   iconColor: 'var(--text-muted)'   },
+        { label: 'Closed Cases',  value: closed,  sub: 'Successfully resolved',  Icon: CheckCircle2, iconColor: 'var(--risk-low)'     },
+        { label: 'Pending Cases', value: pending, sub: 'Awaiting next steps',    Icon: Clock,        iconColor: 'var(--risk-medium)'  },
+    ];
+
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Cases</CardTitle>
-                    <FileStack className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{total}</div>
-                    <p className="text-xs text-muted-foreground">All tracked cases</p>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Open Cases</CardTitle>
-                    <FolderOpen className="h-4 w-4 text-blue-500" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{open}</div>
-                    <p className="text-xs text-muted-foreground">Active and ongoing</p>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Closed Cases</CardTitle>
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{closed}</div>
-                    <p className="text-xs text-muted-foreground">Successfully resolved</p>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Pending Cases section</CardTitle>
-                    <Clock className="h-4 w-4 text-amber-500" />
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{pending}</div>
-                    <p className="text-xs text-muted-foreground">Awaiting next steps</p>
-                </CardContent>
-            </Card>
+        <div style={{ display: 'grid', gap: 'var(--space-md)', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+            {stats.map(({ label, value, sub, Icon, iconColor }) => (
+                <Card key={label}>
+                    <CardHeader style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 'var(--space-sm)' }}>
+                        <CardTitle style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 500, color: 'var(--text-muted)' }}>
+                            {label}
+                        </CardTitle>
+                        <Icon size={15} style={{ color: iconColor, flexShrink: 0 }} />
+                    </CardHeader>
+                    <CardContent>
+                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.1 }}>
+                            {value}
+                        </p>
+                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--text-muted)', marginTop: 'var(--space-xs)' }}>
+                            {sub}
+                        </p>
+                    </CardContent>
+                </Card>
+            ))}
         </div>
     );
 }

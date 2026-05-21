@@ -1,12 +1,9 @@
-
 'use client';
 import { useState, useTransition } from 'react';
 import { DocumentInput } from '@/components/legiflow/document-input';
 import { AnalysisTabs } from '@/components/legiflow/analysis-tabs';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { parseUploadedDocument } from '@/ai/flows/parse-uploaded-document';
-import { Upload } from 'lucide-react';
 
 export default function AnalyzePage() {
   const [documentText, setDocumentText] = useState<string | null>(null);
@@ -46,23 +43,44 @@ export default function AnalyzePage() {
     setClauses(null);
   };
 
+  if (documentText && clauses) {
+    return (
+      <main>
+        <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
+      </main>
+    );
+  }
+
   return (
-    <main>
-        {documentText && clauses ? (
-            <AnalysisTabs documentText={documentText} clauses={clauses} onReset={handleReset} />
-        ) : (
-             <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-3"><Upload /> Upload Document</CardTitle>
-                    <CardDescription>
-                        Paste your document text below to get started. All the doc formats are supported.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
-                </CardContent>
-            </Card>
-        )}
+    <main
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        minHeight: 'calc(100vh - 52px - var(--space-2xl))',
+        paddingTop: 'var(--space-2xl)',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '640px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-xl)',
+        }}
+      >
+        {/* Page title block */}
+        <div>
+          <h1 className="page-title">Upload a Document</h1>
+          <p className="page-subtitle">
+            Paste text or upload a file. We&apos;ll extract, simplify, and flag risky clauses.
+          </p>
+        </div>
+
+        {/* Upload form */}
+        <DocumentInput onParse={handleParseDocument} isLoading={isLoading} />
+      </div>
     </main>
   );
 }
