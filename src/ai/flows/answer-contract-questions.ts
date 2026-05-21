@@ -1,11 +1,4 @@
 'use server';
-/**
- * @fileOverview This flow allows users to ask questions about a legal contract and receive clear answers.
- *
- * - answerContractQuestion - A function that takes a question and a contract and returns an answer.
- * - AnswerContractQuestionInput - The input type for the answerContractQuestion function.
- * - AnswerContractQuestionOutput - The return type for the answerContractQuestion function.
- */
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 const AnswerContractQuestionInputSchema = z.object({
@@ -58,6 +51,7 @@ const answerContractQuestionPrompt = ai.definePrompt({
 
   Answer:
   `,
+  
 });
 const answerContractQuestionFlow = ai.defineFlow(
   {
