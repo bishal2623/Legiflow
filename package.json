@@ -10,9 +10,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
-    
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.36.3",
     "@genkit-ai/googleai": "^1.14.1",
     "@genkit-ai/next": "^1.14.1",
     "@hookform/resolvers": "^4.1.3",
