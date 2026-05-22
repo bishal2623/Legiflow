@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
@@ -22,12 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+  const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+    if (authUser && !authUser.emailVerified) {
+      await signOut(auth);
+      setUser(null);
+    } else {
       setUser(authUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, [auth]);
+    }
+    setLoading(false);
+  });
+  return () => unsubscribe();
+}, [auth]);
+
 
   useEffect(() => {
     if (!loading && !user && pathname !== '/login') {
