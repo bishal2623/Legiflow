@@ -6,7 +6,7 @@ const firebaseConfig = {
   projectId: 'legiflow-p4ure',
   appId: '1:846977878595:web:e4f57e8065910d072e62f6',
   storageBucket: 'legiflow-p4ure.firebasestorage.app',
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'dummy-api-key-for-build',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: 'legiflow-p4ure.firebaseapp.com',
   measurementId: '',
   messagingSenderId: '846977878595',
