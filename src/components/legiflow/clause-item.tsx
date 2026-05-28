@@ -10,6 +10,8 @@ interface ClauseItemProps {
   clause: string;
   index: number;
 }
+import { motion } from "framer-motion";
+
 export function ClauseItem({ clause, index }: ClauseItemProps) {
   const [summary, setSummary] = useState<string | null>(null);
   const [isSimplifying, startSimplifying] = useTransition();
@@ -42,34 +44,48 @@ export function ClauseItem({ clause, index }: ClauseItemProps) {
       <AccordionTrigger onClick={handleSimplify} className="text-left hover:no-underline">
         <div className="flex gap-4 items-start w-full">
             <span className="text-accent font-bold">{index + 1}.</span>
-            <p className="flex-1 text-muted-foreground">
+            <p className="flex-1 text-muted-foreground text-sm leading-relaxed">
                 {clause.length > 150 ? `${clause.substring(0, 150)}...` : clause}
             </p>
         </div>
       </AccordionTrigger>
-      <AccordionContent className="px-2">
+      <AccordionContent className="px-2 pb-4">
         <Tabs defaultValue="simplified" className="w-full">
-          <TabsList>
-            <TabsTrigger value="simplified">Simplified Version</TabsTrigger>
-            <TabsTrigger value="legal">Original Legal Text</TabsTrigger>
+          <TabsList className="bg-[#13131f] border border-border/40 p-1">
+            <TabsTrigger value="simplified" className="data-[state=active]:bg-[#1e1e2e]">Simplified Version</TabsTrigger>
+            <TabsTrigger value="legal" className="data-[state=active]:bg-[#1e1e2e]">Original Legal Text</TabsTrigger>
           </TabsList>
-          <TabsContent value="simplified" className="mt-4 p-4 bg-primary/5 rounded-md border border-primary/20">
-            {isSimplifying ? (
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-3/4" />
-              </div>
-            ) : summary ? (
-              <p className="text-foreground whitespace-pre-wrap">{summary}</p>
-            ) : (
-                <div className="text-center py-4 text-muted-foreground">
-                    <p>Click the clause header to generate a simplified summary.</p>
+          <TabsContent value="simplified" className="mt-4 focus-visible:outline-none">
+            <motion.div 
+              initial={{ opacity: 0, y: 5 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.3 }}
+              className="p-4 bg-primary/5 rounded-lg border border-primary/20"
+            >
+              {isSimplifying ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
                 </div>
-            )}
+              ) : summary ? (
+                <p className="text-foreground text-sm leading-relaxed whitespace-pre-wrap">{summary}</p>
+              ) : (
+                  <div className="text-center py-4 text-muted-foreground text-sm">
+                      <p>Click the clause header to generate a simplified summary.</p>
+                  </div>
+              )}
+            </motion.div>
           </TabsContent>
-          <TabsContent value="legal" className="mt-4 p-4 bg-muted/50 rounded-md border">
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{clause}</p>
+          <TabsContent value="legal" className="mt-4 focus-visible:outline-none">
+            <motion.div 
+              initial={{ opacity: 0, y: 5 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.3 }}
+              className="p-4 bg-muted/30 rounded-lg border border-border/50"
+            >
+              <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">{clause}</p>
+            </motion.div>
           </TabsContent>
         </Tabs>
       </AccordionContent>
