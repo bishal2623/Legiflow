@@ -11,6 +11,7 @@ import {z} from 'genkit';
 const AnswerContractQuestionInputSchema = z.object({
   contractText: z
     .string()
+    .max(100_000, 'Document text exceeds maximum length of 100,000 characters.')
     .describe('The complete text of the legal contract to analyze.'),
   question: z.string().describe('The specific question about the contract.'),
 });

@@ -13,6 +13,7 @@ import {z} from 'genkit';
 const ExtractKeyTermsAndDatesInputSchema = z.object({
   legalDocument: z
     .string()
+    .max(100_000, 'Document text exceeds maximum length of 100,000 characters.')
     .describe('The legal document from which to extract key terms and dates.'),
 });
 export type ExtractKeyTermsAndDatesInput = z.infer<

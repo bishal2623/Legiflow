@@ -12,7 +12,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ParseUploadedDocumentInputSchema = z.object({
-  documentText: z.string().describe('The text content of the legal document to be parsed.'),
+  documentText: z.string().max(100_000, 'Document text exceeds maximum length of 100,000 characters.').describe('The text content of the legal document to be parsed.'),
 });
 export type ParseUploadedDocumentInput = z.infer<typeof ParseUploadedDocumentInputSchema>;
 
