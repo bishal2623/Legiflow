@@ -17,12 +17,12 @@ export type GenerateSampleAgreementOutput = {
   agreementText: string;
 };
 
-const client = new Anthropic();
+const client: any = new (Anthropic as any)();
 
 export async function generateSampleAgreement(
   input: GenerateSampleAgreementInput
 ): Promise<GenerateSampleAgreementOutput> {
-  const message = await client.messages.create({
+  const message: any = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 4096,
     messages: [
@@ -37,9 +37,9 @@ Generate the full text of the sample agreement. Return only the agreement text w
     ],
   });
 
-  const agreementText = message.content
-    .filter((block) => block.type === 'text')
-    .map((block) => block.text)
+  const agreementText = (message?.content || [])
+    .filter((block: any) => block.type === 'text')
+    .map((block: any) => block.text)
     .join('\n');
 
   return { agreementText };
