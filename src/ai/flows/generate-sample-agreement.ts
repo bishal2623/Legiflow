@@ -7,40 +7,46 @@
  * - GenerateSampleAgreementOutput - The return type for the generateSampleAgreement function.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 
-export type GenerateSampleAgreementInput = {
-  title: string;
-};
+const GenerateSampleAgreementInputSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+});
 
-export type GenerateSampleAgreementOutput = {
-  agreementText: string;
-};
+export type GenerateSampleAgreementInput = z.infer<typeof GenerateSampleAgreementInputSchema>;
 
-const client: any = new (Anthropic as any)();
+const GenerateSampleAgreementOutputSchema = z.object({
+  agreementText: z.string(),
+});
+
+export type GenerateSampleAgreementOutput = z.infer<typeof GenerateSampleAgreementOutputSchema>;
+
+const prompt = ai.definePrompt({
+  name: 'generateSampleAgreementPrompt',
+  input: { schema: GenerateSampleAgreementInputSchema },
+  output: { schema: GenerateSampleAgreementOutputSchema },
+  prompt: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses and placeholder text.
+
+Title: {{{title}}}
+
+Generate the full text of the sample agreement. Return only the agreement text with no preamble or explanation.`,
+});
+
+const generateSampleAgreementFlow = ai.defineFlow(
+  {
+    name: 'generateSampleAgreementFlow',
+    inputSchema: GenerateSampleAgreementInputSchema,
+    outputSchema: GenerateSampleAgreementOutputSchema,
+  },
+  async input => {
+    const { output } = await prompt(input);
+    return output!;
+  }
+);
 
 export async function generateSampleAgreement(
   input: GenerateSampleAgreementInput
 ): Promise<GenerateSampleAgreementOutput> {
-  const message: any = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 4096,
-    messages: [
-      {
-        role: 'user',
-        content: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses and placeholder text.
-
-Title: ${input.title}
-
-Generate the full text of the sample agreement. Return only the agreement text with no preamble or explanation.`,
-      },
-    ],
-  });
-
-  const agreementText = (message?.content || [])
-    .filter((block: any) => block.type === 'text')
-    .map((block: any) => block.text)
-    .join('\n');
-
-  return { agreementText };
+  return generateSampleAgreementFlow(input);
 }

@@ -17,10 +17,13 @@ export default function ContactForm(): JSX.Element {
       noValidate
     >
       <div>
-        <label className="block text-sm font-medium text-muted-foreground">Name</label>
+        <label htmlFor="contact-name" className="block text-sm font-medium text-muted-foreground">Name</label>
         <Input
+          id="contact-name"
           {...register('name')}
           placeholder="Your full name"
+          autoComplete="name"
+          required
           aria-invalid={errors.name ? 'true' : 'false'}
           aria-describedby={errors.name ? 'name-error' : undefined}
         />
@@ -32,11 +35,14 @@ export default function ContactForm(): JSX.Element {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-muted-foreground">Email</label>
+        <label htmlFor="contact-email" className="block text-sm font-medium text-muted-foreground">Email</label>
         <Input
+          id="contact-email"
           {...register('email')}
           type="email"
           placeholder="you@example.com"
+          autoComplete="email"
+          required
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
         />
@@ -48,10 +54,12 @@ export default function ContactForm(): JSX.Element {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-muted-foreground">Message</label>
+        <label htmlFor="contact-message" className="block text-sm font-medium text-muted-foreground">Message</label>
         <Textarea
+          id="contact-message"
           {...register('message')}
           placeholder="How can we help? Provide as much detail as you can."
+          required
           aria-invalid={errors.message ? 'true' : 'false'}
           aria-describedby={errors.message ? 'message-error' : undefined}
         />
