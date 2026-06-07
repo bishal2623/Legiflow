@@ -164,40 +164,39 @@ export default function HistoryPage() {
                             </DialogDescription>
                         </div>
                         <Button
-    variant="outline"
-    size="sm"
-    className="mr-6"
-    onClick={() => {
-        const text = selectedItem?.type === "comparison"
-            ? `Document A:\n${selectedItem.textA || ""}\n\nDocument B:\n${selectedItem.textB || ""}`
-            : `Extracted Clauses:\n${selectedItem?.clauses?.join('\n\n')}`;
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                toast({
-                    title: "Copied to clipboard",
-                    description: "The details have been copied to your clipboard.",
-                });
-            }).catch(err => {
-                console.error("Failed to copy text: ", err);
-                toast({
-                    title: "Copy failed",
-                    description: "Could not copy to clipboard.",
-                    variant: "destructive",
-                });
-            });
-        } else {
-            toast({
-                title: "Copy failed",
-                description: "Clipboard API not supported in this browser.",
-                variant: "destructive",
-            });
-        }
-    }}
->
-    Copy Details
-</Button>
-                        
+                            variant="outline"
+                            size="sm"
+                            className="mr-6"
+                            onClick={() => {
+                                const text = selectedItem?.type === "comparison"
+                                    ? `Document A:\n${selectedItem.textA || ""}\n\nDocument B:\n${selectedItem.textB || ""}`
+                                    : `Extracted Clauses:\n${selectedItem?.clauses?.join('\n\n')}`;
+                                
+                                if (navigator.clipboard && navigator.clipboard.writeText) {
+                                    navigator.clipboard.writeText(text).then(() => {
+                                        toast({
+                                            title: "Copied to clipboard",
+                                            description: "The details have been copied to your clipboard.",
+                                        });
+                                    }).catch(err => {
+                                        console.error("Failed to copy text: ", err);
+                                        toast({
+                                            title: "Copy failed",
+                                            description: "Could not copy to clipboard.",
+                                            variant: "destructive",
+                                        });
+                                    });
+                                } else {
+                                    toast({
+                                        title: "Copy failed",
+                                        description: "Clipboard API not supported in this browser.",
+                                        variant: "destructive",
+                                    });
+                                }
+                            }}
+                        >
+                            Copy Details
+                        </Button>
                     </DialogHeader>
 
                     <div className="mt-4">
