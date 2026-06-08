@@ -13,7 +13,10 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const HighlightContractRisksInputSchema = z.object({
-  legalDocument: z.string().describe('The legal document to analyze.'),
+  legalDocument: z
+    .string()
+    .max(100_000, 'Document text exceeds maximum length of 100,000 characters.')
+    .describe('The legal document to analyze.'),
 });
 export type HighlightContractRisksInput = z.infer<typeof HighlightContractRisksInputSchema>;
 

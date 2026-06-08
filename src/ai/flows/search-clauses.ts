@@ -11,7 +11,10 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SearchClausesInputSchema = z.object({
-  documentText: z.string().describe('The full text of the legal document to search within.'),
+  documentText: z
+    .string()
+    .max(100_000, 'Document text exceeds maximum length of 100,000 characters.')
+    .describe('The full text of the legal document to search within.'),
   query: z.string().describe('The search query to find relevant clauses.'),
 });
 export type SearchClausesInput = z.infer<typeof SearchClausesInputSchema>;

@@ -13,6 +13,7 @@ import {z} from 'genkit';
 const SummarizeLegalDocumentInputSchema = z.object({
   legalDocument: z
     .string()
+    .max(100_000, 'Document text exceeds maximum length of 100,000 characters.')
     .describe('The legal document to summarize, in plain text.'),
 });
 export type SummarizeLegalDocumentInput = z.infer<typeof SummarizeLegalDocumentInputSchema>;
