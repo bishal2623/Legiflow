@@ -1,54 +1,44 @@
 'use server';
 
+
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// Input Schema
 const GenerateSampleAgreementInputSchema = z.object({
-  title: z.string().describe('The title of the legal agreement to generate.'),
+  title: z.string().min(1, 'Title is required'),
 });
 
-export type GenerateSampleAgreementInput = z.infer<
-  typeof GenerateSampleAgreementInputSchema
->;
+export type GenerateSampleAgreementInput = z.infer<typeof GenerateSampleAgreementInputSchema>;
 
-// Output Schema
 const GenerateSampleAgreementOutputSchema = z.object({
-  agreementText: z
-    .string()
-    .describe('The full text of the generated sample legal agreement.'),
+  agreementText: z.string(),
 });
 
-export type GenerateSampleAgreementOutput = z.infer<
-  typeof GenerateSampleAgreementOutputSchema
->;
+export type GenerateSampleAgreementOutput = z.infer<typeof GenerateSampleAgreementOutputSchema>;
 
-// Prompt
 const prompt = ai.definePrompt({
   name: 'generateSampleAgreementPrompt',
   input: { schema: GenerateSampleAgreementInputSchema },
   output: { schema: GenerateSampleAgreementOutputSchema },
-  prompt: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses.
+  prompt: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses and placeholder text.
 
 Title: {{{title}}}
 
 Generate the full text of the sample agreement. Return only the agreement text with no preamble or explanation.`,
 });
 
-// Flow
 const generateSampleAgreementFlow = ai.defineFlow(
   {
     name: 'generateSampleAgreementFlow',
     inputSchema: GenerateSampleAgreementInputSchema,
     outputSchema: GenerateSampleAgreementOutputSchema,
   },
-  async (input) => {
+  async input => {
     const { output } = await prompt(input);
     return output!;
   }
 );
 
-// Exported Function
 export async function generateSampleAgreement(
   input: GenerateSampleAgreementInput
 ): Promise<GenerateSampleAgreementOutput> {
