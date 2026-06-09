@@ -1,36 +1,41 @@
 'use server';
-/**
- * @fileOverview Generates a sample legal agreement based on a title.
- *
- * - generateSampleAgreement - A function that generates a sample legal document.
- * - GenerateSampleAgreementInput  - The input type for the generateSampleAgreement function.
- * - GenerateSampleAgreementOutput - The return type for the generateSampleAgreement function.
- */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const GenerateSampleAgreementInputSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().describe('The title of the legal agreement to generate.'),
 });
 
-export type GenerateSampleAgreementInput = z.infer<typeof GenerateSampleAgreementInputSchema>;
+export type GenerateSampleAgreementInput = z.infer<
+  typeof GenerateSampleAgreementInputSchema
+>;
 
 const GenerateSampleAgreementOutputSchema = z.object({
-  agreementText: z.string(),
+  agreementText: z
+    .string()
+    .describe('The full text of the generated sample legal agreement.'),
 });
 
-export type GenerateSampleAgreementOutput = z.infer<typeof GenerateSampleAgreementOutputSchema>;
+export type GenerateSampleAgreementOutput = z.infer<
+  typeof GenerateSampleAgreementOutputSchema
+>;
+
+export async function generateSampleAgreement(
+  input: GenerateSampleAgreementInput
+): Promise<GenerateSampleAgreementOutput> {
+  return generateSampleAgreementFlow(input);
+}
 
 const prompt = ai.definePrompt({
   name: 'generateSampleAgreementPrompt',
   input: { schema: GenerateSampleAgreementInputSchema },
   output: { schema: GenerateSampleAgreementOutputSchema },
-  prompt: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses and placeholder text.
+  prompt: `You are an expert legal assistant. Your job is to generate a sample legal agreement based on the provided title. The agreement should be suitable for use in India and include typical clauses.
 
 Title: {{{title}}}
 
-Generate the full text of the sample agreement. Return only the agreement text with no preamble or explanation.`,
+Generate the full text of the sample agreement.`,
 });
 
 const generateSampleAgreementFlow = ai.defineFlow(
@@ -39,14 +44,8 @@ const generateSampleAgreementFlow = ai.defineFlow(
     inputSchema: GenerateSampleAgreementInputSchema,
     outputSchema: GenerateSampleAgreementOutputSchema,
   },
-  async input => {
+  async (input) => {
     const { output } = await prompt(input);
     return output!;
   }
 );
-
-export async function generateSampleAgreement(
-  input: GenerateSampleAgreementInput
-): Promise<GenerateSampleAgreementOutput> {
-  return generateSampleAgreementFlow(input);
-}
