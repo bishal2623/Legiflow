@@ -20,7 +20,63 @@ interface HistoryItem {
     textB?: string;
     documentText?: string;
     clauses?: string[];
-    timestamp: any;
+    timestamp: { toDate?: () => Date; toMillis?: () => number } | string | Date | null;
+}
+
+interface LocalHistoryItem extends HistoryItem {
+    userId: string;
+}
+
+function isLocalHistoryItem(value: unknown): value is LocalHistoryItem {
+    if (typeof value !== 'object' || value === null) {
+        return false;
+    }
+
+    const record = value as Record<string, unknown>;
+    return typeof record.id === 'string' && typeof record.userId === 'string' && typeof record.type === 'string';
+}
+
+function formatTimestamp(timestamp: HistoryItem['timestamp'], fallback = 'Just now'): string {
+    if (!timestamp) {
+        return fallback;
+    }
+
+    if (typeof timestamp === 'object') {
+        if ('toDate' in timestamp && typeof timestamp.toDate === 'function') {
+            return timestamp.toDate().toLocaleString();
+        }
+
+        if ('toMillis' in timestamp && typeof timestamp.toMillis === 'function') {
+            return new Date(timestamp.toMillis()).toLocaleString();
+        }
+
+        if (timestamp instanceof Date) {
+            return timestamp.toLocaleString();
+        }
+    }
+
+    const parsed = getMs(timestamp);
+    return parsed === 0 ? fallback : new Date(parsed).toLocaleString();
+}
+
+function getMs(timestamp: HistoryItem['timestamp']): number {
+    if (!timestamp) return 0;
+
+    if (typeof timestamp === 'object') {
+        if ('toMillis' in timestamp && typeof timestamp.toMillis === 'function') {
+            return timestamp.toMillis();
+        }
+        if ('toDate' in timestamp && typeof timestamp.toDate === 'function') {
+            return timestamp.toDate().getTime();
+        }
+        if (timestamp instanceof Date) {
+            return timestamp.getTime();
+        }
+        return 0;
+    }
+
+    const parsed = new Date(timestamp).getTime();
+    return Number.isNaN(parsed) ? 0 : parsed;
 }
 
 export default function HistoryPage() {
@@ -52,30 +108,32 @@ export default function HistoryPage() {
                 }
 
                 // Fetch from local storage safely
-                let localHistory: any[] = [];
+                const localHistory: LocalHistoryItem[] = [];
                 try {
-                    const localHistoryRaw = JSON.parse(localStorage.getItem('legiflow_history') || '[]');
-                    localHistory = localHistoryRaw.filter((item: any) => item.userId === user.uid);
-                } catch (e) {
+                    const localHistoryRaw: unknown = JSON.parse(localStorage.getItem('legiflow_history') || '[]');
+                    if (Array.isArray(localHistoryRaw)) {
+                        localHistoryRaw.filter(isLocalHistoryItem).forEach((item) => {
+                            if (item.userId === user.uid) {
+                                localHistory.push(item);
+                            }
+                        });
+                    }
+                } catch (e: unknown) {
                     console.error("Failed to read or parse local history", e);
                 }
                 
                 // Combine and deduplicate
                 const combinedMap = new Map<string, HistoryItem>();
                 data.forEach(item => combinedMap.set(item.id, item));
-                localHistory.forEach((item: any) => {
+                localHistory.forEach((item) => {
                     if (!combinedMap.has(item.id)) {
                         combinedMap.set(item.id, item);
                     }
                 });
                 const combinedData = Array.from(combinedMap.values());
 
-                // Sort client-side
-                combinedData.sort((a, b) => {
-                    const timeA = a.timestamp?.toMillis?.() || new Date(a.timestamp).getTime() || 0;
-                    const timeB = b.timestamp?.toMillis?.() || new Date(b.timestamp).getTime() || 0;
-                    return timeB - timeA;
-                });
+                // Sort client-side using a robust timestamp-to-ms helper
+                combinedData.sort((a, b) => getMs(b.timestamp) - getMs(a.timestamp));
 
                 setHistory(combinedData);
             } catch (error) {
@@ -136,7 +194,7 @@ export default function HistoryPage() {
                                     <div className="flex items-center gap-3 mb-2">
                                         <h4 className="font-semibold text-lg capitalize">{item.type}</h4>
                                         <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-md">
-                                            {item.timestamp?.toDate?.()?.toLocaleString() || (item.timestamp ? new Date(item.timestamp).toLocaleString() : "Just now")}
+                                            {formatTimestamp(item.timestamp)}
                                         </span>
                                     </div>
                                     <div className="text-sm text-muted-foreground truncate">
@@ -160,44 +218,45 @@ export default function HistoryPage() {
                         <div>
                             <DialogTitle className="capitalize text-xl">{selectedItem?.type} Details</DialogTitle>
                             <DialogDescription>
-                                Saved on {selectedItem?.timestamp?.toDate?.()?.toLocaleString() || (selectedItem?.timestamp ? new Date(selectedItem.timestamp).toLocaleString() : "recently")}
+                                Saved on {formatTimestamp(selectedItem?.timestamp ?? null, 'recently')}
                             </DialogDescription>
                         </div>
                         <Button
-    variant="outline"
-    size="sm"
-    className="mr-6"
-    onClick={() => {
-        const text = selectedItem?.type === "comparison"
-            ? `Document A:\n${selectedItem.textA || ""}\n\nDocument B:\n${selectedItem.textB || ""}`
-            : `Extracted Clauses:\n${selectedItem?.clauses?.join('\n\n')}`;
+                            variant="outline"
+                            size="sm"
+                            className="mr-6"
+                            onClick={() => {
+                                const text = selectedItem?.type === "comparison"
+                                    ? `Document A:\n${selectedItem.textA || ""}\n\nDocument B:\n${selectedItem.textB || ""}`
+                                    : `Extracted Clauses:\n${selectedItem?.clauses?.join('\n\n')}`;
 
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                toast({
-                    title: "Copied to clipboard",
-                    description: "The details have been copied to your clipboard.",
-                });
-            }).catch(err => {
-                console.error("Failed to copy text: ", err);
-                toast({
-                    title: "Copy failed",
-                    description: "Could not copy to clipboard.",
-                    variant: "destructive",
-                });
-            });
-        } else {
-            toast({
-                title: "Copy failed",
-                description: "Clipboard API not supported in this browser.",
-                variant: "destructive",
-            });
-        }
-    }}
->
-    Copy Details
-</Button>
-                        
+                                if (navigator.clipboard && navigator.clipboard.writeText) {
+                                    navigator.clipboard.writeText(text)
+                                        .then(() => {
+                                            toast({
+                                                title: "Copied to clipboard",
+                                                description: "The details have been copied to your clipboard.",
+                                            });
+                                        })
+                                        .catch((err) => {
+                                            console.error("Failed to copy text: ", err);
+                                            toast({
+                                                title: "Copy failed",
+                                                description: "Could not copy to clipboard.",
+                                                variant: "destructive",
+                                            });
+                                        });
+                                } else {
+                                    toast({
+                                        title: "Copy failed",
+                                        description: "Clipboard API not supported in this browser.",
+                                        variant: "destructive",
+                                    });
+                                }
+                            }}
+                        >
+                            Copy Details
+                        </Button>
                     </DialogHeader>
 
                     <div className="mt-4">

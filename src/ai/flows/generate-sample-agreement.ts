@@ -1,5 +1,6 @@
 'use server';
 
+
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
@@ -7,25 +8,13 @@ const GenerateSampleAgreementInputSchema = z.object({
   title: z.string().describe('The title of the legal agreement to generate.'),
 });
 
-export type GenerateSampleAgreementInput = z.infer<
-  typeof GenerateSampleAgreementInputSchema
->;
+export type GenerateSampleAgreementInput = z.infer<typeof GenerateSampleAgreementInputSchema>;
 
 const GenerateSampleAgreementOutputSchema = z.object({
-  agreementText: z
-    .string()
-    .describe('The full text of the generated sample legal agreement.'),
+  agreementText: z.string().describe('The full text of the generated sample legal agreement.'),
 });
 
-export type GenerateSampleAgreementOutput = z.infer<
-  typeof GenerateSampleAgreementOutputSchema
->;
-
-export async function generateSampleAgreement(
-  input: GenerateSampleAgreementInput
-): Promise<GenerateSampleAgreementOutput> {
-  return generateSampleAgreementFlow(input);
-}
+export type GenerateSampleAgreementOutput = z.infer<typeof GenerateSampleAgreementOutputSchema>;
 
 const prompt = ai.definePrompt({
   name: 'generateSampleAgreementPrompt',
@@ -35,7 +24,7 @@ const prompt = ai.definePrompt({
 
 Title: {{{title}}}
 
-Generate the full text of the sample agreement.`,
+Generate the full text of the sample agreement. Return only the agreement text with no preamble or explanation.`,
 });
 
 const generateSampleAgreementFlow = ai.defineFlow(
@@ -44,8 +33,14 @@ const generateSampleAgreementFlow = ai.defineFlow(
     inputSchema: GenerateSampleAgreementInputSchema,
     outputSchema: GenerateSampleAgreementOutputSchema,
   },
-  async (input) => {
+  async input => {
     const { output } = await prompt(input);
     return output!;
   }
 );
+
+export async function generateSampleAgreement(
+  input: GenerateSampleAgreementInput
+): Promise<GenerateSampleAgreementOutput> {
+  return generateSampleAgreementFlow(input);
+}
