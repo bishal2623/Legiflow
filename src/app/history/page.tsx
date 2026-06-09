@@ -49,10 +49,34 @@ function formatTimestamp(timestamp: HistoryItem['timestamp'], fallback = 'Just n
         if ('toMillis' in timestamp && typeof timestamp.toMillis === 'function') {
             return new Date(timestamp.toMillis()).toLocaleString();
         }
+
+        if (timestamp instanceof Date) {
+            return timestamp.toLocaleString();
+        }
+    }
+
+    const parsed = getMs(timestamp);
+    return parsed === 0 ? fallback : new Date(parsed).toLocaleString();
+}
+
+function getMs(timestamp: HistoryItem['timestamp']): number {
+    if (!timestamp) return 0;
+
+    if (typeof timestamp === 'object') {
+        if ('toMillis' in timestamp && typeof timestamp.toMillis === 'function') {
+            return timestamp.toMillis();
+        }
+        if ('toDate' in timestamp && typeof timestamp.toDate === 'function') {
+            return timestamp.toDate().getTime();
+        }
+        if (timestamp instanceof Date) {
+            return timestamp.getTime();
+        }
+        return 0;
     }
 
     const parsed = new Date(timestamp).getTime();
-    return Number.isNaN(parsed) ? fallback : new Date(parsed).toLocaleString();
+    return Number.isNaN(parsed) ? 0 : parsed;
 }
 
 export default function HistoryPage() {
@@ -108,16 +132,8 @@ export default function HistoryPage() {
                 });
                 const combinedData = Array.from(combinedMap.values());
 
-                // Sort client-side
-                combinedData.sort((a, b) => {
-                    const timeA = a.timestamp && typeof a.timestamp === 'object' && 'toMillis' in a.timestamp && typeof a.timestamp.toMillis === 'function'
-                        ? a.timestamp.toMillis()
-                        : a.timestamp ? new Date(a.timestamp).getTime() : 0;
-                    const timeB = b.timestamp && typeof b.timestamp === 'object' && 'toMillis' in b.timestamp && typeof b.timestamp.toMillis === 'function'
-                        ? b.timestamp.toMillis()
-                        : b.timestamp ? new Date(b.timestamp).getTime() : 0;
-                    return timeB - timeA;
-                });
+                // Sort client-side using a robust timestamp-to-ms helper
+                combinedData.sort((a, b) => getMs(b.timestamp) - getMs(a.timestamp));
 
                 setHistory(combinedData);
             } catch (error) {
