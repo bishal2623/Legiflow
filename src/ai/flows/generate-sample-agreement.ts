@@ -5,13 +5,13 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const GenerateSampleAgreementInputSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
+  title: z.string().describe('The title of the legal agreement to generate.'),
 });
 
 export type GenerateSampleAgreementInput = z.infer<typeof GenerateSampleAgreementInputSchema>;
 
 const GenerateSampleAgreementOutputSchema = z.object({
-  agreementText: z.string(),
+  agreementText: z.string().describe('The full text of the generated sample legal agreement.'),
 });
 
 export type GenerateSampleAgreementOutput = z.infer<typeof GenerateSampleAgreementOutputSchema>;
