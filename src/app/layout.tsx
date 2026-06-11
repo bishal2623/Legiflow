@@ -14,6 +14,7 @@ import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 import { SmartAssistant } from '@/components/legiflow/smart-assistant';
+import Footer from '@/components/layout/Footer';
 
 const navItems = [
     { href: '/dashboard', icon: Home, label: 'Home' },
@@ -118,8 +119,11 @@ function AppLayout({ children }: { children: React.ReactNode }) {
                          <div className="px-2 py-1 mt-2 rounded-full bg-card font-semibold text-center">{user.displayName || user.email}</div>
                      </div>
                 </aside>
-                <main className="flex-1 ml-64 p-7 overflow-y-auto">
-                    {children}
+                <main className="flex-1 ml-64 overflow-y-auto flex flex-col">
+                    <div className="flex-1 p-7">
+                        {children}
+                    </div>
+                    <Footer />
                 </main>
             </div>
             <SmartAssistant />

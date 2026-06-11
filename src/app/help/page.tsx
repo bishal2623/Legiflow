@@ -1,6 +1,8 @@
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import ContactForm from '@/components/ContactForm'
+
 export default function HelpPage() {
   return (
     <main>
@@ -40,6 +42,12 @@ export default function HelpPage() {
           </Accordion>
         </CardContent>
       </Card>
+
+      <section className="max-w-4xl mx-auto mt-8 px-4">
+        <h2 className="text-2xl font-semibold">Still need help? Contact us</h2>
+        <p className="text-sm text-muted-foreground mt-2">If you didn't find an answer above, send us a message and we'll get back to you.</p>
+        <ContactForm />
+      </section>
     </main>
   );
 }
