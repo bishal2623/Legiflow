@@ -19,6 +19,15 @@ const [mainFile, setMainFile] = useState<File | null>(null);
 const [files, setFiles] = useState<File[]>([]);
 const [text, setText] = useState("");
 
+const searchParams = useSearchParams();
+
+useEffect(() => {
+  const sampleText = searchParams.get('text');
+  if (sampleText) {
+    setText(decodeURIComponent(sampleText));
+  }
+}, [searchParams]);
+
 const allowedTypes = [
   "application/pdf",
   "application/msword",
