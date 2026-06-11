@@ -40,7 +40,15 @@ const handleMainFileChange = (
   e: React.ChangeEvent<HTMLInputElement>
 ) => {
   if (!e.target.files?.[0]) return;
-  setMainFile(e.target.files[0]);
+
+  const file = e.target.files[0];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert("Only PDF, DOC, DOCX, PNG and JPG files are allowed.");
+    return;
+  }
+
+  setMainFile(file);
 };
 
 const handleFileChange = (
